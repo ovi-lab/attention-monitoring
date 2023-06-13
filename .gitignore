@@ -164,3 +164,6 @@ cython_debug/
 ###
 
 src/data/*
+!src/data/README.MD
+
+sandbox.ipynb
