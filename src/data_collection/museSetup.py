@@ -1,9 +1,8 @@
 import subprocess
 from pylsl import StreamInfo, StreamInlet, resolve_stream, resolve_bypred
 
-def main(*signals):
-    """
-    Setup the Muse device to begin streaming data to LSL.
+def setupMuse(*signals):
+    """Setup the Muse device to begin streaming data to LSL.
 
     If data is not already streaming, the Bluemuse app is launched and the user
     must manually connect the Muse and click on "Start Streaming".

@@ -2,9 +2,8 @@ import os
 import csv
 import random
 
-def main(name, stimuliPath, sequenceLength):
-    """
-    Generate a sequence of images for a gradCPT run.
+def generateSequence(name, stimuliPath, sequenceLength):
+    """Generate a sequence of images for a gradCPT run.
 
     The sequence is output to lines of a csv file with two columns:
     'stimulus_path', which gives the absolute path to the stimulus file, and
@@ -61,7 +60,6 @@ def main(name, stimuliPath, sequenceLength):
             i[lastTargetClass].add(lastItem)
             lastTargetClass = currentTargetClass
             lastItem = currentItem
-
 
 
 
