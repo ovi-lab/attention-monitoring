@@ -13,6 +13,8 @@ def main(participantId = None):
     # Constants
     FULL_RUN_SEQUENCE_LENGTH = 1
     PRACTICE_RUN_SEQUENCE_LENGTH = 1
+    NUM_FULL_RUNS = 3
+    DO_PRACTICE_RUN = True
     DATA_DIR = os.path.abspath("data/gradCPT_sessions")
 
     museSignals = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
@@ -43,23 +45,34 @@ def main(participantId = None):
         writer = csv.writer(f)
         writer.writerow(currentSession.asStrings())
 
-    # Make a folder for the session
+    # Make a folder and info file for the current session
     outputDir = os.path.join(DATA_DIR, currentSession.sessionName)
     os.mkdir(outputDir)
 
-    # Generate the stimuli sequences to be used for 1 practice and 3 runs of
-    # gradCPT
-    def stimSeqFile(x):
-        return os.path.join(outputDir, currentSession.sessionName + x)
-    generateSequence(
-        stimSeqFile("_stimuli_sequence_practice"), outputDir,
-        PRACTICE_RUN_SEQUENCE_LENGTH
-        )              
-    for i in range(1,4):
-        generateSequence(
-            stimSeqFile(f"_stimuli_sequence_run{i}"), outputDir,
-            FULL_RUN_SEQUENCE_LENGTH
-            )
+    with open(os.path.join(outputDir, "info.csv"), "w") as f:
+        writer = csv.writer(f)
+        for i in range(len(logHeaders)):
+            writer.writerow([logHeaders[i], currentSession.asStrings()[i]])
+
+    def newSessionFile(name):
+        return os.path.join(outputDir, currentSession.sessionName + "_" + name)
+
+    # Generate the stimuli sequences to be used for gradCPT runs, and specify
+    # order of runs in csv file
+    runsFile = newSessionFile("runs.csv")
+    with open(runsFile, "w") as f:
+        writer = csv.writer(f)
+        writer.writerow(["stimSeqFile"])
+
+        if (DO_PRACTICE_RUN):
+            name = newSessionFile("stimuli_sequence_practice")
+            generateSequence(name, outputDir, PRACTICE_RUN_SEQUENCE_LENGTH) 
+            writer.writerow([name])
+
+        for i in range(1, NUM_FULL_RUNS + 1):
+            name = newSessionFile(f"stimuli_sequence_run{i}")
+            generateSequence(name, outputDir, FULL_RUN_SEQUENCE_LENGTH)
+            writer.writerow([name])
 
     # Setup the Muse device
     setupMuse(*museSignals)
@@ -72,9 +85,9 @@ class SessionInfo:
     ----------
     sessionName : str, optional
         The name assigned to the session. Must follow the convention:
-        "S<sessionId>_<ddmmyy>" where <sessionId> is `sessionId` and <ddmmyy>
-        is the date. This can optionally be followed by "_P<participantId>",
-        where <participantId> is `articipantId`.
+        "S[sessionId]_[ddmmyy]" where [sessionId] is `sessionId` and [ddmmyy]
+        is the date. This can optionally be followed by "_P[participantId]",
+        where [participantId] is `participantId`.
     sessionId : int or str, optional
         The numerical ID assigned to this session.
     date : str, optional
@@ -86,9 +99,9 @@ class SessionInfo:
     ----------
     sessionName : str or None
         The name assigned to the session. Follows the convention:
-        "S<sessionId>_<ddmmyy>" where <sessionId> is `sessionId` and <ddmmyy>
-        is the date. This can optionally be followed by "_P<participantId>",
-        where <participantId> is `articipantId`.
+        "S[sessionId]_[ddmmyy]" where [sessionId] is `sessionId` and [ddmmyy]
+        is the date. This can optionally be followed by "_P[participantId]",
+        where [participantId] is `participantId`.
     sessionId : int or None
         The numerical ID assigned to this session.
     date : datetime object or None
