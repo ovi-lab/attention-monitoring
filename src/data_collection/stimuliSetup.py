@@ -43,7 +43,7 @@ def generateSequence(name, stimuliPath, sequenceLength):
 
     # Write stimuli paths and target types to csv file
     #TODO: ensure probability distribution is correctly implemented
-    with open(name + ".csv", 'w') as f:
+    with open(name + ".csv", 'w', newline="") as f:
         writer = csv.writer(f)
 
         header = ["stimulus_path", "target_type"]

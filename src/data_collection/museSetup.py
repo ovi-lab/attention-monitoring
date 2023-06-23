@@ -25,7 +25,10 @@ def setupMuse(*signals):
     streams = resolve_stream()
 
     # Check whether any desired signals are not yet streaming
-    if not all(stream.type() in targetSignals for stream in streams):
+    if (
+        len(streams) == 0 
+        or not all(stream.type() in targetSignals for stream in streams)
+        ):
         # Start bluemuse and enable desired signals to stream
         for signal in validSignals:
             key = signal.lower() + "_enabled"
@@ -34,6 +37,6 @@ def setupMuse(*signals):
                 shell=True)
         
         # Wait until all desired signals are streaming
+        # TODO: add timeout
         pred = " or ".join(f"type='{x}'" for x in targetSignals)
         streams = resolve_bypred(pred, minimum=len(targetSignals))
-
