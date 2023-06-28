@@ -56,7 +56,8 @@ waitframes = 1;
 
 %% Experiment Setup
 
-infoFile = "C:\Users\HP User\source\repos\attention-monitoring\src\data\gradCPT_sessions\S6_220623\info.json";
+infoFile = "C:\Users\HP User\source\repos\attention-monitoring\src\data\gradCPT_sessions\S10_230623\info.json";
+dia = 1000;
 
 % Load session info
 jsonString = fileread(infoFile);
@@ -69,7 +70,7 @@ numFrames_transition = round(t_transition / ifi);
 numFrames_static = round(t_static / ifi);
 
 % Define parameters for stimulus transition period
-waitframes = 4;
+waitframes = 2;
 numFrameChanges_transition = numFrames_transition / waitframes;
 if ~isinteger(numFrameChanges_transition)
     disp("WARNING: The number of frames in the stimulus " + ...
@@ -91,8 +92,6 @@ blocks = readtable( ...
     'Delimiter', ',' ...
     );
 
-x = 0;
-
 % Run each block of trials
 for k1 = 1:height(blocks)
     % Get the sequence of stimuli to present for this block
@@ -106,70 +105,119 @@ for k1 = 1:height(blocks)
     uniqueStimPaths = unique(stimSequence.stimulus_path);
     stimTextures = dictionary;
     for k = 1:length(uniqueStimPaths)
+        % Initialize stimulus texture with a grey background
+        stimTexture = Screen( ...
+            'MakeTexture', ...
+            window,...
+            ones(screenYpixels, screenXpixels) .* grey ...
+            );
+
+        % Load the image, convert to grayscale, and make it into a texture
         img = imread(uniqueStimPaths{k});
-        [s1, s2, s3] = size(img);
-        
-        % Check if the image is too big to fit on the screen 
-        if s1 > screenYpixels || s2 > screenYpixels
-            disp('WARNING! Image is too big to fit on the screen. Rescaling image.');
-
-            % Determine the scaling needed to make the rabbit image fill the whole
-            % screen in the y dimension
-            maxScaling = screenYpixels / s1;
-
-            % Set the based rectangle size for drawing to the screen
-            baseRect = CenterRectOnPointd([0 0 s2 s1] .* maxScaling, xCenter, yCenter);
-        end
-
-        % Make the image into a texture and store in dictionary
+        img = rgb2gray(img);
         imgTexture = Screen('MakeTexture', window, img);
-        stimTextures(uniqueStimPaths{k}) = imgTexture;
+
+        % Define destination rectangle to draw the stimulus to
+        % (fascilitates rescaling such that stimulus width and height are
+        % each at least `dia`)
+        [s1, s2, s3] = size(img);
+        scale = dia / min([s1, s2]);
+        destinationRect = CenterRectOnPointd( ...
+            [0 0 s2 s1] .* scale, ...
+            xCenter, ...
+            yCenter ...
+            );
+
+        % Scale image and add to stimulus texture
+        Screen( ...
+            'DrawTexture', ...
+            stimTexture, ...
+            imgTexture, ...
+            [], ...
+            destinationRect ...
+            );
+
+        % Apply a mask to display stimulus through a circular aperture
+        maskRect = Screen('Rect', stimTexture);
+        apertureRect = CenterRectOnPointd( ...
+            [0, 0, dia, dia], ...
+            xCenter, ...
+            yCenter ...
+            );
+        Screen( ...
+            'Blendfunction', ...
+            stimTexture, ...
+            GL_ONE, GL_ZERO, ...
+            [0 0 0 1] ...
+            );
+        Screen('FillRect', stimTexture, [0 0 0 0], maskRect);
+        Screen('FillOval', stimTexture, [0 0 0 255], apertureRect);
+        Screen( ...
+            'Blendfunction', ...
+            stimTexture, ...
+            GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA ...
+            );
+        
+        % Save stimulus to dictionary
+        stimTextures(uniqueStimPaths{k}) = stimTexture;
+
+        % Close all textures that will no longer be used (for efficiency)
+        Screen('Close', imgTexture);
     end
-    
+
     % Show stimuli
     last_stim = stimSequence.stimulus_path{end};
-    vbl = Screen('Flip', window);
+    t = Screen('Flip', window);
+    t = t + 2.5 * ifi;
     for k2 = 1:height(stimSequence)
+        if KbCheck
+            disp("Ending session early.")
+            break
+        end
+
         stim = stimSequence.stimulus_path{k2};
-        
+
+        trialStart = t;
+        disp("-- Trial " + k2 + " --")
+ 
         % Transition Period
         for k3 = 1:numFrameChanges_transition
+            t = t + (waitframes * ifi);
             % Linearly increase image opacity over transition period
             contrast = k3 / numFrameChanges_transition;
             Screen( ...
                 'DrawTextures', ...
                 window, ...
                 [stimTextures(last_stim), stimTextures(stim)], ...
-                [], baseRect, 0, [], ...
+                [], [], 0, [], ...
                 [1, contrast] ...
                 );
             vbl = Screen( ...
                 'Flip', ...
                 window, ...
-                vbl + (waitframes - 0.5) * ifi ...
+                t ...
                 );
         end
         % On loop termination: The k2^th stimulus is fully coherent
 
-        disp(vbl)
+        disp("Transition Time: " + (vbl - trialStart))
+        staticStart = vbl;
 
         % Static Period
+        t = t + (numFrames_static * ifi);
         Screen( ...
             'DrawTextures', ...
             window, ...
-            stimTextures(stim), ...
-            [], baseRect ...
+            stimTextures(stim) ...
             );
         vbl = Screen( ...
             'Flip', ...
             window, ...
-            vbl + (numFrames_static - 0.5) * ifi ...
+            t ...
             );
         
-        
-        disp(vbl)
-        disp(vbl - x)
-        x = vbl;
+        disp("Static Time:     " + (vbl - staticStart))
+        disp("Trial Time:      " + (vbl - trialStart))
 
         last_stim = stim;
     end
