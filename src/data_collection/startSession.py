@@ -9,21 +9,34 @@ from stimuliSetup import generateSequence
 from museSetup import setupMuse
 import json
 import subprocess
+import matlab.engine
 
 def main(participant_id = None):
 
+    # Preferences
+    MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
+    VERBOSE = 3
+    STREAM_MARKERS_TO_LSL = False
+
     # Constants
+    NUM_FULL_BLOCKS = 2
+    DO_PRACTICE_BLOCK = True
     STIM_TRANSITION_TIME_MS = 800 # milliseconds
     STIM_STATIC_TIME_MS = 400 # milliseconds
-    FULL_RUN_SEQUENCE_LENGTH = 10
-    PRACTICE_RUN_SEQUENCE_LENGTH = 1
-    NUM_FULL_RUNS = 1
-    DO_PRACTICE_RUN = False
+    STIM_DIAMETER = 1000
+    FULL_BLOCK_SEQUENCE_LENGTH = 20
+    PRACTICE_BLOCK_SEQUENCE_LENGTH = 10
+    PRE_FULL_BLOCK_BREAK_TIME = 5 # seconds
+    PRE_PRACTICE_BLOCK_BREAK_TIME = 5 # seconds
     DATA_DIR = os.path.abspath("../data/gradCPT_sessions")
     STIMULI_DIR = os.path.abspath("../data/stimuli")
 
-    museSignals = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
+    # TODO: change path to data dir to automatically get the path of the current file
+    
     log = os.path.join(DATA_DIR, "log.csv")
+
+    # Start MATLAB engine asynchronously
+    future = matlab.engine.start_matlab(background=True)
 
     # Determine the current session ID by checking the log if it exists, or
     # creating a new log if it does not
@@ -59,13 +72,15 @@ def main(participant_id = None):
         info = {}
         info.update(logInfo)
         info.update({
-            "num_full_runs" : NUM_FULL_RUNS,
-            "do_practice_run" : DO_PRACTICE_RUN,
+            "session_dir" : outputDir,
+            "num_full_blocks" : NUM_FULL_BLOCKS,
+            "do_practice_block" : DO_PRACTICE_BLOCK,
             "stim_transition_time_ms" : STIM_TRANSITION_TIME_MS,
             "stim_static_time_ms" : STIM_STATIC_TIME_MS,
-            "full_run_sequence_length" : FULL_RUN_SEQUENCE_LENGTH,
-            "practice_run_sequence_length" : PRACTICE_RUN_SEQUENCE_LENGTH,
-            "muse_signals" : museSignals
+            "stim_diameter" : STIM_DIAMETER,
+            "full_block_sequence_length" : FULL_BLOCK_SEQUENCE_LENGTH,
+            "practice_block_sequence_length" : PRACTICE_BLOCK_SEQUENCE_LENGTH,
+            "muse_signals" : MUSE_SIGNALS
         })
         json.dump(info, f)
     
@@ -81,30 +96,70 @@ def main(participant_id = None):
             json.dump(fileData, f)
             f.truncate()
 
-    # Generate the stimuli sequences to be used for gradCPT runs, and specify
-    # order of runs in csv file
+    # Generate the stimuli sequences to be used for gradCPT blocks, and specify
+    # order of blocks in csv file
     blocksFile = _newSessionFile("blocks.csv")
+    blocksFileFields = [
+        "block_name",
+        "stim_sequence_file",
+        "pre_block_msg",
+        "pre_block_wait_time"
+        ]
     with open(blocksFile, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["stimSeqFile"])
+        dictWriter = csv.DictWriter(f, fieldnames=blocksFileFields)
+        dictWriter.writeheader()
 
-        if (DO_PRACTICE_RUN):
+        if (DO_PRACTICE_BLOCK):
             name = _newSessionFile("stimuli_sequence_practice")
-            generateSequence(name, STIMULI_DIR, PRACTICE_RUN_SEQUENCE_LENGTH) 
-            writer.writerow([name + ".csv"])
+            generateSequence(
+                name,
+                STIMULI_DIR,
+                PRACTICE_BLOCK_SEQUENCE_LENGTH
+            )
+            msg = (
+                f"Starting practice block in {PRE_PRACTICE_BLOCK_BREAK_TIME} "
+                + "seconds."
+            )
+            dictWriter.writerow({
+                "block_name" : "Practice Block",
+                "stim_sequence_file" : name + ".csv",
+                "pre_block_msg" : msg,
+                "pre_block_wait_time" : PRE_PRACTICE_BLOCK_BREAK_TIME
+            })
 
-        for i in range(1, NUM_FULL_RUNS + 1):
-            name = _newSessionFile(f"stimuli_sequence_run{i}")
-            generateSequence(name, STIMULI_DIR, FULL_RUN_SEQUENCE_LENGTH)
-            writer.writerow([name + ".csv"])
+        for i in range(1, NUM_FULL_BLOCKS + 1):
+            name = _newSessionFile(f"stimuli_sequence_block{i}")
+            generateSequence(
+                name,
+                STIMULI_DIR,
+                FULL_BLOCK_SEQUENCE_LENGTH
+            )
+            msg = (
+                f"Starting block {i} in {PRE_FULL_BLOCK_BREAK_TIME} "
+                + "seconds."
+            )
+            dictWriter.writerow({
+                "block_name" : f"Full Block {i}",
+                "stim_sequence_file" : name + ".csv",
+                "pre_block_msg" : msg,
+                "pre_block_wait_time" : PRE_FULL_BLOCK_BREAK_TIME
+            })
     _updateInfoFile({"blocks_file" : blocksFile})
 
     # Setup the Muse device
-    setupMuse(*museSignals)
+    # setupMuse(*MUSE_SIGNALS)
 
     # Run the experiment
-    # subprocess.run(["Python", "gradCPT.py", "--infoFile", infoFile])
-    print(infoFile)
+    if VERBOSE >= 1:
+        print("Running experiment in MATLAB. This may take a few moments ...")
+    eng = future.result()
+    eng.gradCPT(
+        infoFile,
+        'verbose', VERBOSE,
+        'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
+        nargout=0
+    )    
+    
 
 
 def _formatLogInfo(session_name=None, session_id=None, date=None,

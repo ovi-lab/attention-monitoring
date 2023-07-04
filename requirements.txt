@@ -13,7 +13,7 @@ contourpy==1.0.7
 cryptography==41.0.1
 cycler==0.11.0
 Cython==0.29.35
-debugpy @ file:///C:/ci_311/debugpy_1676426137692/work
+debugpy @ file:///C:/ci_310/debugpy_1642079916595/work
 decorator==4.4.2
 dukpy==0.3.0
 egi-pynetstation==0.0.0rc1
@@ -39,9 +39,10 @@ javascripthon==0.12
 jedi @ file:///home/conda/feedstock_root/build_artifacts/jedi_1669134318875/work
 json-tricks==3.17.0
 jupyter_client @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1681432441054/work
-jupyter_core @ file:///D:/bld/jupyter_core_1678994460189/work
+jupyter_core @ file:///C:/b/abs_9d0ttho3bs/croot/jupyter_core_1679906581955/work
 kiwisolver==1.4.4
 markdown-it-py==3.0.0
+matlabengine==9.13.9
 matplotlib==3.7.1
 matplotlib-inline @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1660814786464/work
 mdurl==0.1.2
@@ -61,8 +62,7 @@ Pillow==9.5.0
 platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1683850015520/work
 proglog==0.1.10
 prompt-toolkit @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1677600924538/work
-psutil @ file:///C:/ci_311_rebuilds/psutil_1679005906571/work
-PsychoPy==2023.1.3
+psutil @ file:///C:/Windows/Temp/abs_b2c2fd7f-9fd5-4756-95ea-8aed74d0039flsd9qufz/croots/recipe/psutil_1656431277748/work
 psychtoolbox==3.0.19.0
 pure-eval @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_1642875951954/work
 py-cpuinfo==9.0.0
@@ -82,7 +82,7 @@ pytz==2023.3
 pywin32==305.1
 pyWinhook==1.6.2
 PyYAML==6.0
-pyzmq @ file:///C:/b/abs_8b16zbmf46/croot/pyzmq_1682697651374/work
+pyzmq @ file:///C:/b/abs_655zk4a3s8/croot/pyzmq_1686601465034/work
 questplus==2023.1
 requests==2.31.0
 requests-toolbelt==1.0.0
@@ -93,7 +93,7 @@ soundfile==0.12.1
 soupsieve==2.4.1
 stack-data @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1669632077133/work
 tables==3.8.0
-tornado @ file:///C:/ci_311/tornado_1676423689414/work
+tornado @ file:///C:/ci/tornado_1662476985533/work
 tqdm==4.65.0
 traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1675110562325/work
 typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1685704949284/work
