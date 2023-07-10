@@ -146,8 +146,10 @@ def main(participant_id = None):
             })
     _updateInfoFile({"blocks_file" : blocksFile})
 
+    print(infoFile)
+
     # Setup the Muse device
-    # setupMuse(*MUSE_SIGNALS)
+    setupMuse(*MUSE_SIGNALS)
 
     # Run the experiment
     if VERBOSE >= 1:
