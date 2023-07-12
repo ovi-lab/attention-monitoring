@@ -37,6 +37,5 @@ def setupMuse(*signals):
                 shell=True)
         
         # Wait until all desired signals are streaming
-        # TODO: add timeout
         pred = " or ".join(f"type='{x}'" for x in targetSignals)
-        streams = resolve_bypred(pred, minimum=len(targetSignals), timeout=20)
+        streams = resolve_bypred(pred, minimum=len(targetSignals), timeout=30)

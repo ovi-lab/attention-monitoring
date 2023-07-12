@@ -1,4 +1,4 @@
-function gradCPT(infoFile, nvargs)
+function data = gradCPT(infoFile, nvargs, lslargs)
 
 % TODO:
 %  - write documentation
@@ -25,17 +25,29 @@ function gradCPT(infoFile, nvargs)
 %  - refactoring: abstract certain code blocks to local functions
 %  - add button to start experiment
 %  - crop images to same size so they keep a consistent resolution
+%  - update file structure to follow BIDS format
+%  - [DONE] do not record practice blocks
+%  - fix naming convention for session names
+%  - placing commas in pre-block message would break blocks file, fix this
+%  - import text data in tables as strings
+%  - add verbose output to python code
 
 arguments
     infoFile (1,:) {mustBeFile}
-    nvargs.streamMarkersToLSL (1,1) logical = false
     nvargs.verbose (1,1) {mustBeInteger} = 0
+    lslargs.streamMarkersToLSL (1,1) logical = false
+    lslargs.recordLSL (1,1) logical = false
+    lslargs.tcpAddress = 'localhost'
+    lslargs.tcpPort = 22345
 end
 
 % Wrap all code in function inside try-catch block for graceful failing
 try 
-    streamMarkersToLSL = nvargs.streamMarkersToLSL;
     verbose = nvargs.verbose;
+    streamMarkersToLSL = lslargs.streamMarkersToLSL;
+    recordLSL = lslargs.recordLSL;
+    tcpAddress = lslargs.tcpAddress;
+    tcpPort = lslargs.tcpPort;
     
     % Check if necessary toolboxes are on the search path (not rigorous)
     toolboxes = ["liblsl-Matlab", "Psychtoolbox"];
@@ -56,9 +68,6 @@ try
 
     % Unify the key naming scheme (for getting keyboard inputs)
     KbName('UnifyKeyNames');
-    
-    % Clear the workspace
-    clearvars -except infoFile verbose streamMarkersToLSL;
     
     %% Lab Streaming Layer Setup
     
@@ -94,6 +103,11 @@ try
             );
         stimStreamOutlet = lsl_outlet(stimStreamInfo);
         responseStreamOutlet = lsl_outlet(responseStreamInfo);
+    end
+
+    % Setup communication with LabRecorder
+    if recordLSL
+        lr = tcpclient(tcpAddress, tcpPort);
     end
     
     %% Psychtoolbox Setup
@@ -242,21 +256,24 @@ try
     end
     
     %% Run The Experiment
-    
-    % Timestamp start of session
-    if streamMarkersToLSL
-        stimStreamOutlet.push_sample({'session_start'});
+
+    % Prepare LabRecorder to record data for this session
+    if recordLSL
+        writeline(lr, 'update');
+        writeline(lr, 'select all');
     end
     
     % Get the blocks of trials to complete for this session
-    blocks = readtable( ...
+    opts = detectImportOptions( ...
         info.blocks_file, ...
         'ReadVariableNames', true, ...
         'Delimiter', ',' ...
         );
+    opts = setvartype(opts, 'data_file', 'char');
+    blocks = readtable(info.blocks_file, opts);
     
-    % Hide the cursor
-    HideCursor(screenNumber);
+%     % Hide the cursor
+%     HideCursor(screenNumber);
     
     % Run each block of trials
     for k1 = 1:height(blocks)
@@ -272,6 +289,24 @@ try
         DrawFormattedText(window, msg, 'center', 'center', white);
         pbbStartTime = Screen('flip', window);
         pbbEndTime = pbbStartTime + blocks.pre_block_wait_time(k1);
+
+        % Start recording data for this block on LabRecorder
+        if recordLSL && ~(info.do_practice_block && k1 == 1)
+            template = info.session_name + "_" + ...
+                blocks.block_name{k1} + "_data.xdf";
+            options = [
+                "root", info.session_dir;
+                "template", template;
+                "participant", info.participant_id;
+                "task", blocks.block_name{k1}
+                ];
+            command = ['filename', char(sprintf(' {%s:%s}', options'))];
+            writeline(lr, command);
+            writeline(lr, 'start');
+
+            % Update blocks structure with path to data file
+            blocks.data_file{k1} = fullfile(info.session_dir, template);
+        end
     
         % Get the sequence of stimuli to present for this block
         stimSequence = readtable( ...
@@ -299,7 +334,7 @@ try
             % Define destination rectangle to draw the stimulus to
             % (fascilitates rescaling such that the smallest dimension of
             % the stimulus - width or height - is equal to dia)
-            [s1, s2, s3] = size(img);
+            [s1, s2, ~] = size(img);
             scale = dia / min([s1, s2]);
             destinationRect = CenterRectOnPointd( ...
                 [0 0 s2 s1] .* scale, ...
@@ -558,15 +593,22 @@ try
         if streamMarkersToLSL
             stimStreamOutlet.push_sample({'block_stop'});
         end
-    end
+
+        % Stop recording data for this block on LabRecorder
+        if recordLSL && ~(info.do_practice_block && k1 == 1)
+            writeline(lr, 'stop');
     
-    % Timestamp end of session
-    if streamMarkersToLSL
-        stimStreamOutlet.push_sample({'session_stop'});
+            % Update blocks file with path to data file
+            writetable(blocks, info.blocks_file);
+        end
     end
     
     % End the session
     endSession;
+
+    % Return the paths to the recorded data files, if they exist
+    data = string(blocks.data_file);
+    data = data(isfile(data));
 
 % Fail gracefully if any errors occur during function execution
 catch ME
@@ -655,6 +697,9 @@ function endSession(type, printout)
     if streamMarkersToLSL
         stimStreamOutlet.delete();
         responseStreamOutlet.delete();
+    end
+    if recordLSL
+        write(lr, 'stop');
     end
     KbQueueRelease();
     KbReleaseWait();

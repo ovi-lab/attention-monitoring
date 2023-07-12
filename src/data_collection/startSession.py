@@ -17,17 +17,21 @@ def main(participant_id = None):
     MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
     VERBOSE = 3
     STREAM_MARKERS_TO_LSL = False
+    RECORD_LSL = False
+    TCP_ADDRESS = 'localhost'
+    TCP_PORT = 22345
 
     # Constants
     NUM_FULL_BLOCKS = 2
-    DO_PRACTICE_BLOCK = True
+    DO_PRACTICE_BLOCK = False
     STIM_TRANSITION_TIME_MS = 800 # milliseconds
     STIM_STATIC_TIME_MS = 400 # milliseconds
     STIM_DIAMETER = 1000
-    FULL_BLOCK_SEQUENCE_LENGTH = 20
+    FULL_BLOCK_SEQUENCE_LENGTH = 50
     PRACTICE_BLOCK_SEQUENCE_LENGTH = 10
-    PRE_FULL_BLOCK_BREAK_TIME = 5 # seconds
+    PRE_FULL_BLOCK_BREAK_TIME = 30 # seconds
     PRE_PRACTICE_BLOCK_BREAK_TIME = 5 # seconds
+    ROOT = os.path.abspath("C:/Users/HP User/source/repos/attention-monitoring")
     DATA_DIR = os.path.abspath("../data/gradCPT_sessions")
     STIMULI_DIR = os.path.abspath("../data/stimuli")
 
@@ -35,8 +39,8 @@ def main(participant_id = None):
     
     log = os.path.join(DATA_DIR, "log.csv")
 
-    # Start MATLAB engine asynchronously
-    future = matlab.engine.start_matlab(background=True)
+    # # Start MATLAB engine asynchronously
+    # future = matlab.engine.start_matlab(background=True)
 
     # Determine the current session ID by checking the log if it exists, or
     # creating a new log if it does not
@@ -101,18 +105,20 @@ def main(participant_id = None):
     blocksFile = _newSessionFile("blocks.csv")
     blocksFileFields = [
         "block_name",
-        "stim_sequence_file",
         "pre_block_msg",
-        "pre_block_wait_time"
+        "pre_block_wait_time",
+        "stim_sequence_file",
+        "data_file"
         ]
     with open(blocksFile, "w", newline="") as f:
         dictWriter = csv.DictWriter(f, fieldnames=blocksFileFields)
         dictWriter.writeheader()
 
         if (DO_PRACTICE_BLOCK):
-            name = _newSessionFile("stimuli_sequence_practice")
+            blockName = "practice_block"
+            SSFName = _newSessionFile(blockName + "_stim_sequence")
             generateSequence(
-                name,
+                SSFName,
                 STIMULI_DIR,
                 PRACTICE_BLOCK_SEQUENCE_LENGTH
             )
@@ -121,16 +127,18 @@ def main(participant_id = None):
                 + "seconds."
             )
             dictWriter.writerow({
-                "block_name" : "Practice Block",
-                "stim_sequence_file" : name + ".csv",
+                "block_name" : blockName,
                 "pre_block_msg" : msg,
-                "pre_block_wait_time" : PRE_PRACTICE_BLOCK_BREAK_TIME
+                "pre_block_wait_time" : PRE_PRACTICE_BLOCK_BREAK_TIME,
+                "stim_sequence_file" : SSFName + ".csv",
+                "data_file" : ""
             })
 
         for i in range(1, NUM_FULL_BLOCKS + 1):
-            name = _newSessionFile(f"stimuli_sequence_block{i}")
+            blockName = f"full_block_{i}"
+            SSFName = _newSessionFile(blockName + "_stim_sequence")
             generateSequence(
-                name,
+                SSFName,
                 STIMULI_DIR,
                 FULL_BLOCK_SEQUENCE_LENGTH
             )
@@ -139,28 +147,35 @@ def main(participant_id = None):
                 + "seconds."
             )
             dictWriter.writerow({
-                "block_name" : f"Full Block {i}",
-                "stim_sequence_file" : name + ".csv",
+                "block_name" : blockName,
                 "pre_block_msg" : msg,
-                "pre_block_wait_time" : PRE_FULL_BLOCK_BREAK_TIME
+                "pre_block_wait_time" : PRE_FULL_BLOCK_BREAK_TIME,
+                "stim_sequence_file" : SSFName + ".csv",
+                "data_file" : ""
             })
     _updateInfoFile({"blocks_file" : blocksFile})
 
     print(infoFile)
 
-    # Setup the Muse device
-    setupMuse(*MUSE_SIGNALS)
+    # # Setup the Muse device
+    # setupMuse(*MUSE_SIGNALS)
 
-    # Run the experiment
-    if VERBOSE >= 1:
-        print("Running experiment in MATLAB. This may take a few moments ...")
-    eng = future.result()
-    eng.gradCPT(
-        infoFile,
-        'verbose', VERBOSE,
-        'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
-        nargout=0
-    )    
+    # Start LabRecorder
+    # TODO: don't hardcode path to LabRecorder
+    subprocess.run(os.path.abspath('C:/Users/HP User/Downloads/LabRecorder-1.16.4-Win_amd64/LabRecorder/LabRecorder.exe'), shell=True)
+
+    # # Run the experiment
+    # if VERBOSE >= 1:
+    #     print("Running experiment in MATLAB. This may take a few moments ...")
+    # eng = future.result()
+    # data = eng.gradCPT(
+    #     infoFile,
+    #     'verbose', VERBOSE,
+    #     'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
+    #     'recordLSL', RECORD_LSL,
+    #     'tcpAddress', TCP_ADDRESS,
+    #     'tcpPort', TCP_PORT
+    # )    
     
 
 
@@ -205,7 +220,7 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
         # Create session_name from other info
         _session_name = f"S{_session_id}_{_date}"
         if (participant_id is not None):
-            _session_name = _session_name + f"_{_participant_id}"
+            _session_name = _session_name + f"_P{_participant_id}"
     elif (
         session_name is not None
         and all(x is none for x in [session_id, date, participant_id])
@@ -231,4 +246,4 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
     return out
 
 if __name__ == "__main__":
-    main()
+    main(participant_id = 1)
