@@ -30,12 +30,26 @@ def setupMuse(*signals):
         or not all(stream.type() in targetSignals for stream in streams)
         ):
         # Start bluemuse and enable desired signals to stream
-        for signal in validSignals:
-            key = signal.lower() + "_enabled"
-            value = str(signal in targetSignals).lower()
-            subprocess.run(f'start bluemuse://setting?key={key}!value={value}',
-                shell=True)
+        keys = [
+            "primary_timestamp_format",
+            *[signal.lower() + "_enabled" for signal in validSignals]
+            ]
+        values = [
+            "LSL_LOCAL_CLOCK_NATIVE",
+            *[str(signal in targerSignals).lower() for signal in validSignals]
+            ]
+        commands = [
+            f'start bluemuse://setting?key={keys[i]}!value={values[i]}'
+            for i in range(len(keys))
+            ]
+        subprocess.run(commands, shell=True)
         
         # Wait until all desired signals are streaming
         pred = " or ".join(f"type='{x}'" for x in targetSignals)
         streams = resolve_bypred(pred, minimum=len(targetSignals), timeout=30)
+
+def endMuse():
+    """Stop streaming Muse data to LSL and close the bluemuse program."""
+
+    commands = ["start bluemuse://stop?stopall", "start bluemuse://shutdown"]
+    subprocess.run(commands, shell=True)
