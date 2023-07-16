@@ -1,0 +1,24 @@
+constants:
+preferences:
+  general:
+    verbose: 3
+  study:
+    num_full_blocks: 2
+    do_practice_block: True
+    stim_transition_time_ms: 800 #milliseconds
+    stim_static_time_ms: 400 #milliseconds
+    full_block_sequence_length: 20
+    practice_block_sequence_length: 10
+    pre_full_block_break_time: 20 #seconds
+    pre_practice_block_break_time: 20 #seconds
+    stim_diameter: 1000
+    muse_signals:
+      - EEG
+      - PPG
+      - Accelerometer
+      - Gyroscope
+  lsl:
+    stream_markers_to_lsl: True
+    record_lsl: True
+    tcp_address: localhost
+    tcp_port: 22345
