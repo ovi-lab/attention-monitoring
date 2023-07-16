@@ -11,38 +11,40 @@ from museSetup import setupMuse, endMuse
 import json
 import subprocess
 import matlab.engine
-import config
+from config import CONFIG
 
 def main(participant_id = None):
     # TODO: refactor to use config file
     # TODO: refactor to use subprocess module effectively (multithreading? Need
     #       to run main control process concurrently with other processes)
     # TODO: Fix timing errors
+    # TODO: implement logging using official module/methods
 
 
-    # Preferences
-    MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
-    VERBOSE = 3
-    STREAM_MARKERS_TO_LSL = True
-    RECORD_LSL = True
-    TCP_ADDRESS = 'localhost'
-    TCP_PORT = 22345
+    # # Preferences
+    # MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
+    # VERBOSE = 3
+    # STREAM_MARKERS_TO_LSL = True
+    # RECORD_LSL = True
+    # TCP_ADDRESS = 'localhost'
+    # TCP_PORT = 22345
 
-    # Constants
-    NUM_FULL_BLOCKS = 2
-    DO_PRACTICE_BLOCK = False
-    STIM_TRANSITION_TIME_MS = 800 # milliseconds
-    STIM_STATIC_TIME_MS = 400 # milliseconds
-    STIM_DIAMETER = 1000
-    FULL_BLOCK_SEQUENCE_LENGTH = 50
-    PRACTICE_BLOCK_SEQUENCE_LENGTH = 10
-    PRE_FULL_BLOCK_BREAK_TIME = 30 # seconds
-    PRE_PRACTICE_BLOCK_BREAK_TIME = 5 # seconds
-    ROOT = os.path.abspath("C:/Users/HP User/source/repos/attention-monitoring")
-    DATA_DIR = os.path.abspath("../data/gradCPT_sessions")
-    STIMULI_DIR = os.path.abspath("../data/stimuli")
+    # # Constants
+    # NUM_FULL_BLOCKS = 2
+    # DO_PRACTICE_BLOCK = False
+    # STIM_TRANSITION_TIME_MS = 800 # milliseconds
+    # STIM_STATIC_TIME_MS = 400 # milliseconds
+    # STIM_DIAMETER = 1000
+    # FULL_BLOCK_SEQUENCE_LENGTH = 50
+    # PRACTICE_BLOCK_SEQUENCE_LENGTH = 10
+    # PRE_FULL_BLOCK_BREAK_TIME = 30 # seconds
+    # PRE_PRACTICE_BLOCK_BREAK_TIME = 5 # seconds
+    # ROOT = os.path.abspath("C:/Users/HP User/source/repos/attention-monitoring")
+    # DATA_DIR = os.path.abspath("../data/gradCPT_sessions")
+    # STIMULI_DIR = os.path.abspath("../data/stimuli")
 
-    # TODO: change path to data dir to automatically get the path of the current file
+    DATA_DIR = os.path.join(CONFIG.projectRoot, "data/gradCPT_sessions")
+    STIMULI_DIR = os.path.join(CONFIG.projectROOT, "data/stimuli")
     
     log = os.path.join(DATA_DIR, "log.csv")
 
@@ -72,7 +74,7 @@ def main(participant_id = None):
             session_id=session_id,
             date=datetime.now().strftime("%d%m%y"),
             participant_id=participant_id
-        )
+            )
         dictWriter.writerow(logInfo)
 
     # Make a folder and info file for the current session
@@ -80,21 +82,17 @@ def main(participant_id = None):
     infoFile = os.path.join(outputDir, "info.json")
     os.mkdir(outputDir)
     with open(infoFile, "w") as f:
+        configVals = [
+            "session_dir", "num_full_blocks", "do_practice_block",
+            "stim_transition_time_ms", "stim_static_time_ms", "stim_diameter",
+            "full_block_sequence_length", "muse_signals"
+            ]
         info = {}
         info.update(logInfo)
-        info.update({
-            "session_dir" : outputDir,
-            "num_full_blocks" : NUM_FULL_BLOCKS,
-            "do_practice_block" : DO_PRACTICE_BLOCK,
-            "stim_transition_time_ms" : STIM_TRANSITION_TIME_MS,
-            "stim_static_time_ms" : STIM_STATIC_TIME_MS,
-            "stim_diameter" : STIM_DIAMETER,
-            "full_block_sequence_length" : FULL_BLOCK_SEQUENCE_LENGTH,
-            "practice_block_sequence_length" : PRACTICE_BLOCK_SEQUENCE_LENGTH,
-            "muse_signals" : MUSE_SIGNALS
-        })
+        info.update({"session_dir" : outputDir})
+        info.update({val : getattr(CONFIG, val) for val in configVals})
         json.dump(info, f)
-    
+
     def _newSessionFile(name):
         session_name = info["session_name"]
         return os.path.join(outputDir, session_name + "_" + name)
@@ -111,83 +109,93 @@ def main(participant_id = None):
     # order of blocks in csv file
     blocksFile = _newSessionFile("blocks.csv")
     blocksFileFields = [
-        "block_name",
-        "pre_block_msg",
-        "pre_block_wait_time",
-        "stim_sequence_file",
-        "data_file"
+        "block_name", "pre_block_msg", "pre_block_wait_time",
+        "stim_sequence_file", "data_file"
         ]
     with open(blocksFile, "w", newline="") as f:
         dictWriter = csv.DictWriter(f, fieldnames=blocksFileFields)
         dictWriter.writeheader()
 
-        if (DO_PRACTICE_BLOCK):
+        # Practice block
+        if (CONFIG.do_practice_block):
             blockName = "practice_block"
-            SSFName = _newSessionFile(blockName + "_stim_sequence")
+            stimSeqFile = _newSessionFile(blockName + "_stim_sequence.csv")
             generateSequence(
-                SSFName,
+                stimSeqFile,
                 STIMULI_DIR,
-                PRACTICE_BLOCK_SEQUENCE_LENGTH
-            )
-            msg = (
-                f"Starting practice block in {PRE_PRACTICE_BLOCK_BREAK_TIME} "
-                + "seconds."
-            )
+                CONFIG.practice_block_sequence_length
+                )
+            preBlockMsg = (
+                "Starting practice block in "
+                + f"{CONFIG.pre_practice_block_break_time} seconds."
+                )
             dictWriter.writerow({
                 "block_name" : blockName,
-                "pre_block_msg" : msg,
-                "pre_block_wait_time" : PRE_PRACTICE_BLOCK_BREAK_TIME,
-                "stim_sequence_file" : SSFName + ".csv",
+                "pre_block_msg" : preBlockMsg,
+                "pre_block_wait_time" : CONFIG.pre_practice_block_break_time,
+                "stim_sequence_file" : stimSeqFile,
                 "data_file" : ""
-            })
+                })
 
-        for i in range(1, NUM_FULL_BLOCKS + 1):
+        # Non-practice blocks
+        for i in range(1, CONFIG.num_full_blocks + 1):
             blockName = f"full_block_{i}"
-            SSFName = _newSessionFile(blockName + "_stim_sequence")
+            stimSeqFile = _newSessionFile(blockName + "_stim_sequence.csv")
             generateSequence(
-                SSFName,
+                stimSeqFile,
                 STIMULI_DIR,
-                FULL_BLOCK_SEQUENCE_LENGTH
-            )
-            msg = (
-                f"Starting block {i} in {PRE_FULL_BLOCK_BREAK_TIME} "
+                CONFIG.full_block_sequence_length
+                )
+            preBlockMsg = (
+                f"Starting block {i} in {CONFIG.pre_full_block_break_time} "
                 + "seconds."
-            )
+                )
             dictWriter.writerow({
                 "block_name" : blockName,
-                "pre_block_msg" : msg,
-                "pre_block_wait_time" : PRE_FULL_BLOCK_BREAK_TIME,
-                "stim_sequence_file" : SSFName + ".csv",
+                "pre_block_msg" : PreBlockMsg,
+                "pre_block_wait_time" : CONFIG.pre_full_block_break_time,
+                "stim_sequence_file" : stimSeqFile,
                 "data_file" : ""
-            })
+                })
     _updateInfoFile({"blocks_file" : blocksFile})
 
-    print(infoFile)
+    if CONFIG.verbose == 2:
+        print(f"Info file for this session: {infoFile}")
+    elif CONFIG.verbose >= 3:
+        msg = [
+            "\nStarting experiment:",
+            *[f"|   {key} : {value}" for key, value in info.items()]
+        ]
+        print("\n".join(msg))
 
     # Setup the Muse device
-    setupMuse(*MUSE_SIGNALS)
+    if CONFIG.verbose >= 2:
+        print("Setting up the Muse device.")
+    setupMuse(*CONFIG.muse_signals)
 
     # # Start LabRecorder
     # # TODO: don't hardcode path to LabRecorder
+    # if CONFIG.verbose >= 2:
+    #     print("Starting LabRecorder.")
     # subprocess.run(os.path.abspath('C:/Users/HP User/Downloads/LabRecorder-1.16.4-Win_amd64/LabRecorder/LabRecorder.exe'), shell=True)
 
     # Run the experiment
-    if VERBOSE >= 1:
+    if CONFIG.verbose >= 1:
         print("Running experiment in MATLAB. This may take a few moments ...")
     eng = future.result()
     data = eng.gradCPT(
         infoFile,
-        'verbose', VERBOSE,
-        'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
-        'recordLSL', RECORD_LSL,
-        'tcpAddress', TCP_ADDRESS,
-        'tcpPort', TCP_PORT
-    )
+        'verbose', CONFIG.verbose,
+        'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
+        'recordLSL', CONFIG.record_lsl,
+        'tcpAddress', CONFIG.tcp_address,
+        'tcpPort', CONFIG.tcp_port
+        )
 
     # Close the Muse device
+    if CONFIG.verbose >= 2:
+        print("Closing the Muse device.")
     endMuse()
-
-    
 
 
 def _formatLogInfo(session_name=None, session_id=None, date=None,
@@ -249,10 +257,10 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
         "session_id" : _session_id,
         "date" : _date,
         "participant_id" : _participant_id
-    }
+        }
     for key, value in out.items():
-            if value is None:
-                out[key] = ""
+        if value is None:
+            out[key] = ""
 
     return out
 

@@ -1,5 +1,7 @@
 import subprocess
-from pylsl import StreamInfo, StreamInlet, resolve_stream, resolve_bypred
+from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
+from config import CONFIG
+import textwrap
 
 def setupMuse(*signals):
     """Setup the Muse device to begin streaming data to LSL.
@@ -22,13 +24,11 @@ def setupMuse(*signals):
     else:
         targetSignals = validSignals
 
-    streams = resolve_stream()
+    streams = resolve_streams()
 
     # Check whether any desired signals are not yet streaming
-    if (
-        len(streams) == 0 
-        or not all(stream.type() in targetSignals for stream in streams)
-        ):
+    streamTypes = [stream.type() for stream in streams]
+    if not all(signal in streamTypes for signal in targetSignals):
         # Start bluemuse and enable desired signals to stream
         keys = [
             "primary_timestamp_format",
@@ -42,11 +42,36 @@ def setupMuse(*signals):
             f'start bluemuse://setting?key={keys[i]}!value={values[i]}'
             for i in range(len(keys))
             ]
+        if CONFIG.verbose >= 3:
+            print("Starting Bluemuse.")
         subprocess.run(commands, shell=True)
         
         # Wait until all desired signals are streaming
+        if CONFIG.verbose >= 3:
+            msg = textwrap.wrap(
+                "Waiting 30 seconds for all desired Muse signals to stream to"
+                + "LSL.",
+                width=80
+            )
+            print("\n".join(msg))
         pred = " or ".join(f"type='{x}'" for x in targetSignals)
         streams = resolve_bypred(pred, minimum=len(targetSignals), timeout=30)
+        streamTypes = [stream.type() for stream in streams]
+        if not all(signal in streamTypes for signal in targetSignals):
+            if CONFIG.verbose >= 1:
+                label = "WARNING: "
+                msg = [
+                    "Not all of the desired Muse signals are streaming to "
+                    + "LSL (Waited 30 seconds).",
+                    f"Desired Signals: {targetSignals}",
+                    f"Streaming Signals: {streamTypes}"
+                ]
+                for text in msg:
+                    lines = textwrap.wrap(text, width=80 - len(label))
+                    print("\n".join([label + line for line in lines]))
+        elif CONFIG.verbose >= 3:
+            print("All Muse signals are streaming on LSL.")
+
 
 def endMuse():
     """Stop streaming Muse data to LSL and close the bluemuse program."""

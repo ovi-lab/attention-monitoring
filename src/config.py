@@ -55,7 +55,7 @@ def _getRoot():
 
 __configsDir = os.path.join(_getRoot(), "configs")
 __customConfigPath = os.path.join(_getRoot(), "config.yaml")
-__defaultConfigPath = os.path.join(__customConfigPath, "default.yaml")
+__defaultConfigPath = os.path.join(_getRoot(), "default_config.yaml")
     
 def _getConfigPath():
     """Get the path to the configuration file to use.
@@ -125,8 +125,8 @@ class _Config:
         The level of verbosity to use for printing messages. At 0, nothing is
         printed. At 1, warnings and important info messages are printed. At 2,
         information about program execution as well as more detailed error
-        messages are printed. Note that Psychtoolbox's verbosity level is also
-        set to this value.
+        messages are printed. At 3, more verbose information is printed. Note
+        that Psychtoolbox's verbosity level is also set to this value.
     num_full_blocks : int
         (gradCPT) The number of non-practice blocks to perform.
     do_practice_block : bool
@@ -196,62 +196,63 @@ class _Config:
 
     # Config Values
     # |---Constants
-    pathConstants = ['constants']
+    __pathConstants = ['constants']
     @property
     def projectRoot(self):
         return _getRoot()
     # |---Preferences
-    pathPreferences = ['preferences']
+    __pathPreferences = ['preferences']
     # |---|---General
-    pathGeneral = *pathPreferences, 'general'
+    __pathGeneral = *__pathPreferences, 'general'
     verbose = __fetch(
-        *pathGeneral, 'verbose'
+        *__pathGeneral, 'verbose'
     )
     # |---|---Study
-    pathStudy = *pathPreferences, 'study'
+    __pathStudy = *__pathPreferences, 'study'
     num_full_blocks = __fetch(
-        *pathStudy, 'num_full_blocks'
+        *__pathStudy, 'num_full_blocks'
     )
     do_practice_block = __fetch(
-        *pathStudy, 'do_practice_block'
+        *__pathStudy, 'do_practice_block'
     )
     stim_transition_time_ms = __fetch(
-        *pathStudy, 'stim_transition_time_ms'
+        *__pathStudy, 'stim_transition_time_ms'
     )
     stim_static_time_ms = __fetch(
-        *pathStudy, 'stim_static_time_ms'
+        *__pathStudy, 'stim_static_time_ms'
     )
     full_block_sequence_length = __fetch(
-        *pathStudy, 'full_block_sequence_length'
+        *__pathStudy, 'full_block_sequence_length'
     )
     practice_block_sequence_length = __fetch(
-        *pathStudy, 'practice_block_sequence_length'
+        *__pathStudy, 'practice_block_sequence_length'
     )
     pre_full_block_break_time = __fetch(
-        *pathStudy, 'pre_full_block_break_time'
+        *__pathStudy, 'pre_full_block_break_time'
     )
     pre_practice_block_break_time = __fetch(
-        *pathStudy, 'pre_practice_block_break_time'
+        *__pathStudy, 'pre_practice_block_break_time'
     )
     stim_diameter = __fetch(
-        *pathStudy, 'stim_diameter'
+        *__pathStudy, 'stim_diameter'
     )
     muse_signals = __fetch(
-        *pathStudy, 'muse_signals'
+        *__pathStudy, 'muse_signals'
     )
     # |---|---LSL
-    pathLSL = *pathPreferences, 'lsl'
+    __pathLSL = *__pathPreferences, 'lsl'
     stream_markers_to_lsl = __fetch(
-        *pathLSL, 'stream_markers_to_lsl'
+        *__pathLSL, 'stream_markers_to_lsl'
     )
     record_lsl = __fetch(
-        *pathLSL, 'record_lsl'
+        *__pathLSL, 'record_lsl'
     )
     tcp_address = __fetch(
-        *pathLSL, 'tcp_address'
+        *__pathLSL, 'tcp_address'
     )
     tcp_port = __fetch(
-        *pathLSL, 'tcp_port'
+        *__pathLSL, 'tcp_port'
     )
 
 CONFIG = _Config()
+CONFIG.__doc__ = _Config.__doc__

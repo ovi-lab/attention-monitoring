@@ -17,7 +17,7 @@ def generateSequence(name, stimuliPath, sequenceLength):
     ----------
     name : str
         The name of the csv file to write to (including the relative path if
-        applicable). Do not include the file extension ('.csv') in `name`.
+        applicable).
     stimuliPath : str
         The path to the directory containing the stimuli. Stimuli must be
         organised into two subdirectories `common_target` and `rare_target`,
@@ -30,6 +30,8 @@ def generateSequence(name, stimuliPath, sequenceLength):
     # (For each item in the sequence) probability of stimulus being selected
     # from common targets or rare targets, respectively
     weights = [90, 10]
+
+    name = os.path.splitext(name)[0]
 
     commonTargetsPath = os.path.join(stimuliPath, "common_target")
     rareTargetsPath = os.path.join(stimuliPath, "rare_target")
