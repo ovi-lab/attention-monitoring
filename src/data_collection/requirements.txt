@@ -5,6 +5,7 @@ backcall @ file:///home/conda/feedstock_root/build_artifacts/backcall_1592338393
 backports.functools-lru-cache @ file:///home/conda/feedstock_root/build_artifacts/backports.functools_lru_cache_1618230623929/work
 beautifulsoup4==4.12.2
 blosc2==2.0.0
+Bottleneck @ file:///C:/Windows/Temp/abs_3198ca53-903d-42fd-87b4-03e6d03a8381yfwsuve8/croots/recipe/bottleneck_1657175565403/work
 certifi==2023.5.7
 cffi==1.15.1
 charset-normalizer==3.1.0
@@ -46,16 +47,17 @@ matlabengine==9.13.9
 matplotlib==3.7.1
 matplotlib-inline @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1660814786464/work
 mdurl==0.1.2
+mkl-service==2.4.0
 moviepy==1.0.3
 msgpack==1.0.5
 msgpack-numpy==0.4.8
 nest-asyncio @ file:///home/conda/feedstock_root/build_artifacts/nest-asyncio_1664684991461/work
 ntplib==0.4.0
-numexpr==2.8.4
-numpy==1.23.5
+numexpr @ file:///C:/b/abs_a7kbak88hk/croot/numexpr_1668713882979/work
+numpy @ file:///D:/bld/numpy_1651020764721/work
 openpyxl==3.1.2
 packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1681337016113/work
-pandas==2.0.2
+pandas @ file:///C:/b/abs_b9kefbuby2/croot/pandas_1677835593760/work
 parso @ file:///home/conda/feedstock_root/build_artifacts/parso_1638334955874/work
 pickleshare @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1602536217715/work
 Pillow==9.5.0
@@ -78,7 +80,7 @@ python-bidi==0.4.2
 python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
 python-gitlab==3.15.0
 python-vlc==3.0.11115
-pytz==2023.3
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1680088766131/work
 pywin32==305.1
 pyWinhook==1.6.2
 pyxdf==1.16.4

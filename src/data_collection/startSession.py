@@ -3,21 +3,28 @@
 """ 
 from pylsl import StreamInfo, StreamInlet, resolve_stream
 import os
+import sys
 import csv
 from datetime import datetime
 from stimuliSetup import generateSequence
-from museSetup import setupMuse
+from museSetup import setupMuse, endMuse
 import json
 import subprocess
 import matlab.engine
+import config
 
 def main(participant_id = None):
+    # TODO: refactor to use config file
+    # TODO: refactor to use subprocess module effectively (multithreading? Need
+    #       to run main control process concurrently with other processes)
+    # TODO: Fix timing errors
+
 
     # Preferences
     MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
     VERBOSE = 3
-    STREAM_MARKERS_TO_LSL = False
-    RECORD_LSL = False
+    STREAM_MARKERS_TO_LSL = True
+    RECORD_LSL = True
     TCP_ADDRESS = 'localhost'
     TCP_PORT = 22345
 
@@ -39,8 +46,8 @@ def main(participant_id = None):
     
     log = os.path.join(DATA_DIR, "log.csv")
 
-    # # Start MATLAB engine asynchronously
-    # future = matlab.engine.start_matlab(background=True)
+    # Start MATLAB engine asynchronously
+    future = matlab.engine.start_matlab(background=True)
 
     # Determine the current session ID by checking the log if it exists, or
     # creating a new log if it does not
@@ -157,25 +164,29 @@ def main(participant_id = None):
 
     print(infoFile)
 
-    # # Setup the Muse device
-    # setupMuse(*MUSE_SIGNALS)
+    # Setup the Muse device
+    setupMuse(*MUSE_SIGNALS)
 
-    # Start LabRecorder
-    # TODO: don't hardcode path to LabRecorder
-    subprocess.run(os.path.abspath('C:/Users/HP User/Downloads/LabRecorder-1.16.4-Win_amd64/LabRecorder/LabRecorder.exe'), shell=True)
+    # # Start LabRecorder
+    # # TODO: don't hardcode path to LabRecorder
+    # subprocess.run(os.path.abspath('C:/Users/HP User/Downloads/LabRecorder-1.16.4-Win_amd64/LabRecorder/LabRecorder.exe'), shell=True)
 
-    # # Run the experiment
-    # if VERBOSE >= 1:
-    #     print("Running experiment in MATLAB. This may take a few moments ...")
-    # eng = future.result()
-    # data = eng.gradCPT(
-    #     infoFile,
-    #     'verbose', VERBOSE,
-    #     'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
-    #     'recordLSL', RECORD_LSL,
-    #     'tcpAddress', TCP_ADDRESS,
-    #     'tcpPort', TCP_PORT
-    # )    
+    # Run the experiment
+    if VERBOSE >= 1:
+        print("Running experiment in MATLAB. This may take a few moments ...")
+    eng = future.result()
+    data = eng.gradCPT(
+        infoFile,
+        'verbose', VERBOSE,
+        'streamMarkersToLSL', STREAM_MARKERS_TO_LSL,
+        'recordLSL', RECORD_LSL,
+        'tcpAddress', TCP_ADDRESS,
+        'tcpPort', TCP_PORT
+    )
+
+    # Close the Muse device
+    endMuse()
+
     
 
 
@@ -246,4 +257,4 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
     return out
 
 if __name__ == "__main__":
-    main(participant_id = 1)
+    main(*sys.argv[1:])

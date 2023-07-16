@@ -692,7 +692,7 @@ function endSession(type, printout)
         label = "gradCPT: ";
         msg = "Attempting to perform end-of-session operations...";
         msg = label + textwrap(msg, 80 - strlength(label));
-        fprintf('%s\n', msg);
+        fprintf('\n%s\n', msg);
     end
     if streamMarkersToLSL
         stimStreamOutlet.delete();
