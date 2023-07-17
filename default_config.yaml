@@ -1,4 +1,6 @@
+# See documentation for `src/config.py` for descriptions of attributes
 constants:
+  path_to_LabRecorder: lib/LabRecorder.lnk
 preferences:
   general:
     verbose: 0

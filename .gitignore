@@ -167,3 +167,6 @@ src/data/*
 !src/data/README.MD
 
 sandbox.ipynb
+
+lib/*
+!lib/README.MD

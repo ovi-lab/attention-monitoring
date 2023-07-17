@@ -14,37 +14,14 @@ import matlab.engine
 from config import CONFIG
 
 def main(participant_id = None):
-    # TODO: refactor to use config file
     # TODO: refactor to use subprocess module effectively (multithreading? Need
     #       to run main control process concurrently with other processes)
     # TODO: Fix timing errors
     # TODO: implement logging using official module/methods
+    # TODO: write documentation
 
-
-    # # Preferences
-    # MUSE_SIGNALS = ["EEG", "PPG", "Accelerometer", "Gyroscope"]
-    # VERBOSE = 3
-    # STREAM_MARKERS_TO_LSL = True
-    # RECORD_LSL = True
-    # TCP_ADDRESS = 'localhost'
-    # TCP_PORT = 22345
-
-    # # Constants
-    # NUM_FULL_BLOCKS = 2
-    # DO_PRACTICE_BLOCK = False
-    # STIM_TRANSITION_TIME_MS = 800 # milliseconds
-    # STIM_STATIC_TIME_MS = 400 # milliseconds
-    # STIM_DIAMETER = 1000
-    # FULL_BLOCK_SEQUENCE_LENGTH = 50
-    # PRACTICE_BLOCK_SEQUENCE_LENGTH = 10
-    # PRE_FULL_BLOCK_BREAK_TIME = 30 # seconds
-    # PRE_PRACTICE_BLOCK_BREAK_TIME = 5 # seconds
-    # ROOT = os.path.abspath("C:/Users/HP User/source/repos/attention-monitoring")
-    # DATA_DIR = os.path.abspath("../data/gradCPT_sessions")
-    # STIMULI_DIR = os.path.abspath("../data/stimuli")
-
-    DATA_DIR = os.path.join(CONFIG.projectRoot, "data/gradCPT_sessions")
-    STIMULI_DIR = os.path.join(CONFIG.projectROOT, "data/stimuli")
+    DATA_DIR = os.path.join(CONFIG.projectRoot, "data", "gradCPT_sessions")
+    STIMULI_DIR = os.path.join(CONFIG.projectROOT, "data", "stimuli")
     
     log = os.path.join(DATA_DIR, "log.csv")
 
@@ -173,11 +150,11 @@ def main(participant_id = None):
         print("Setting up the Muse device.")
     setupMuse(*CONFIG.muse_signals)
 
-    # # Start LabRecorder
-    # # TODO: don't hardcode path to LabRecorder
-    # if CONFIG.verbose >= 2:
-    #     print("Starting LabRecorder.")
-    # subprocess.run(os.path.abspath('C:/Users/HP User/Downloads/LabRecorder-1.16.4-Win_amd64/LabRecorder/LabRecorder.exe'), shell=True)
+    # Start LabRecorder
+    if CONFIG.path_to_LabRecorder != "":
+        if CONFIG.verbose >= 2:
+            print("Starting LabRecorder")
+        subprocess.run(CONFIG.path_to_LabRecorder)
 
     # Run the experiment
     if CONFIG.verbose >= 1:

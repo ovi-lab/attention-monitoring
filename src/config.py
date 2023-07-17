@@ -50,7 +50,7 @@ def _getRoot():
             raise Exception(
                 f"Could not find target root directory `{rootName}` on path "
                 + os.path.abspath(__file__)
-            )
+                )
     return root
 
 __configsDir = os.path.join(_getRoot(), "configs")
@@ -84,7 +84,7 @@ def _getConfigPath():
                 )
             raise FileNotFoundError(
                 errno.ENOENT, msg, envConfigPath
-            )
+                )
     else:
         # In all other cases, use the default config file
         if os.path.isfile(__defaultConfigPath):
@@ -95,7 +95,7 @@ def _getConfigPath():
                 )
             raise FileNotFoundError(
                 errno.ENOENT, msg, __defaultConfigPath
-            )
+                )
 
 def _getConfig():
     """Get the contents of the configuration file.
@@ -120,7 +120,17 @@ class _Config:
     ----------
     projectRoot : str
         The absolute file path to the root directory of this project, named
-        "attention-monitoring".
+        "attention-monitoring". (Automtically generated - not included in the
+        configuration `.yaml` file.)
+    path_to_LabRecorder : str, optional
+        The absolute file path to the `LabRecorder` directory. This is the
+        directory named `LabRecorder` that was created when installing 
+        the LabRecorder app. If specified, LabRecorder will automatically be
+        started when needed by running `LabRecorder.exe` in the directory
+        specified by `path_to_LabRecorder`. If unspecified, it is assumed that
+        LabRecorder is already running when needed and no attempt will be made
+        to start it. May be specified in the configuration `.yaml` file as an
+        absolute path or as a relative path from the project root directory.
     verbose : int
         The level of verbosity to use for printing messages. At 0, nothing is
         printed. At 1, warnings and important info messages are printed. At 2,
@@ -195,64 +205,92 @@ class _Config:
         return f
 
     # Config Values
+
     # |---Constants
     __pathConstants = ['constants']
+
     @property
     def projectRoot(self):
         return _getRoot()
+
+    @property
+    def path_to_LabRecorder(self):
+        val = _getConfig()['constants']['path_to_LabRecorder']
+        if not os.path.isabs(val):
+            val = os.path.join(_getRoot(), val)
+        return os.path.normpath(val)
+
     # |---Preferences
     __pathPreferences = ['preferences']
+
     # |---|---General
     __pathGeneral = *__pathPreferences, 'general'
+
     verbose = __fetch(
         *__pathGeneral, 'verbose'
-    )
+        )
+
     # |---|---Study
     __pathStudy = *__pathPreferences, 'study'
+
     num_full_blocks = __fetch(
         *__pathStudy, 'num_full_blocks'
-    )
+        )
+
     do_practice_block = __fetch(
         *__pathStudy, 'do_practice_block'
-    )
+        )
+
     stim_transition_time_ms = __fetch(
         *__pathStudy, 'stim_transition_time_ms'
-    )
+        )
+
     stim_static_time_ms = __fetch(
         *__pathStudy, 'stim_static_time_ms'
-    )
+        )
+
     full_block_sequence_length = __fetch(
         *__pathStudy, 'full_block_sequence_length'
-    )
+        )
+
     practice_block_sequence_length = __fetch(
         *__pathStudy, 'practice_block_sequence_length'
-    )
+        )
+
     pre_full_block_break_time = __fetch(
         *__pathStudy, 'pre_full_block_break_time'
-    )
+        )
+
     pre_practice_block_break_time = __fetch(
         *__pathStudy, 'pre_practice_block_break_time'
-    )
+        )
+
     stim_diameter = __fetch(
         *__pathStudy, 'stim_diameter'
-    )
+        )
+
     muse_signals = __fetch(
         *__pathStudy, 'muse_signals'
-    )
+        )
+
     # |---|---LSL
     __pathLSL = *__pathPreferences, 'lsl'
+
     stream_markers_to_lsl = __fetch(
         *__pathLSL, 'stream_markers_to_lsl'
-    )
+        )
+
     record_lsl = __fetch(
         *__pathLSL, 'record_lsl'
-    )
+        )
+
     tcp_address = __fetch(
         *__pathLSL, 'tcp_address'
-    )
+        )
+
     tcp_port = __fetch(
         *__pathLSL, 'tcp_port'
-    )
+        )
 
 CONFIG = _Config()
 CONFIG.__doc__ = _Config.__doc__
