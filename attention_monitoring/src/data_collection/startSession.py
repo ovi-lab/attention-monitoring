@@ -151,12 +151,11 @@ def main(participant_id = None):
     #     print("Setting up the Muse device.")
     # setupMuse(*CONFIG.muse_signals)
 
-    # # Start LabRecorder
-    # if CONFIG.path_to_LabRecorder != "":
-    #     if CONFIG.verbose >= 2:
-    #         print("Starting LabRecorder")
-    #     print(os.path.realpath(CONFIG.path_to_LabRecorder))
-    #     subprocess.run(os.path.realpath(CONFIG.path_to_LabRecorder))
+    # Start LabRecorder
+    if CONFIG.path_to_LabRecorder != "":
+        if CONFIG.verbose >= 2:
+            print("Starting LabRecorder")
+        subprocess.run(os.path.realpath(CONFIG.path_to_LabRecorder))
 
     # Run the experiment
     if CONFIG.verbose >= 1:

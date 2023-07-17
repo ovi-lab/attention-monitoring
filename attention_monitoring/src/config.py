@@ -124,14 +124,14 @@ class _Config:
         "attention-monitoring". (Automtically generated - not included in the
         configuration `.yaml` file.)
     path_to_LabRecorder : str, optional
-        The absolute file path to the `LabRecorder` directory. This is the
-        directory named `LabRecorder` that was created when installing 
-        the LabRecorder app. If specified, LabRecorder will automatically be
-        started when needed by running `LabRecorder.exe` in the directory
-        specified by `path_to_LabRecorder`. If unspecified, it is assumed that
-        LabRecorder is already running when needed and no attempt will be made
-        to start it. May be specified in the configuration `.yaml` file as an
-        absolute path or as a relative path from the project root directory.
+        The absolute file path to the installed LabRecorder program (this
+        should lead to a file named `LabRecorder.exe`). If specified,
+        LabRecorder will automatically be started when needed by running the 
+        executable specified by `path_to_LabRecorder`. If unspecified, it is
+        assumed that LabRecorder is already running when needed and no attempt
+        will be made to start it. May be specified in the configuration `.yaml`
+        file as an absolute path or as a relative path from the project root
+        directory.
     verbose : int
         The level of verbosity to use for printing messages. At 0, nothing is
         printed. At 1, warnings and important info messages are printed. At 2,

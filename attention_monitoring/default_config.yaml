@@ -1,6 +1,6 @@
 # See documentation for `src/config.py` for descriptions of attributes
 constants:
-  path_to_LabRecorder: lib/LabRecorder.lnk
+  path_to_LabRecorder: lib/LabRecorder/LabRecorder.exe
 preferences:
   general:
     verbose: 0
