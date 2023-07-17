@@ -19,6 +19,7 @@ def main(participant_id = None):
     # TODO: Fix timing errors
     # TODO: implement logging using official module/methods
     # TODO: write documentation
+    # TODO: fix importing of config
 
     DATA_DIR = os.path.join(CONFIG.projectRoot, "data", "gradCPT_sessions")
     STIMULI_DIR = os.path.join(CONFIG.projectROOT, "data", "stimuli")
