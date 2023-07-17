@@ -204,6 +204,16 @@ files = [
 ]
 
 [[package]]
+name = "matlabengine"
+version = "9.13.9"
+description = "A module to call MATLAB from Python"
+optional = false
+python-versions = ">=3.8, <3.11"
+files = [
+    {file = "matlabengine-9.13.9.tar.gz", hash = "sha256:d9c5e639d6591f1f69c2679afc98204aaefa00323228723134ec0dd77777626f"},
+]
+
+[[package]]
 name = "matplotlib"
 version = "3.7.2"
 description = "Python plotting package"
@@ -480,5 +490,5 @@ files = [
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.10"
-content-hash = "b5f4a3d6d6048f7299d8f8e36b81738c1dae76eef9c2e756e024e381947a46e3"
+python-versions = ">=3.10,<3.11"
+content-hash = "d86201fc529cc7f906425ffd54b2482fdfa48bac358423940b1ca8cffe7fd12f"

@@ -163,10 +163,10 @@ cython_debug/
 # ADDITIONAL
 ###
 
-src/data/*
-!src/data/README.MD
+attention_monitoring/src/data/*
+!attention_monitoring/src/data/README.MD
 
-sandbox.ipynb
+attention_monitoring/sandbox.ipynb
 
-lib/*
-!lib/README.MD
+attention_monitoring/lib/*
+!attention_monitoring/lib/README.MD

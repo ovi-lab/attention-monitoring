@@ -6,12 +6,12 @@ import os
 import sys
 import csv
 from datetime import datetime
-from stimuliSetup import generateSequence
-from museSetup import setupMuse, endMuse
+from .stimuliSetup import generateSequence
+from .museSetup import setupMuse, endMuse
 import json
 import subprocess
 import matlab.engine
-from config import CONFIG
+from attention_monitoring import CONFIG
 
 def main(participant_id = None):
     # TODO: refactor to use subprocess module effectively (multithreading? Need
@@ -21,8 +21,8 @@ def main(participant_id = None):
     # TODO: write documentation
     # TODO: fix importing of config
 
-    DATA_DIR = os.path.join(CONFIG.projectRoot, "data", "gradCPT_sessions")
-    STIMULI_DIR = os.path.join(CONFIG.projectROOT, "data", "stimuli")
+    DATA_DIR = os.path.join(CONFIG.projectRoot, "src", "data", "gradCPT_sessions")
+    STIMULI_DIR = os.path.join(CONFIG.projectRoot, "src", "data", "stimuli")
     
     log = os.path.join(DATA_DIR, "log.csv")
 
@@ -61,8 +61,8 @@ def main(participant_id = None):
     os.mkdir(outputDir)
     with open(infoFile, "w") as f:
         configVals = [
-            "session_dir", "num_full_blocks", "do_practice_block",
-            "stim_transition_time_ms", "stim_static_time_ms", "stim_diameter",
+            "num_full_blocks", "do_practice_block", "stim_transition_time_ms",
+            "stim_static_time_ms", "stim_diameter",
             "full_block_sequence_length", "muse_signals"
             ]
         info = {}
@@ -130,7 +130,7 @@ def main(participant_id = None):
                 )
             dictWriter.writerow({
                 "block_name" : blockName,
-                "pre_block_msg" : PreBlockMsg,
+                "pre_block_msg" : preBlockMsg,
                 "pre_block_wait_time" : CONFIG.pre_full_block_break_time,
                 "stim_sequence_file" : stimSeqFile,
                 "data_file" : ""
@@ -146,21 +146,24 @@ def main(participant_id = None):
         ]
         print("\n".join(msg))
 
-    # Setup the Muse device
-    if CONFIG.verbose >= 2:
-        print("Setting up the Muse device.")
-    setupMuse(*CONFIG.muse_signals)
+    # # Setup the Muse device
+    # if CONFIG.verbose >= 2:
+    #     print("Setting up the Muse device.")
+    # setupMuse(*CONFIG.muse_signals)
 
-    # Start LabRecorder
-    if CONFIG.path_to_LabRecorder != "":
-        if CONFIG.verbose >= 2:
-            print("Starting LabRecorder")
-        subprocess.run(CONFIG.path_to_LabRecorder)
+    # # Start LabRecorder
+    # if CONFIG.path_to_LabRecorder != "":
+    #     if CONFIG.verbose >= 2:
+    #         print("Starting LabRecorder")
+    #     print(os.path.realpath(CONFIG.path_to_LabRecorder))
+    #     subprocess.run(os.path.realpath(CONFIG.path_to_LabRecorder))
 
     # Run the experiment
     if CONFIG.verbose >= 1:
         print("Running experiment in MATLAB. This may take a few moments ...")
     eng = future.result()
+    p = eng.genpath(CONFIG.projectRoot)
+    eng.addpath(p, nargout=0)
     data = eng.gradCPT(
         infoFile,
         'verbose', CONFIG.verbose,

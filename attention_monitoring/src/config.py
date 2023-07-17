@@ -27,6 +27,7 @@ checked for `config.yaml`, which is used if it exists. The environment variable
 configuration file `configs/(CONFIG_MODE).yaml` is used. Otherwise, the default
 configuration is used.
 """
+# TODO: update doc to include new import location
 
 import os
 import errno
@@ -42,7 +43,7 @@ def _getRoot():
         "attention-monitoring".
     """
 
-    rootName = "attention-monitoring"
+    rootName = "attention_monitoring"
     root = os.path.abspath(__file__)
     while os.path.basename(root) != rootName:
         root = os.path.dirname(root)

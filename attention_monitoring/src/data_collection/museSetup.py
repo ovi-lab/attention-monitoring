@@ -1,6 +1,6 @@
 import subprocess
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
-from config import CONFIG
+from attention_monitoring import CONFIG
 import textwrap
 
 def setupMuse(*signals):
@@ -36,7 +36,7 @@ def setupMuse(*signals):
             ]
         values = [
             "LSL_LOCAL_CLOCK_NATIVE",
-            *[str(signal in targerSignals).lower() for signal in validSignals]
+            *[str(signal in targetSignals).lower() for signal in validSignals]
             ]
         commands = [
             f'start bluemuse://setting?key={keys[i]}!value={values[i]}'
@@ -44,7 +44,8 @@ def setupMuse(*signals):
             ]
         if CONFIG.verbose >= 3:
             print("Starting Bluemuse.")
-        subprocess.run(commands, shell=True)
+        for command in commands:
+            subprocess.run(command, shell=True)
         
         # Wait until all desired signals are streaming
         if CONFIG.verbose >= 3:
