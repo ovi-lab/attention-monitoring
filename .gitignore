@@ -170,3 +170,5 @@ attention_monitoring/sandbox.ipynb
 
 attention_monitoring/lib/*
 !attention_monitoring/lib/README.MD
+
+attention_monitoring/config.yaml
