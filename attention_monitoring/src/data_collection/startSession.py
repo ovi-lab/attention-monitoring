@@ -6,12 +6,12 @@ import os
 import sys
 import csv
 from datetime import datetime
-from .stimuliSetup import generateSequence
-from .museSetup import setupMuse, endMuse
+from stimuliSetup import generateSequence
+from museSetup import setupMuse, endMuse
 import json
 import subprocess
 import matlab.engine
-from attention_monitoring import CONFIG
+from attention_monitoring.src.config import CONFIG
 
 def main(participant_id = None):
     # TODO: refactor to use subprocess module effectively (multithreading? Need

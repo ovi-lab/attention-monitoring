@@ -18,3 +18,6 @@ matlabengine = "9.13.9"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start-session = "attention_monitoring.src.data_collection.startSession:main"

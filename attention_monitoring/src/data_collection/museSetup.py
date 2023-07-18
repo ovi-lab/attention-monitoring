@@ -1,6 +1,6 @@
 import subprocess
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
-from attention_monitoring import CONFIG
+from attention_monitoring.src.config import CONFIG
 import textwrap
 
 def setupMuse(*signals):
