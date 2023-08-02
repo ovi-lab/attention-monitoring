@@ -42,6 +42,7 @@ classdef Logger
                 nvargs_formatText.indentLevel (1,1) {mustBeInteger} = 0;
                 nvargs_formatText.labelSuffix (1,:) {mustBeTextScalar} = ""
                 nvargs_formatText.literal (1,1) logical = false
+                nvargs_formatText.wrapText (1,1) logical = true
             end
 
             if obj.verbose >= verboseLevel
@@ -69,14 +70,19 @@ classdef Logger
             literal = nvargs.literal;
             wrapText = nvargs.wrapText;
 
+            % Create the full label
             lbl = obj.label ...
                 + labelSuffix ...
                 + obj.labelDelimiter ...
                 + pad("", obj.labelTextGapSize);
+            
+            % Get a string to insert as the whitespace before indented text
             indentText = pad( ...
                 "", ...
                 (obj.baseIndentLevel + indentLevel) * obj.indentSize ...
                 );
+
+            % Format the content of the text
             msg = text;
             if ~literal
                 msg = compose(text);
@@ -88,8 +94,15 @@ classdef Logger
                 msg = string(textwrap(msg, textWidth));
             end
             
+            % Create the full output
             formattedText = lbl + indentText + msg;
             formattedText = join(formattedText, newline);
+
+            % Do not print the label on blank lines
+            pat = lbl + indentText + ...
+                lookAheadBoundary(lineBoundary | textBoundary);
+            formattedText = erase(formattedText, pat);
+
 %             formattedText = sprintf("\n%s", formattedText);
         end
     end
