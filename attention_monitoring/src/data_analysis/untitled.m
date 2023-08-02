@@ -1,5 +1,4 @@
-dataPath1 = "C:\Users\HP User\source\repos\attention-monitoring\src\data\gradCPT_sessions\S11_130723_P0\s11_130723_p0_full_block_1_data.xdf";
-dataPath2 = "C:\Users\HP User\source\repos\attention-monitoring\src\data\gradCPT_sessions\S11_130723_P0\s11_130723_p0_full_block_2_data.xdf";
+dataPath1 = "C:\Users\HP User\source\repos\attention-monitoring\attention_monitoring\src\data\gradCPT_sessions\S68_180723_Ptiaan\s68_180723_ptiaan_full_block_1_data.xdf";
 [data, header] = load_xdf(dataPath1);
 
 dataStreams = dictionary;
@@ -21,22 +20,31 @@ eeg = dataStreams('EEG');
 stimMarkers = markerStreams('stimuli_marker_stream');
 responseMarkers = markerStreams('response_marker_stream');
 
+xStart = stimMarkers.time_stamps(strcmp(stimMarkers.time_series, 'block_start'));
+xStart = xStart(1);
 gap = 0.1;
 
 hold on;
 % plot average eeg
 x = eeg.time_stamps;
 y = mean(eeg.time_series, 1);
-plot(ax, x - x(1), y - mean(y));
+plot(ax, x - xStart, y - mean(y));
 % plot stimuli markers
 x = stimMarkers.time_stamps(strcmp(stimMarkers.time_series, 'transition_period_start'));
 y = ones(1,length(x));
-plot(ax, x - x(1), y, 'b.');
+plot(ax, x - xStart, y, 'b|', MarkerSize=10);
 x = stimMarkers.time_stamps(strcmp(stimMarkers.time_series, 'static_period_start'));
 y = ones(1,length(x));
-plot(ax, x - x(1), y, 'g.');
+plot(ax, x - xStart, y, 'g|', MarkerSize=10);
+x = stimMarkers.time_stamps(strcmp(stimMarkers.time_series, 'block_start'));
+y = ones(1,length(x));
+plot(ax, x - xStart, y, 'm|', MarkerSize=10);
+x = stimMarkers.time_stamps(strcmp(stimMarkers.time_series, 'block_stop'));
+y = ones(1,length(x));
+plot(ax, x - xStart, y, 'm|', MarkerSize=10);
+% plot response markers
 x = responseMarkers.time_stamps(strcmp(responseMarkers.time_series, 'response'));
 y = ones(1,length(x));
-plot(ax, x - x(1), y, 'r|');
+plot(ax, x - xStart, y, 'r.', MarkerSize=10);
 hold off;
 
