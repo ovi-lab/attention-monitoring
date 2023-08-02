@@ -402,7 +402,7 @@ try
                             case quitKey
                                 % End the session early
                                 KbEventFlush();
-                                endSession('early');
+                                data = endSession('early');
                                 return
                         end
                     end
@@ -562,7 +562,7 @@ try
                         case quitKey
                             % End the session early
                             KbEventFlush();
-                            endSession('early');
+                            data = endSession('early');
                             return
                     end
                 end
@@ -604,11 +604,7 @@ try
     end
     
     % End the session
-    endSession;
-
-    % Return the paths to the recorded data files, if they exist
-    data = string(blocks.data_file);
-    data = data(isfile(data));
+    data = endSession;
 
 % Fail gracefully if any errors occur during function execution
 catch ME
@@ -661,7 +657,7 @@ function reportTrialTimings(k)
     end        
 end
 
-function endSession(type, printout)
+function data = endSession(type, printout)
 % Perform necessary operations for ending the gradCPT session gracefully.
 %   type {mustBeMember(type,{'normal','early','error'})} = 'normal'
 %   printout {mustBeText} = ''
@@ -694,6 +690,7 @@ function endSession(type, printout)
         msg = label + textwrap(msg, 80 - strlength(label));
         fprintf('\n%s\n', msg);
     end
+
     if streamMarkersToLSL
         stimStreamOutlet.delete();
         responseStreamOutlet.delete();
@@ -706,6 +703,11 @@ function endSession(type, printout)
     ShowCursor([], screenNumber);
     sca;
     Priority(0);
+
+    % Return the paths to the recorded data files, if they exist
+    data = string(blocks.data_file);
+    data = data(isfile(data));
+
     if verbose >= 2
         label = "gradCPT: ";
         msg = "Successfully performed end-of-session operations.";
