@@ -172,3 +172,6 @@ attention_monitoring/lib/*
 !attention_monitoring/lib/README.MD
 
 attention_monitoring/config.yaml
+
+attention_monitoring/src/tools/muse_sync/sync_session_data/*
+attention_monitoring/src/tools/muse_sync/sync_results
