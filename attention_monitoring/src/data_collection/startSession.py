@@ -4,22 +4,26 @@
 from pylsl import StreamInfo, StreamInlet, resolve_stream
 import os
 import sys
+import io
 import csv
 from datetime import datetime
-from stimuliSetup import generateSequence
-from museSetup import setupMuse, endMuse
+from attention_monitoring.src.data_collection.stimuliSetup import generateSequence
+from attention_monitoring.src.data_collection.museSetup import setupMuse, endMuse
 import json
 import subprocess
 import matlab.engine
 from attention_monitoring.src.config import CONFIG
+from time import sleep
 
-def main(participant_id = None):
+def main(participantID = None):
     # TODO: refactor to use subprocess module effectively (multithreading? Need
     #       to run main control process concurrently with other processes)
     # TODO: Fix timing errors
     # TODO: implement logging using official module/methods
     # TODO: write documentation
     # TODO: fix importing of config
+    # TODO: cleanup how output from matlab and LR are handled and printed
+    # TODO: change filepaths to relative
 
     DATA_DIR = os.path.join(CONFIG.projectRoot, "src", "data", "gradCPT_sessions")
     STIMULI_DIR = os.path.join(CONFIG.projectRoot, "src", "data", "stimuli")
@@ -37,21 +41,21 @@ def main(participant_id = None):
             dictReader = csv.DictReader(f, fieldnames=logFields)
             for entry in dictReader: pass
             lastEntry = entry
-        last_session_id = int(lastEntry["session_id"])
-        session_id = last_session_id + 1
+        lastSessionID = int(lastEntry["session_id"])
+        sessionID = lastSessionID + 1
     else:
         with open(log, 'w', newline="") as f:
             dictWriter = csv.DictWriter(f, fieldnames=logFields)
             dictWriter.writeheader()
-        session_id = 1
+        sessionID = 1
     
     # Update the log with the current session
     with open(log, "a", newline="") as f:
         dictWriter = csv.DictWriter(f, fieldnames=logFields)
         logInfo = _formatLogInfo(
-            session_id=session_id,
+            sessionID=sessionID,
             date=datetime.now().strftime("%d%m%y"),
-            participant_id=participant_id
+            participantID=participantID
             )
         dictWriter.writerow(logInfo)
 
@@ -72,8 +76,8 @@ def main(participant_id = None):
         json.dump(info, f)
 
     def _newSessionFile(name):
-        session_name = info["session_name"]
-        return os.path.join(outputDir, session_name + "_" + name)
+        sessionName = info["session_name"]
+        return os.path.join(outputDir, sessionName + "_" + name)
 
     def _updateInfoFile(data):
         with open(infoFile, "r+") as f:
@@ -82,6 +86,24 @@ def main(participant_id = None):
             f.seek(0)
             json.dump(fileData, f)
             f.truncate()
+
+    def _timer(msg, period):
+        def makeFrame(displayVal, _end):
+            def frame():
+                print(f'\r{msg}{displayVal}', end=_end)
+                sleep(period)
+            return frame
+
+        def animation():
+            sequence = ['-','\\','|','/']
+            k = 0
+            while True:
+                frame = makeFrame(sequence[k], '')
+                k = k + 1 if k + 1 < len(sequence) else 0
+                yield frame
+
+        lastFrame = makeFrame('DONE', '\n')
+        return animation(), lastFrame
 
     # Generate the stimuli sequences to be used for gradCPT blocks, and specify
     # order of blocks in csv file
@@ -146,20 +168,29 @@ def main(participant_id = None):
         ]
         print("\n".join(msg))
 
-    # # Setup the Muse device
-    # if CONFIG.verbose >= 2:
-    #     print("Setting up the Muse device.")
-    # setupMuse(*CONFIG.muse_signals)
+    # Setup the Muse device
+    if CONFIG.verbose >= 2:
+        print("Setting up the Muse device.")
+    setupMuse(*CONFIG.muse_signals)
 
     # Start LabRecorder
     if CONFIG.path_to_LabRecorder != "":
         if CONFIG.verbose >= 2:
             print("Starting LabRecorder")
-        subprocess.run(os.path.realpath(CONFIG.path_to_LabRecorder))
+        proc1 = subprocess.Popen(
+            os.path.realpath(CONFIG.path_to_LabRecorder),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True
+            )    
 
     # Run the experiment
     if CONFIG.verbose >= 1:
         print("Running experiment in MATLAB. This may take a few moments ...")
+        animation, lastFrame = _timer("Waiting for MATLAB to start: ", 0.1)
+        while not future.done():
+            next(animation)()
+        lastFrame()
     eng = future.result()
     p = eng.genpath(CONFIG.projectRoot)
     eng.addpath(p, nargout=0)
@@ -169,7 +200,7 @@ def main(participant_id = None):
         'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
         'recordLSL', CONFIG.record_lsl,
         'tcpAddress', CONFIG.tcp_address,
-        'tcpPort', CONFIG.tcp_port
+        'tcpPort', CONFIG.tcp_port,
         )
 
     # Close the Muse device
@@ -177,9 +208,27 @@ def main(participant_id = None):
         print("Closing the Muse device.")
     endMuse()
 
+    # Close LabRecorder
+    if CONFIG.path_to_LabRecorder != "":
+        if CONFIG.verbose >= 2:
+            print("Closing LabRecorder.")
+        proc1.kill()
+        out, err = proc1.communicate()
+    
+    print("\n======LABREC======\n")
+    print("===OUT===\n")
+    print(out)
+    print("\n===ERR===\n")
+    print(err)
+    print("\n==================\n")
+    print(data)
 
-def _formatLogInfo(session_name=None, session_id=None, date=None,
-                   participant_id=None):
+    return data
+        
+
+
+def _formatLogInfo(sessionName=None, sessionID=None, date=None,
+                   participantID=None):
     """Format info about a data collection session to be entered in the log.
 
     All values are formatted as `str` and returned in a `dict`. If any values
@@ -187,16 +236,16 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
 
     Parameters
     ----------
-    session_name : str, optional
+    sessionName : str, optional
         The name assigned to the session. Must follow the convention:
-        "S[session_id]_[ddmmyy]" where [session_id] is `session_id` and [ddmmyy]
-        is the date. This can optionally be followed by "_P[participant_id]",
-        where [participant_id] is `participant_id`.
-    session_id : int or str, optional
+        "S[sessionID]_[ddmmyy]" where [sessionID] is `sessionID` and [ddmmyy]
+        is the date. This can optionally be followed by "_P[participantID]",
+        where [participantID] is `participantID`.
+    sessionID : int or str, optional
         The numerical ID assigned to this session.
     date : str, optional
         The date of this session, in the format `ddmmyy`.
-    participant_id : int or str, optional
+    participantID : int or str, optional
         The numerical ID assigned to the participant in this session.
 
     Returns
@@ -206,43 +255,40 @@ def _formatLogInfo(session_name=None, session_id=None, date=None,
     
     """
 
-    _session_name = session_name
-    _session_id = None if session_id is None else str(session_id)
+    _sessionName = sessionName
+    _sessionID = None if sessionID is None else str(sessionID)
     _date = date
-    _participant_id = None if participant_id is None else str(participant_id)
+    _participantID = None if participantID is None else str(participantID)
 
     # Try to specify unknown values by extrapolating from known values
     if (
-        session_name is None
-        and all(x is not None for x in [session_id, date])
+        sessionName is None
+        and all(x is not None for x in [sessionID, date])
         ):
-        # Create session_name from other info
-        _session_name = f"S{_session_id}_{_date}"
-        if (participant_id is not None):
-            _session_name = _session_name + f"_P{_participant_id}"
+        # Create sessionName from other info
+        _sessionName = f"S{_sessionID}_{_date}"
+        if (participantID is not None):
+            _sessionName = _sessionName + f"_P{_participantID}"
     elif (
-        session_name is not None
-        and all(x is none for x in [session_id, date, participant_id])
+        sessionName is not None
+        and all(x is none for x in [sessionID, date, participantID])
         ):
-        # Use session_name to specify other info
-        expandedName = _session_name.split("_")
-        _session_id = expandedName[0].lstrip("S")
+        # Use sessionName to specify other info
+        expandedName = _sessionName.split("_")
+        _sessionID = expandedName[0].lstrip("S")
         _date = expandedName[1]
         if (len(expandedName) > 2):
-            _participant_id = expandedName[2].lstrip("P")
+            _participantID = expandedName[2].lstrip("P")
 
     # Return values in a dict
     out = {
-        "session_name" : _session_name,
-        "session_id" : _session_id,
+        "session_name" : _sessionName,
+        "session_id" : _sessionID,
         "date" : _date,
-        "participant_id" : _participant_id
+        "participant_id" : _participantID
         }
     for key, value in out.items():
         if value is None:
             out[key] = ""
 
     return out
-
-if __name__ == "__main__":
-    main(*sys.argv[1:])

@@ -42,6 +42,7 @@ def setupMuse(*signals):
             f'start bluemuse://setting?key={keys[i]}!value={values[i]}'
             for i in range(len(keys))
             ]
+        print(commands)
         if CONFIG.verbose >= 3:
             print("Starting Bluemuse.")
         for command in commands:
@@ -78,4 +79,5 @@ def endMuse():
     """Stop streaming Muse data to LSL and close the bluemuse program."""
 
     commands = ["start bluemuse://stop?stopall", "start bluemuse://shutdown"]
-    subprocess.run(commands, shell=True)
+    for command in commands:
+        subprocess.run(command, shell=True)

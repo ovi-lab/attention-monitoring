@@ -1,0 +1,1 @@
+from attention_monitoring.src.data_collection.startSession import main as startSession
