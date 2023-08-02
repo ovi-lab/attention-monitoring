@@ -142,9 +142,9 @@ function recordingFile = runSyncSession(dataDir, nvargs)
             % Switch colors after every period. For the first 2 seconds of
             % the recording the period is 0.5s, otherwise it is 1s.
             if recordingHasStarted && t <= autoStartTime + 2
-                p = 0.25;
-            else
                 p = 0.5;
+            else
+                p = 1;
             end
             t = t + p;
             k = 1 + (k == 1);            
