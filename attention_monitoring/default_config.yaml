@@ -4,6 +4,7 @@ constants:
 preferences:
   general:
     verbose: 0
+    eeg_device_id:
   study:
     num_full_blocks: 3
     do_practice_block: True

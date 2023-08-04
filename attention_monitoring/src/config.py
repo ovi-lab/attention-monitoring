@@ -138,6 +138,9 @@ class _Config:
         information about program execution as well as more detailed error
         messages are printed. At 3, more verbose information is printed. Note
         that Psychtoolbox's verbosity level is also set to this value.
+    eeg_device_id
+        The id of the EEG device. Format may vary depending on the type of EEG
+        device used.
     num_full_blocks : int
         (gradCPT) The number of non-practice blocks to perform.
     do_practice_block : bool
@@ -229,6 +232,10 @@ class _Config:
 
     verbose = __fetch(
         *__pathGeneral, 'verbose'
+        )
+
+    eeg_device_id = __fetch(
+        *__pathGeneral, "eeg_device_id"
         )
 
     # |---|---Study

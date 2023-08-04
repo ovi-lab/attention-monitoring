@@ -223,7 +223,13 @@ def main(participantID = None):
     print("\n==================\n")
     print(data)
 
-    return data
+    return infoFile
+                    
+                                               
+                                                                           
+                                                                                                       
+                                                                                                       
+                                                                                                       
         
 
 

@@ -1,4 +1,4 @@
-dataPath1 = "C:\Users\HP User\source\repos\attention-monitoring\attention_monitoring\src\data\gradCPT_sessions\S68_180723_Ptiaan\s68_180723_ptiaan_full_block_1_data.xdf";
+dataPath1 = "C:\Users\HP User\source\repos\attention-monitoring\attention_monitoring\src\data\gradCPT_sessions\S70_020823_PTiaan\S70_020823_PTiaan_full_block_1_data.xdf";
 [data, header] = load_xdf(dataPath1);
 
 dataStreams = dictionary;
