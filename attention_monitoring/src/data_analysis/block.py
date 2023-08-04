@@ -1,6 +1,15 @@
 import json
 import csv
 import polars as pl
+import matplotlib.pyplot as plt
+import os
+import pyxdf
+import numpy as np
+
+from attention_monitoring.src.config import CONFIG
+
+# TODO: plot stim types as target or nontarget
+# TODO: calculate response times
 
 class GradCPTSession:
     def __init__(self, infoFile):
@@ -17,23 +26,58 @@ class GradCPTSession:
     @property
     def blocks(self):
         if not all(self.__dataFilesExist.values()):
+            # TODO: fix formatting
             blocksFileData = pl.read_csv(self.info["blocks_file"])
-            blocksNames = blocksFileData["block_name"].to_list()
+            blockNames = blocksFileData["block_name"].to_list()
             dataFiles = blocksFileData["data_file"].to_list()
 
             # For all blocks that did not previously have data files, check if 
             # data files have since been created. If so, update the blocks
             for k in range(len(blockNames)):
                 if not self.__dataFilesExist[blockNames[k]]:
-                    if os.path.isfile(dataFiles[k]):
+                    if dataFiles[k] is not None and os.path.isfile(dataFiles[k]):
                         self.__blocks[blockNames[k]].dataFile = dataFiles[k]
                         self.__dataFilesExist[blockNames[k]] = True
 
         return self.__blocks
 
-    def display(self):
-        for block in self.blocks:
-            block.display()
+    def display(
+            self, fig=None, blockNames=[], signalType='eeg', channelNames=[], 
+            domain=[-np.inf, np.inf], rereferenceTime=True
+            ):
+
+        invalidBlocks = [b for b in blockNames if b not in self.blocks.keys()]
+        if len(invalidBlocks) > 0:
+            raise ValueError(f"Invalid block names: {invalidBlocks}")
+
+        if len(self.blocks) == 0 or not any(self.__dataFilesExist.values()):
+            print("No data to display")
+            return
+
+        _blocks = []
+        _blockNames = blockNames if len(blockNames) > 0 else self.blocks.keys()
+        for name in _blockNames:
+            if self.__dataFilesExist[name]:
+                _blocks.append(self.blocks[name])
+            else:
+                print(f"No data to display for block '{name}'.")
+
+        _fig = fig if fig is not None else plt.figure(layout="constrained")
+        subfigs = np.array(_fig.subfigures(len(_blocks))).flatten()
+
+        for k in range(len(_blocks)):
+            _blocks[k].display(
+                fig=subfigs[k], 
+                signalType=signalType,
+                channelNames=channelNames,
+                domain=domain,
+                rereferenceTime=rereferenceTime
+                )
+
+        _fig.suptitle(f"Session '{self.info['session_name']}'")
+
+        return _fig
+
 
 class GradCPTBlock:
     def __init__(
@@ -84,7 +128,7 @@ class GradCPTBlock:
         with open(blocksFile, "r") as f:
             dictReader = csv.DictReader(f)
             for line in dictReader:
-                block = GradCPTBlock(
+                block = cls(
                     line["block_name"],
                     line["pre_block_msg"],
                     line["pre_block_wait_time"],
@@ -106,9 +150,9 @@ class GradCPTBlock:
    
     @property
     def stimSequence(self):
-        if self.__stimSequence is None:
-            if os.path.isfile(self.__stimSequenceFile):
-                self.__stimSequence = pl.read_csv(self.__stimSequenceFile)
+        if self.__stimSequence is None and self.stimSequenceFile is not None:
+            if os.path.isfile(self.stimSequenceFile):
+                self.__stimSequence = pl.read_csv(self.stimSequenceFile)
         return self.__stimSequence
 
     @property
@@ -122,13 +166,13 @@ class GradCPTBlock:
         
     @property
     def data(self):
-        if self.__data is None:
-            if os.path.isfile(self.__datafile):
-                self.__data = __loadData(self.__dataFile)
+        if self.__data is None and self.dataFile is not None:
+            if os.path.isfile(self.dataFile):
+                self.__data = self.__loadData(self.dataFile)
         return self.__data
 
-    
-    def __loadData(dataFile):
+    @classmethod
+    def __loadData(cls, dataFile):
         """Load data from an xdf file created by a gradCPT session.
 
         Relevant data streams are returned in a dictionary after some 
@@ -145,7 +189,6 @@ class GradCPTBlock:
             Stores relevant gradCPT streams as values, mapped to by strings.
         
         """
-        # TODO Add support for loading marker streams
         if not os.path.isfile(dataFile):
             raise FileNotFoundError(
                 errno.ENOENT, "Specified data file cannot be found.", dataFile
@@ -154,12 +197,15 @@ class GradCPTBlock:
         data, header = pyxdf.load_xdf(dataFile)
 
         dataStreams = {}
+        markerStreamNames = ["response_marker_stream", "stimuli_marker_stream"]
         for stream in data:
             streamType = stream['info']['type'][0]
             streamName = stream['info']['name'][0]
             if streamType in CONFIG.muse_signals:
                 name = streamType[0:3].lower()
                 dataStreams[name] = stream
+            elif streamName in markerStreamNames:
+                dataStreams[streamName] = stream
 
         return dataStreams
 
@@ -178,9 +224,195 @@ class GradCPTBlock:
         """
         return pl.read_csv(self.stimSequenceFile)
 
-    def display(self):
-        # TODO implement this
-        disp("this function (GradCPTBlock.display) is unimplemented.")
+    def display(
+            self, fig=None, signalType='eeg', channelNames=[], 
+            domain=[-np.inf, np.inf], rereferenceTime=True
+            ):
+
+        if self.data is None:
+            print("No data to display")
+            return
+        
+        # Helper function for validating `channelNames`
+        def validateChannelNames(validChannelNames):
+            if len(channelNames) > 0:
+                invalidChannelNames = [
+                    cn for cn in channelNames if cn not in validChannelNames
+                    ]
+                if len(invalidChannelNames) > 0:
+                    raise ValueError(
+                        f"Invalid channel names for signal type {signalType}: "
+                        + f"{invalidChannelNames}"
+                        )
+
+        # Validate the inputs to the function
+        # TODO: add suppoer for target channels for other types of signals
+        if signalType == 'eeg':
+            validChannelNames = ["TP9", "AF7", "AF8", "TP10"]
+            validateChannelNames(validChannelNames)
+            _channelNames = (
+                channelNames if len(channelNames) > 0
+                else validChannelNames
+                )
+        else:
+            raise ValueError(f"Invalid signalType: {signalType}")
+
+        # Get the signal channels to plot
+        sigInfo = self.data[signalType]['info']
+        existingChannels = sigInfo['desc'][0]['channels'][0]['channel']
+        channels = []
+        for channelName in _channelNames:
+            for k in range(len(existingChannels)):
+                if existingChannels[k]['label'][0] == channelName:
+                    channels.append({"index" : k})
+                    channels[-1].update(existingChannels[k])
+                    break
+            else:
+                print(
+                    f"'{channelName}' is a valid channel name for signal type "
+                    + f"'{signalType}', but no data for this channel was "
+                    + "found so the channel will not be plotted."
+                    )
+
+        # Define some relevant values for plotting
+        numChannels = len(channels)
+        startTime = (
+            0 if not rereferenceTime
+            else min(np.min(x['time_stamps']) for x in self.data.values())
+        )
+        
+        # Plot the data
+        plotter = BlockPlotter(self)
+        _fig = fig if fig is not None else plt.figure(layout="constrained")
+        gs = _fig.add_gridspec(numChannels, hspace=0)
+        axs = gs.subplots(sharex=True, sharey=True)
+
+        # Define callback that is applied to every plot
+        def baseCB(x, y):
+            x_, y_ = x, y
+            # Rereference time axis to common start time
+            x_ = x_ - startTime
+            # Only plot data within the specified domain
+            mask = np.logical_and(x_ >= domain[0], x_ <= domain[1])
+            x_ = x_[mask]
+            y_ = y_[mask]
+            return x_, y_
+
+        # Plot data for specified signal type
+        def sigCB(x, y):
+            x_, y_ = x, y
+            # Average reference channel
+            y_ = y_ - y_.mean()
+            return baseCB(x_, y_)   
+
+        for k in range(numChannels):
+            plotter.plotMuseSig(
+                axs[k], signalType, k, 
+                "b", 
+                callback=sigCB, 
+                linewidth=1
+                )
+
+        # Plot stimuli onset
+        def stimOnsetCB(x, y):
+            x_, y_ = x, y
+            # Stimulus onset is at the start of the transition period
+            mask = (y_ == "transition_period_start")
+            x_ = x_[mask]
+            y_ = y_[mask]
+            return baseCB(x_, y_)
+
+        for k in range(numChannels):
+            plotter.plotStimMarkers(
+                axs[k], 
+                callback=stimOnsetCB, 
+                color='r'
+                )
+
+        # Plot block start and end
+        def blockTimeCB(x, y):
+            x_, y_ = x, y
+            mask = np.logical_or(y == "block_start", y == "block_stop")
+            x_ = x_[mask]
+            y_ = y_[mask]
+            return baseCB(x_, y_)
+
+        for k in range(numChannels):
+            plotter.plotStimMarkers(
+                axs[k], 
+                callback=blockTimeCB, 
+                color='y'
+                )
+
+        # Plot response markers
+        for k in range(numChannels):
+            # Only one possible value in response marker stream ('response'),
+            # so no need to specify additional callbacks
+            plotter.plotResponseMarkers(
+                axs[k], 
+                callback=baseCB, 
+                color='g'
+                )
+
+        # Label each channel
+        for k in range(numChannels):
+            axs[k].set_ylabel(channels[k]['label'][0])
+
+        # Label the plot
+        _fig.suptitle(f"Block '{self.name}'")
+        _fig.supxlabel("Time (s)")
+        _fig.supylabel(
+            f"{channels[0]['type'][0]}: Average Referenced ("
+            + f"{channels[0]['unit'][0]})"
+            )
+
+        return _fig
+
+class BlockPlotter:
+    def __init__(self, block):
+        self.block = block
+
+    def __validateData(self):
+        dataExists = self.block.data is not None
+        if not dataExists:
+            print("No data found, nothing will be plotted.")
+        return dataExists
+
+
+    def plotMuseSig(self, ax, signalType, channel, *args, callback=None, **kwargs):
+        if self.__validateData():
+            sigData = self.block.data[signalType]
+            x = np.array(sigData['time_stamps']).flatten()
+            y = np.array(sigData['time_series'][:,channel]).flatten()
+            if callback is not None:
+                x, y = callback(x, y)
+
+            ax.plot(x, y, *args, **kwargs)
+
+    def plotStimMarkers(self, ax, callback=None, **kwargs):
+        if self.__validateData():
+            stimData = self.block.data['stimuli_marker_stream']
+            x = np.array(stimData['time_stamps']).flatten()
+            y = np.array(stimData['time_series']).flatten()
+            if callback is not None:
+                x, y = callback(x, y)
+
+            # TODO: fix height of markers
+            ylim = ax.get_ylim()
+            ax.vlines(x, ylim[0], ylim[1], **kwargs)
+
+    def plotResponseMarkers(self, ax, callback=None, **kwargs):
+        if self.__validateData():
+            stimData = self.block.data['response_marker_stream']
+            x = np.array(stimData['time_stamps']).flatten()
+            y = np.array(stimData['time_series']).flatten()
+            if callback is not None:
+                x, y = callback(x, y)
+
+            ylim = ax.get_ylim()
+            ax.vlines(x, ylim[0], ylim[1], **kwargs)
+
+
 
 
 
