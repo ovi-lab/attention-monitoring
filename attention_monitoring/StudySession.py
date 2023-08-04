@@ -35,14 +35,17 @@ class StudySession(ABC):
         pass
 
 class SessionLog:
+    # Warning: The data returned by instances of `SessionLog` are undefined and
+    # may result in unexpected behaviour if:
+    #  - The content of the log file is changed externally
+    #  - Multiple instances of `SessionLog` exist concurrently
 
-    __logFields = ["session_name", "session_id", "date", "participant_id"]
     __rowCountCol = "row_Count"
     
     def __init__(self, filePath):
         self.__path = filePath
 
-        dtypes = {field:pl.Utf8 for field in self.__logFields}
+        dtypes = {field:pl.Utf8 for field in self.logFields}
         dtype[self.__rowCountCol] = pl.Int32
 
         if self.__exists():
@@ -54,8 +57,13 @@ class SessionLog:
         else:
             self.__log = pl.DataFrame(schema=dtypes)
             with open(log, 'w', newline="") as f:
-                dictWriter = csv.DictWriter(f, fieldnames=logFields)
+                dictWriter = csv.DictWriter(f, fieldnames=self.logFields)
                 dictWriter.writeheader()
+                
+    @property
+    @classmethod
+    def logFields(cls):
+        return ["session_name", "session_id", "date", "participant_id"]
 
     @property
     def path(self):
@@ -65,27 +73,92 @@ class SessionLog:
         return os.path.isfile(self.path)
     
     def read(self, *lines):
+        if not self.__exists():
+            raise FileNotFoundError(
+                errno.ENOENT, "The log file does not exist.", self.path
+                )
+            
         if len(lines) == 0:
             data = self.__log
         else:
             lastLineNum = self.__log.max()[self.__rowCountCol][0]
             _lines = [n if n >= 0 else lastLineNum + 1 + n for n in lines]
 
+            # Assume row numbers are unique
             data = df.filter(pl.col(self.__rowCountCol).is_in(_lines))
-
-            if not all()
+            
+            selectedLines = data[self.__rowCountCol].to_list()
+            unSelectedLines = [x for x in _lines if x not in selectedLine]
+            if len(unSelectedLines) > 0:
+                raise ValueError(
+                    "The following specified lines were not found:"
+                    + f"{unSelectedLines}"
+                    )
 
         data = data.select(pl.all().exclude(self.__rowCountCol))
         data = data.to_dict(as_series=False)
         return data
 
 
-    def update(self, ):
-        
-        pass
+    def addLine(self, **items):
+        """Add a line to the end of the log.
 
-    def __formatLogInfo(sessionName=None, sessionID=None, date=None,
-                   participantID=None):
+        Data to include in the line are specified as keyword arguments, where
+        the argument is the value to add and the kay is the name of the 
+        corresponding log field. For any unspecified fields, an attempt is made
+        to extrapolate values from the specified fields. If this cannot be 
+        done, the value of the field is left empty in the log.
+
+        Parameters
+        ----------
+        session_name : str, optional
+            The name assigned to the session. Must follow the convention:
+            "S[session_id]_[ddmmyy]" where [session_id] is `session_id` and [ddmmyy]
+            is the date. This can optionally be followed by "_P[participantID]",
+            where [participantID] is `participantID`.
+        session_id : int or str, optional
+            The numerical ID assigned to this session.
+        date : str, optional
+            The date of this session, in the format `ddmmyy`.
+        participant_id : int or str, optional
+            The numerical ID assigned to the participant in this session.
+
+        """
+        if not self.__exists():
+            raise FileNotFoundError(
+                errno.ENOENT, "The log file does not exist.", self.path
+                )
+            
+        invalidKeys = [k for k in items.keys() if not k in self.logFields]
+        if len(invalidKeys) > 0:
+            raise ValueError(
+                f"The specified key(s) '{invalidKeys}' are not valid fields. "
+                + f"Valid fields are: {self.logFields}"
+                )
+            
+        line = self.__formatLogInfo(**items)
+        
+        # The file (self.path) and the copy of the log stored in self.__log 
+        # must always contain the same data.
+        
+        # Update the file
+        with open(self.path, "a", newline="") as f:
+            dictWriter = csv.DictWriter(f, fieldnames=self.logFields)
+            dictWriter.writerow(line)
+            
+        # Update the stored copy of the log
+        lastLineNum = self.__log.max()[self.__rowCountCol][0]
+        thisLine = pl.DataFrame(line).with_row_count(
+            name=self.__rowCountCol,
+            offset=lastLineNum+1
+            )
+        self.__log = self.__log.vstack(thisLine)
+        
+        
+
+    @classmethod
+    def __formatLogInfo(cls, session_name=None, session_id=None, date=None,
+                   participant_id=None):
         """Format info about a data collection session to be entered in the log.
 
         All values are formatted as `str` and returned in a `dict`. If any values
@@ -93,16 +166,16 @@ class SessionLog:
 
         Parameters
         ----------
-        sessionName : str, optional
+        session_name : str, optional
             The name assigned to the session. Must follow the convention:
-            "S[sessionID]_[ddmmyy]" where [sessionID] is `sessionID` and [ddmmyy]
-            is the date. This can optionally be followed by "_P[participantID]",
-            where [participantID] is `participantID`.
-        sessionID : int or str, optional
+            "S[session_id]_[ddmmyy]" where [session_id] is `session_id` and [ddmmyy]
+            is the date. This can optionally be followed by "_P[participant_id]",
+            where [participant_id] is `participant_id`.
+        session_id : int or str, optional
             The numerical ID assigned to this session.
         date : str, optional
             The date of this session, in the format `ddmmyy`.
-        participantID : int or str, optional
+        participant_id : int or str, optional
             The numerical ID assigned to the participant in this session.
 
         Returns
@@ -112,37 +185,37 @@ class SessionLog:
         
         """
 
-        _sessionName = sessionName
-        _sessionID = None if sessionID is None else str(sessionID)
+        _session_name = session_name
+        _session_id = None if session_id is None else str(session_id)
         _date = date
-        _participantID = None if participantID is None else str(participantID)
+        _participant_id = None if participant_id is None else str(participant_id)
 
         # Try to specify unknown values by extrapolating from known values
         if (
-            sessionName is None
-            and all(x is not None for x in [sessionID, date])
+            session_name is None
+            and all(x is not None for x in [session_id, date])
             ):
-            # Create sessionName from other info
-            _sessionName = f"S{_sessionID}_{_date}"
-            if (participantID is not None):
-                _sessionName = _sessionName + f"_P{_participantID}"
+            # Create session_name from other info
+            _session_name = f"S{_session_id}_{_date}"
+            if (participant_id is not None):
+                _session_name = _session_name + f"_P{_participant_id}"
         elif (
-            sessionName is not None
-            and all(x is none for x in [sessionID, date, participantID])
+            session_name is not None
+            and all(x is None for x in [session_id, date, participant_id])
             ):
-            # Use sessionName to specify other info
-            expandedName = _sessionName.split("_")
-            _sessionID = expandedName[0].lstrip("S")
+            # Use session_name to specify other info
+            expandedName = _session_name.split("_")
+            _session_id = expandedName[0].lstrip("S")
             _date = expandedName[1]
             if (len(expandedName) > 2):
-                _participantID = expandedName[2].lstrip("P")
+                _participant_id = expandedName[2].lstrip("P")
 
         # Return values in a dict
         out = {
-            "session_name" : _sessionName,
-            "session_id" : _sessionID,
+            "session_name" : _session_name,
+            "session_id" : _session_id,
             "date" : _date,
-            "participant_id" : _participantID
+            "participant_id" : _participant_id
             }
         for key, value in out.items():
             if value is None:
