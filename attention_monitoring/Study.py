@@ -9,7 +9,50 @@ from typing import Optional, Any
 
 from attention_monitoring.src.config import CONFIG
 
-class StudySession(ABC):
+class Study(ABC):
+    
+    def __init__(self):
+        # Define some useful directories, creating them if they don't already 
+        # exist 
+        
+        # Directory to store all data for studies of this type
+        self.__DATA_DIR = os.path.join(
+            CONFIG.projectRoot, "src", "data", self.getStudyType()
+            )
+        if not os.path.isdir(self.__DATA_DIR):
+            os.makedirs(self.__DATA_DIR)
+        
+        # Directory to store stimuli used in this study
+        self.__STIMULI_DIR = os.path.join(self.__DATA_DIR, "stimuli")
+        if not os.path.isdir(self.__STIMULI_DIR):
+            os.makedirs(self.__STIMULI_DIR)
+        
+        # Parent directory to contain the individual directories of every
+        # session of this study.
+        self.__SESSIONS_DIR = os.path.join(self.__DATA_DIR, "sessions")
+        if not os.path.isdir(self.__SESSIONS_DIR):
+            os.makedirs(self.__SESSION_DIR)
+            
+    # @property
+    # def data_dir(self) -> str:
+    #     return self.__DATA_DIR
+    
+    # @property
+    # def stimuli_dir(self) -> str:
+    #     return self.__STIMULI_DIR
+    
+    # @property
+    # def sessions_dir(self) -> str:
+    #     return self.__SESSIONS_DIR
+    
+    @classmethod
+    @abstractmethod
+    def getStudyType(cls) -> str:
+        pass
+    
+    pass
+
+class StudySession(Study):
     """A session of a scientific study.
     
     An abstract class representing one session of a scientific study. The 
@@ -60,21 +103,23 @@ class StudySession(ABC):
             sessionName: [str | None] = None,
             participantID: [int | None] = None
             ) -> None:
+        
+        super().__init__()
 
-        # Define some useful directories, creating them if they don't already 
-        # exist 
-        # Directory to store all data for studies of this type
-        self.__DATA_DIR = os.path.join(
-            CONFIG.projectRoot, "src", "data", self.studyType
-            )
-        os.makedirs(self.__DATA_DIR, exist_ok=True)
-        # Directory to store stimuli used in this study
-        self.__STIMULI_DIR = os.path.join(self.__DATA_DIR, "stimuli")
-        os.makedirs(self.__STIMULI_DIR, exist_ok=True)
-        # Parent directory to contain the individual directories of every
-        # session of this study.
-        self.__SESSIONS_DIR = os.path.join(self.__DATA_DIR, "sessions")
-        os.makedirs(self.__SESSION_DATA_DIR, exist_ok=True)
+        # # Define some useful directories, creating them if they don't already 
+        # # exist 
+        # # Directory to store all data for studies of this type
+        # self.__DATA_DIR = os.path.join(
+        #     CONFIG.projectRoot, "src", "data", self.studyType
+        #     )
+        # os.makedirs(self.__DATA_DIR, exist_ok=True)
+        # # Directory to store stimuli used in this study
+        # self.__STIMULI_DIR = os.path.join(self.__DATA_DIR, "stimuli")
+        # os.makedirs(self.__STIMULI_DIR, exist_ok=True)
+        # # Parent directory to contain the individual directories of every
+        # # session of this study.
+        # self.__SESSIONS_DIR = os.path.join(self.__DATA_DIR, "sessions")
+        # os.makedirs(self.__SESSION_DIR, exist_ok=True)
         
         # Get the log for sessions of this study type
         sessionsLogPath = os.path.join(self.__SESSIONS_DIR, "log.csv")
@@ -120,10 +165,10 @@ class StudySession(ABC):
                 errmsg = f"The session {sessionName} cannot be found."
                 raise ValueError(errmsg) from E
 
-    @property
-    @abstractmethod
-    def studyType(self) -> str:
-        pass
+    # @property
+    # @abstractmethod
+    # def studyType(self) -> str:
+    #     pass
     
     @property
     @abstractmethod
@@ -187,7 +232,7 @@ class SessionLogger:
 
     __rowCountCol = "row_Count"
     
-    def __init__(self, filePath) -> None:
+    def __init__(self, filePath: str) -> None:
         
         name, ext = os.path.splitext(filePath)
         if not ext in ("", ".csv"):
@@ -494,17 +539,25 @@ class JsonBackedDict:
         self.__data.update(items)
         self.__updateFile()
 
-class StudyBlock:
+class StudyBlock(Study):
     """A block of a scientific study.
     
     An abstract class representing a block of trials in a scientific study.
     Concrete subclasses must implement the abstract properties and methods, 
     listed below.
     
-    Abstract Properties
-    -------------------
+    Paramaters
+    ----------
     name : str
         The name of this block.
+    
+    Attributes
+    ----------
+    name : str
+        The name of this block (read only).
+    
+    Abstract Attributes
+    -------------------
     data : Any or None
         The data collected during this block. If no data has been collected,
         its value is `None`.
@@ -514,17 +567,18 @@ class StudyBlock:
     display() -> None
         Visualize the data collected in this block.
     """
-    def __init__(self) -> None:
-        pass
+    def __init__(self, name: str) -> None:
+        super().__init__()
+        
+        self.__name = name
     
     @property
-    @abstractmethod
     def name(self) -> str:
-        pass
+        return self.__name
     
     @property
     @abstractmethod
-    def data(self) -> Any | None:
+    def data(self) -> [Any | None]:
         pass
     
     @abstractmethod
