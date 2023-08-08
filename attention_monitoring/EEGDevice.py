@@ -12,3 +12,11 @@ class EEGDevice(ABC):
     @abstractmethod
     def startStreaming(self):
         pass
+    
+    @abstractmethod
+    def disconnect(self):
+        pass
+    
+    @abstractmethod
+    def stopStreaming(self):
+        pass

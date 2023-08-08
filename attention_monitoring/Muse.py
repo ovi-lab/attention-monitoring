@@ -45,7 +45,6 @@ class Muse(EEGDevice):
             # Start bluemuse and enable desired signals to stream
             keys = [
                 "primary_timestamp_format",
-                "secondary_timestamp_format",
                 *[
                     signal.lower() + "_enabled" 
                     for signal in self.__validSignals
@@ -53,7 +52,6 @@ class Muse(EEGDevice):
                 ]
             values = [
                 "LSL_LOCAL_CLOCK_NATIVE",
-                "LSL_LOCAL_CLOCK_BLUEMUSE",
                 *[
                     str(signal in self.signals).lower()
                     for signal in self.__validSignals
@@ -109,3 +107,11 @@ class Muse(EEGDevice):
                     print("\n".join([label + line for line in lines]))
         elif CONFIG.verbose >= 3:
             print("All Muse signals are streaming on LSL.")
+            
+    def disconnect(self):
+        command = "start bluemuse://shutdown"
+        subprocess.run(command, shell=True)
+    
+    def stopStreaming(self):
+        command = "start bluemuse://stop?stopall"
+        subprocess.run(command, shell=True)
