@@ -2,7 +2,7 @@ from abc import abstractmethod
 import logging
 from typing import Any
 
-from .Study import Study
+from ._study import Study
 
 class StudyBlock(Study):
     """A block of a scientific study.

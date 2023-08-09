@@ -8,9 +8,9 @@ import matlab.engine
 import polars as pl
 
 from src.config import CONFIG
-from src.data import StudySession, StudyBlock
 from src.eeg_device import EEGDevice
-from .GradCPTBlock import GradCPTBlock
+from src.study import StudySession, StudyBlock
+from ._gradcpt_block import GradCPTBlock
 
 class GradCPTSession(StudySession):
     

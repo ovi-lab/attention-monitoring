@@ -1,1 +1,1 @@
-from .MuseGradCPTSession import MuseGradCPTSession
+from ._muse_gradcpt_session import MuseGradCPTSession

@@ -11,12 +11,18 @@ class Study(ABC):
     
     def __init__(self):
         
+        print(f"name and module:")
+        print(__name__, self.__module__)
+            
+        
+        
         # Create a logger from the name of the class
         self._log = logging.Logger(__name__ + "->" + self.__class__.__name__)
         
         ##############
         if not self._log.hasHandlers():
             handlerConsole = logging.StreamHandler()
+            handlerConsole.setLevel(logging.CRITICAL)
             formatterDefault = logging.Formatter("%(name)s")
             formatterVerbose = logging.Formatter("%(asctime)s %(levelname)8s : %(name)16s :\n   %(message)s")
             formatterConsole = logging.Formatter(

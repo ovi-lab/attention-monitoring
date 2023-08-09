@@ -9,9 +9,9 @@ from typing import Any
 import polars as pl
 
 from src.config import CONFIG
-from .helpers import JsonBackedDict
-from .Study import Study
-from .StudyBlock import StudyBlock
+from ._helpers import JsonBackedDict
+from ._study import Study
+from ._study_block import StudyBlock
 
 class StudySession(Study):
     """A session of a scientific study.
