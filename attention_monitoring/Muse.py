@@ -4,7 +4,7 @@ import subprocess
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
 import textwrap
 
-import EEGDevice
+from EEGDevice import EEGDevice
 from attention_monitoring.src.config import CONFIG
 
 class Muse(EEGDevice):

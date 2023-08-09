@@ -31,6 +31,7 @@ function data = gradCPT(infoFile, nvargs, lslargs)
 %  - placing commas in pre-block message would break blocks file, fix this
 %  - import text data in tables as strings
 %  - add verbose output to python code
+%  - remove some inputs and switch to using infofile
 
 arguments
     infoFile (1,:) {mustBeFile}
@@ -165,6 +166,7 @@ try
     quitKey = KbName('ESCAPE');
     KbQueueCreate();
     KbQueueStart();
+    ListenChar(-1);
     
     %% Experiment Setup
     
@@ -292,20 +294,16 @@ try
 
         % Start recording data for this block on LabRecorder
         if recordLSL && ~(info.do_practice_block && k1 == 1)
-            template = info.session_name + "_" + ...
-                blocks.block_name{k1} + "_data.xdf";
+            [fPath, fName, fExt] = fileparts(blocks.data_file{k1});
             options = [
-                "root", info.session_dir;
-                "template", template;
+                "root", string(fPath);
+                "template", string(fName) + string(fExt);
                 "participant", info.participant_id;
                 "task", blocks.block_name{k1}
                 ];
             command = ['filename', char(sprintf(' {%s:%s}', options'))];
             writeline(lr, command);
             writeline(lr, 'start');
-
-            % Update blocks structure with path to data file
-            blocks.data_file{k1} = fullfile(info.session_dir, template);
         end
     
         % Get the sequence of stimuli to present for this block
@@ -597,9 +595,6 @@ try
         % Stop recording data for this block on LabRecorder
         if recordLSL && ~(info.do_practice_block && k1 == 1)
             writeline(lr, 'stop');
-    
-            % Update blocks file with path to data file
-            writetable(blocks, info.blocks_file);
         end
     end
     
