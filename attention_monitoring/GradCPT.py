@@ -6,6 +6,11 @@ import polars as pl
 from abc import abstractmethod
 import subprocess
 import matlab.engine
+from loaders import SpinningLoader
+from time import sleep
+from typing import Any
+from typing_extensions import Self
+import sys
 
 from attention_monitoring.src.config import CONFIG
 from Study import StudySession, StudyBlock
@@ -23,23 +28,23 @@ class GradCPTSession(StudySession):
             ) -> None:
         
         super().__init__(sessionName=sessionName, participantID=participantID)
-        
+                
         # Create the blocks for this session
-        self.__blocks = {}
+        self._blocks = {}
         if CONFIG.do_practice_block:
-            name = f"{self.info['session_name']}_practice_block"
-            block = GradCPTBlock.makePracticeBlock(name, self.__DIR)
-            self.__blocks[block.name] = block
+            name = f"{self._info['session_name']}_practice_block"
+            block = GradCPTBlock.makePracticeBlock(name, self._DIR)
+            self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
-            name = f"{self.info['session_name']}_full_block_{k}"
-            block = GradCPTBlock.makeFullBlock(name, self.__DIR, n=k)
-            self.__blocks[block.name] = block
+            name = f"{self._info['session_name']}_full_block_{k + 1}"
+            block = GradCPTBlock.makeFullBlock(name, self._DIR, n=(k + 1))
+            self._blocks[block.name] = block
         
         # Create a new session if `sessionName` is unspecified.
         if sessionName is None:
             # Create a "blocks file" that summarizes the blocks for this
             # session
-            blocksFile = os.path.join(self.__DIR, "blocks.csv")
+            blocksFile = os.path.join(self._DIR, "blocks.csv")
             blocksFileFieldNames = [
                 "block_name", "pre_block_msg", "pre_block_wait_time",
                 "stim_sequence_file", "data_file"
@@ -47,7 +52,7 @@ class GradCPTSession(StudySession):
             with open(blocksFile, "w") as f:
                 dictWriter = csv.DictWriter(f, fieldnames=blocksFileFieldNames)
                 dictWriter.writeheader()
-                for block in self.blocks.values():
+                for block in self._blocks.values():
                     dictWriter.writerow(
                         {
                             "block_name" : block.name,
@@ -57,7 +62,15 @@ class GradCPTSession(StudySession):
                             "data_file" : block.dataFile
                         }
                         )
-            self.info["blocks_file"] = blocksFile
+            self._info["blocks_file"] = blocksFile
+            
+        # Update the info file with relevant config values
+        configVals = [
+            "num_full_blocks", "do_practice_block", "stim_transition_time_ms",
+            "stim_static_time_ms", "stim_diameter",
+            "full_block_sequence_length", "muse_signals"
+            ]
+        self._info.update(**{val : getattr(CONFIG, val) for val in configVals})
         
     @property
     @abstractmethod
@@ -66,36 +79,37 @@ class GradCPTSession(StudySession):
     
     @property
     def blocks(self) -> dict[str, StudyBlock]:
-        return self.__blocks
+        return {k : v for (k, v) in self._blocks.items()}
     
     def run(self) -> None:
         # TODO: finish this
         
         if CONFIG.verbose == 2:
+            print("\nRunning GrapCPT session.\n")
             print(f"Info file for this session: {infoFile}")
         elif CONFIG.verbose >= 3:
             msg = [
                 "\nStarting experiment:",
-                *[f"|   {key} : {value}" for key, value in self.info.items()]
+                *[f"|   {key} : {value}" for key, value in self._info.items()]
             ]
             print("\n".join(msg))
         
         # Start MATLAB engine asynchronously (do this first as it may take some
         # time)
         if CONFIG.verbose >= 2:
-            print("Starting the MATLAB engine asynchronously")
+            print("Starting the MATLAB engine asynchronously.")
         future = matlab.engine.start_matlab(background=True)
         
         # Connect to the EEG device and start streaming
         if CONFIG.verbose >= 2:
-            print("Connecting to the EEG")
-        self.eegDevice.connect()
-        self.eegDevice.startStreaming()
+            print("Connecting to the EEG.")
+        self.eeg.connect()
+        self.eeg.startStreaming()
         
         # Start LabRecorder
         if CONFIG.path_to_LabRecorder != "":
             if CONFIG.verbose >= 2:
-                print("Starting LabRecorder")
+                print("Starting LabRecorder.")
             proc1 = subprocess.Popen(
                 os.path.realpath(CONFIG.path_to_LabRecorder),
                 stdout=subprocess.PIPE,
@@ -103,33 +117,50 @@ class GradCPTSession(StudySession):
                 text=True
                 )   
             
-        # Run the experiment on MATLAB
+        # Wait for MATLAB to finish starting
         if CONFIG.verbose >= 1:
-            print(
-                "Running experiment in MATLAB. This may take a few moments ..."
-                )
+            print("Running experiment in MATLAB.")
+        if CONFIG.verbose >= 2:
+            print("Waiting for MATLAB to start ...")
+            loader = SpinningLoader("")
+            loader.start()
+            try:
+                while not future.done():
+                    sleep(0.5)
+            except Exception as E:
+                print(
+                    "WARNING: The below message indicates 'Done', but it was "
+                    + "stopped early due to an error."
+                    )
+                raise E
+            finally:
+                loader.stop()
+
+        # Run the experiment on MATLAB
+        if CONFIG.verbose >= 2:
+            print("Displaying stimuli using Psychtoolbox.")
         eng = future.result()
         p = eng.genpath(CONFIG.projectRoot)
         eng.addpath(p, nargout=0)
         data = eng.gradCPT(
-            self.info["info_file"],
+            self._info["info_file"],
             'verbose', CONFIG.verbose,
             'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
             'recordLSL', CONFIG.record_lsl,
             'tcpAddress', CONFIG.tcp_address,
-            'tcpPort', CONFIG.tcp_port,
+            'tcpPort', CONFIG.tcp_port
             )
 
         # Close the EEG device
         if CONFIG.verbose >= 2:
-            print("Closing the EEG")
-        self.eegDevice.stopStreaming()
-        self.eegDevice.disconnect()
+            print("Closing the EEG.")
+        self.eeg.stopStreaming()
+        self.eeg.disconnect()
 
         # Close LabRecorder
         if CONFIG.path_to_LabRecorder != "":
             if CONFIG.verbose >= 2:
-                print("Closing LabRecorder")
+                print("Closing LabRecorder.")
             proc1.kill()
             out, err = proc1.communicate()
             if CONFIG.verbose >= 2:
@@ -138,10 +169,10 @@ class GradCPTSession(StudySession):
     
     def display(self) -> None:
         # TODO: finish this
-        if all(block.data is None for block in self.blocks.values()):
+        if all(block.data is None for block in self._blocks.values()):
             print("No data to display.")
         else:
-            for name, block in self.blocks.items():
+            for name, block in self._blocks.items():
                 if block.data is None:
                     print(f"No data to display for block {name}.")
                 else:
@@ -164,46 +195,45 @@ class GradCPTBlock(StudyBlock):
         
         super().__init__(name)
         
-        self.__OUTPUT_DIR = outputDir
+        self._OUTPUT_DIR = outputDir
         self.preBlockMsg = preBlockMsg if preBlockMsg is not None else ""
         self.preBlockWaitTime = preBlockWaitingTime
         
         # Define the directories where the stimuli are stored, creating them if
         # they don't exist yet.
-        self.__COMMON_TARGET_DIR = os.path.join(
-            self.__STIMULI_DIR, "common_target"
+        self._COMMON_TARGET_DIR = os.path.join(
+            self._STIMULI_DIR, "common_target"
             )
-        if not os.path.isdir(self.__COMMON_TARGET_DIR):
-            os.makedirs(__COMMON_TARGET_DIR)
-        self.__RARE_TARGET_DIR = os.path.join(
-            self.__STIMULI_DIR, "rare_target"
+        if not os.path.isdir(self._COMMON_TARGET_DIR):
+            os.makedirs(self._COMMON_TARGET_DIR)
+        self._RARE_TARGET_DIR = os.path.join(
+            self._STIMULI_DIR, "rare_target"
             )
-        if not os.path.isdir(self.__RARE_TARGET_DIR):
-            os.makedirs(__RARE_TARGET_DIR)
+        if not os.path.isdir(self._RARE_TARGET_DIR):
+            os.makedirs(self._RARE_TARGET_DIR)
         
         # Specify the paths to the stim sequence and data files
-        self.__stimSequenceFile = os.path.join(
-            self.__OUTPUT_DIR, self.name + "_stim_sequence.csv"
+        self._stimSequenceFile = os.path.join(
+            self._OUTPUT_DIR, self.name + "_stim_sequence.csv"
             )
-        self.__dataFile = os.path.join(
-            self.__OUTPUT_DIR, self.name + "_data.xdf"
+        self._dataFile = os.path.join(
+            self._OUTPUT_DIR, self.name + "_data.xdf"
             )
         
         # Create the stim sequence file if it doesn't exist yet
-        if not os.path.isfile(self.__stimSequenceFile):
+        if not os.path.isfile(self._stimSequenceFile):
             self.__generateStimSequence(stimSequenceLength)
             
-        # Initialize both the data and stim sequence as None
-        self.__stimSequence = None
-        self.__data = None
+        # Initialize the data as None
+        self._data = None
     
     @classmethod
     def makePracticeBlock(cls, 
             name: str, 
             outputDir: str,
-            ) -> GradCPTBlock:
+            ) -> Self:
         
-        preBlockWaitingTime = CONFIG.CONFIG.pre_practice_block_break_time
+        preBlockWaitingTime = CONFIG.pre_practice_block_break_time
         preBlockMsg = (
             f"Starting practice block in {preBlockWaitingTime} seconds."
             )
@@ -223,7 +253,7 @@ class GradCPTBlock(StudyBlock):
             name: str, 
             outputDir: str, 
             n: [int | None] = None
-            ) -> GradCPTBlock:
+            ) -> Self:
         
         preBlockWaitingTime = CONFIG.pre_full_block_break_time
         _n = f" {n}" if n is not None else ""
@@ -241,12 +271,8 @@ class GradCPTBlock(StudyBlock):
             )
     
     @property
-    def name(self) -> str:
-        return self.__name
-    
-    @property
     def stimSequenceFile(self) -> str:
-        return self.__stimSequenceFile
+        return self._stimSequenceFile
     
     @property
     def stimSequence(self) -> dict[str, list[str]]:
@@ -254,14 +280,15 @@ class GradCPTBlock(StudyBlock):
     
     @property
     def dataFile(self) -> str:
-        return self.__dataFile
+        return self._dataFile
     
     @property
+    # Note that the returned dict should not be modified, only read.
     def data(self) -> [Any | None]:
-        if self.__data is None and self.dataFile is not None:
+        if self._data is None:
             if os.path.isfile(self.dataFile):
-                self.__data = self.loadData(self.dataFile)
-        return self.__data
+                self._data = self.loadData(self.dataFile)
+        return self._data
     
     def display(self) -> None:
         # TODO: implement
@@ -338,9 +365,10 @@ class GradCPTBlock(StudyBlock):
         Raises
         ------
         ValueError
-            If `commonTargetsDir` or `rareTargetsDir` don't contain two or more
+            If `self._COMMON_TARGET_DIR` or `self._RARE_TARGET_DIR` don't contain two or more
             stimuli.
         """
+        # TODO: fix valueerror in docstring
 
         # (For each item in the sequence) probability of stimulus being
         # selected from common targets or rare targets, respectively
@@ -351,17 +379,17 @@ class GradCPTBlock(StudyBlock):
         # Get path to each stimulus and whether it is a common or rare target
         targets = {
             "common" : {
-                "folder" : self.__COMMON_TARGET_DIR,
+                "folder" : self._COMMON_TARGET_DIR,
                 "files" : [
-                    os.path.join(commonTargetsDir, f) 
-                    for f in os.listdir(commonTargetsDir)
+                    os.path.join(self._COMMON_TARGET_DIR, f) 
+                    for f in os.listdir(self._COMMON_TARGET_DIR)
                     ]
                 },
             "rare" : {
-                "folder" : self.__RARE_TARGET_DIR,
+                "folder" : self._RARE_TARGET_DIR,
                 "files" : [
-                    os.path.join(rareTargetsDir, f)
-                    for f in os.listdir(rareTargetsDir)
+                    os.path.join(self._RARE_TARGET_DIR, f)
+                    for f in os.listdir(self._RARE_TARGET_DIR)
                     ]
                 }
             }
@@ -398,18 +426,16 @@ class GradCPTBlock(StudyBlock):
             # selected as the first in the sequence by changing the mask. This
             # is done so that the probability of selecting a certain stimulus
             # is consistent throughout the sequence.
-            if k == 0:
-                lastTargetType = random.choices(
-                    ["common", "rare"],
-                    weights=weights
-                    )
-                lastTargetType = lastTargetType[0]
-                lastStimPathIndex = random.choices(
-                    targets[lastTargetType]["indices"]
-                    )
-                lastStimPathIndex = lastStimPathIndex[0]
-                
-                targets[lastTargetType]["mask"][lastStimPathIndex] = 0
+            lastTargetType = random.choices(
+                ["common", "rare"],
+                weights=weights
+                )
+            lastTargetType = lastTargetType[0]
+            lastStimPathIndex = random.choices(
+                targets[lastTargetType]["indices"]
+                )
+            lastStimPathIndex = lastStimPathIndex[0]
+            targets[lastTargetType]["mask"][lastStimPathIndex] = 0
                 
             # Create the sequence one item at a time
             for k in range(sequenceLength):
@@ -425,7 +451,8 @@ class GradCPTBlock(StudyBlock):
                     targets[targetType]["indices"],
                     weights=targets[targetType]["mask"]
                 )
-                stimPath = targets[targetType][stimPathIndex[0]]
+                stimPathIndex = stimPathIndex[0]
+                stimPath = targets[targetType]["files"][stimPathIndex]
                 
                 # Write to the sequence file
                 dictWriter.writerow(

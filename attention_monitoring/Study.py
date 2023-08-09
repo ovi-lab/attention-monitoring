@@ -4,10 +4,14 @@ import csv
 import errno
 from datetime import datetime
 import json
+import polars as pl
+import logging
 
 from typing import Optional, Any
 
 from attention_monitoring.src.config import CONFIG
+
+# TODO: change JsonBackedDict to properly behave like a dict
 
 class Study(ABC):
     
@@ -16,41 +20,90 @@ class Study(ABC):
         # exist 
         
         # Directory to store all data for studies of this type
-        self.__DATA_DIR = os.path.join(
+        self._DATA_DIR = os.path.join(
             CONFIG.projectRoot, "src", "data", self.getStudyType()
             )
-        if not os.path.isdir(self.__DATA_DIR):
-            os.makedirs(self.__DATA_DIR)
+        if not os.path.isdir(self._DATA_DIR):
+            os.makedirs(self._DATA_DIR)
         
         # Directory to store stimuli used in this study
-        self.__STIMULI_DIR = os.path.join(self.__DATA_DIR, "stimuli")
-        if not os.path.isdir(self.__STIMULI_DIR):
-            os.makedirs(self.__STIMULI_DIR)
+        self._STIMULI_DIR = os.path.join(self._DATA_DIR, "stimuli")
+        if not os.path.isdir(self._STIMULI_DIR):
+            os.makedirs(self._STIMULI_DIR)
         
         # Parent directory to contain the individual directories of every
         # session of this study.
-        self.__SESSIONS_DIR = os.path.join(self.__DATA_DIR, "sessions")
-        if not os.path.isdir(self.__SESSIONS_DIR):
-            os.makedirs(self.__SESSION_DIR)
+        self._SESSIONS_DIR = os.path.join(self._DATA_DIR, "sessions")
+        if not os.path.isdir(self._SESSIONS_DIR):
+            os.makedirs(self._SESSIONS_DIR)
             
     # @property
     # def data_dir(self) -> str:
-    #     return self.__DATA_DIR
+    #     return self._DATA_DIR
     
     # @property
     # def stimuli_dir(self) -> str:
-    #     return self.__STIMULI_DIR
+    #     return self._STIMULI_DIR
     
     # @property
     # def sessions_dir(self) -> str:
-    #     return self.__SESSIONS_DIR
+    #     return self._SESSIONS_DIR
     
     @classmethod
     @abstractmethod
     def getStudyType(cls) -> str:
         pass
+
+class StudyBlock(Study):
+    """A block of a scientific study.
     
-    pass
+    An abstract class representing a block of trials in a scientific study.
+    Concrete subclasses must implement the abstract properties and methods, 
+    listed below.
+    
+    Paramaters
+    ----------
+    name : str
+        The name of this block.
+    
+    Attributes
+    ----------
+    name : str
+        The name of this block (read only).
+    
+    Abstract Attributes
+    -------------------
+    data : Any or None
+        The data collected during this block. If no data has been collected,
+        its value is `None`.
+    
+    Abstract Methods
+    ----------------
+    display() -> None
+        Visualize the data collected in this block.
+    """
+    def __init__(self, name: str) -> None:
+        super().__init__()
+        
+        self._name = name
+    
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @property
+    @abstractmethod
+    def data(self) -> [Any | None]:
+        pass
+    
+    @abstractmethod
+    def display(self) -> None:
+        """Visualize the data collected in this block.
+        
+        Display the data collected for this block. If no data has been 
+        collected, display a message indicating so.
+        """
+        pass
 
 class StudySession(Study):
     """A session of a scientific study.
@@ -76,8 +129,10 @@ class StudySession(Study):
         
     Attributes
     ----------
-    info : JsonBackedDict
-        Stores information about this session.
+    info : dict
+        Stores information about this session (view only). Only valid at the 
+        time it is accessed, the returned dictionary does not reflect future
+        changes made to the session's info.
         
     Abstract Attributes
     -------------------
@@ -97,7 +152,17 @@ class StudySession(Study):
         Run the study session.
     display() -> None
         Visualize the data collected in this session.
+        
+    Notes
+    -----
+    Concrete subclasses should modify `self._info` to properly modify the info
+    for the session. Users should only access the info through the `info` 
+    attribute, which safely returns a copy of `self._info` as `self._info` must
+    not be directly modified by users.
     """
+    
+    print(f"name in StudySession class: {__name__}")
+    
     def __init__(
             self, 
             sessionName: [str | None] = None,
@@ -109,28 +174,28 @@ class StudySession(Study):
         # # Define some useful directories, creating them if they don't already 
         # # exist 
         # # Directory to store all data for studies of this type
-        # self.__DATA_DIR = os.path.join(
+        # self._DATA_DIR = os.path.join(
         #     CONFIG.projectRoot, "src", "data", self.studyType
         #     )
-        # os.makedirs(self.__DATA_DIR, exist_ok=True)
+        # os.makedirs(self._DATA_DIR, exist_ok=True)
         # # Directory to store stimuli used in this study
-        # self.__STIMULI_DIR = os.path.join(self.__DATA_DIR, "stimuli")
-        # os.makedirs(self.__STIMULI_DIR, exist_ok=True)
+        # self._STIMULI_DIR = os.path.join(self._DATA_DIR, "stimuli")
+        # os.makedirs(self._STIMULI_DIR, exist_ok=True)
         # # Parent directory to contain the individual directories of every
         # # session of this study.
-        # self.__SESSIONS_DIR = os.path.join(self.__DATA_DIR, "sessions")
+        # self._SESSIONS_DIR = os.path.join(self._DATA_DIR, "sessions")
         # os.makedirs(self.__SESSION_DIR, exist_ok=True)
         
         # Get the log for sessions of this study type
-        sessionsLogPath = os.path.join(self.__SESSIONS_DIR, "log.csv")
-        sessionsLog = SessionLogger(sessionsLoggerPath)
+        sessionsLogPath = os.path.join(self._SESSIONS_DIR, "log.csv")
+        sessionsLog = SessionLogger(sessionsLogPath)
         
         # Create a new session if `sessionName` is unspecified. Otherwise, load
         # the specified session.
         if sessionName is None:
             # Update the session log with the info for this study
-            if sessionsLog.numLines == 0:
-                session_id = int(sessionsLog.read(-1)["session_id"]) + 1
+            if sessionsLog.numLines > 0:
+                session_id = int(sessionsLog.read(-1)["session_id"][0]) + 1
             else:
                 session_id = 1
             sessionsLog.addLine(
@@ -138,29 +203,33 @@ class StudySession(Study):
                 date=datetime.now().strftime("%d%m%y"),
                 participant_id=participantID
                 )
-            logEntry = sessionsLog.read(-1)
+            SessionLogEntry = sessionsLog.read(-1)
+            SessionLogEntry = {
+                k : v[0] for (k, v) in SessionLogEntry.items() 
+                if k in SessionLogger.logFields
+                }
             
             # Create a directory to store data for this session
-            self.__DIR = os.path.join(
-                self.__SESSIONS_DIR, 
-                logEntry["session_name"]
+            self._DIR = os.path.join(
+                self._SESSIONS_DIR, 
+                SessionLogEntry["session_name"]
                 )
-            os.makedirs(self.__DIR, exist_ok=True)
+            os.makedirs(self._DIR, exist_ok=True)
             
             # Create an info file for this session
-            infoPath = os.path.join(self.__DIR, "info.json")
-            self.info = JsonBackedDict(infoPath)
-            self.info.update(
-                **logEntry,
-                session_dir=self.__DIR,
+            infoPath = os.path.join(self._DIR, "info.json")
+            self._info = JsonBackedDict(infoPath)
+            self._info.update(
+                **SessionLogEntry,
+                session_dir=self._DIR,
                 info_file=infoPath
                 )
         else:
             # If a session name was provided, get its directory and info file
-            self.__DIR = os.path.join(self.__SESSIONS_DIR, sessionName)
-            infoPath = os.path.join(self.__DIR, "info.json")
+            self._DIR = os.path.join(self._SESSIONS_DIR, sessionName)
+            infoPath = os.path.join(self._DIR, "info.json")
             try:
-                self.info = JsonBackedDict(infoPath, forceReadFile=True)
+                self._info = JsonBackedDict(infoPath, forceReadFile=True)
             except FileNotFoundError as E:
                 errmsg = f"The session {sessionName} cannot be found."
                 raise ValueError(errmsg) from E
@@ -169,6 +238,10 @@ class StudySession(Study):
     # @abstractmethod
     # def studyType(self) -> str:
     #     pass
+    
+    @property
+    def info(self) -> dict:
+        return self._info.safeView()
     
     @property
     @abstractmethod
@@ -230,7 +303,7 @@ class SessionLogger:
         If `filePath` specifies an invalid extension.
     """
 
-    __rowCountCol = "row_Count"
+    __rowCountCol = "row_count"
     
     def __init__(self, filePath: str) -> None:
         
@@ -244,8 +317,8 @@ class SessionLogger:
         
         self.__path = filePath
 
-        dtypes = {field:pl.Utf8 for field in self.logFields}
-        dtype[self.__rowCountCol] = pl.Int32
+        dtypes = {field : pl.Utf8 for field in self.logFields}
+        dtypes[self.__rowCountCol] = pl.Int32
 
         if self.__exists():
             self.__log = pl.read_csv(
@@ -253,14 +326,17 @@ class SessionLogger:
                 dtypes=dtypes, 
                 row_count_name=self.__rowCountCol
                 )
+            # Row count column doesn't get added if the log is empty
+            if not self.__rowCountCol in self.__log.columns:
+                self.__log = self.__log.with_row_count(name=self.__rowCountCol)
         else:
             self.__log = pl.DataFrame(schema=dtypes)
-            with open(log, 'w', newline="") as f:
+            with open(self.__path, 'w', newline="") as f:
                 dictWriter = csv.DictWriter(f, fieldnames=self.logFields)
                 dictWriter.writeheader()
                 
-    @property
     @classmethod
+    @property
     def logFields(cls) -> list[str]:
         return ["session_name", "session_id", "date", "participant_id"]
 
@@ -295,8 +371,8 @@ class SessionLogger:
         -------
         dict of str to list of Any
             A dictionary mapping the name of each field in the log to a list
-            containing the corresponding values from the specified lines in
-            order of increasing line number.
+            containing the corresponding values from the specified lines. An
+            additional field also specifies the corresponding row number.
         """
         if not self.__exists():
             raise FileNotFoundError(
@@ -310,10 +386,10 @@ class SessionLogger:
             _lines = [n if n >= 0 else lastLineNum + 1 + n for n in lines]
 
             # Assume row numbers are unique
-            data = df.filter(pl.col(self.__rowCountCol).is_in(_lines))
+            data = self.__log.filter(pl.col(self.__rowCountCol).is_in(_lines))
             
             selectedLines = data[self.__rowCountCol].to_list()
-            unSelectedLines = [x for x in _lines if x not in selectedLine]
+            unSelectedLines = [x for x in _lines if x not in selectedLines]
             if len(unSelectedLines) > 0:
                 # TODO: improve error message
                 raise IndexError(
@@ -321,7 +397,6 @@ class SessionLogger:
                     + f"{unSelectedLines}"
                     )
 
-        data = data.select(pl.all().exclude(self.__rowCountCol))
         data = data.to_dict(as_series=False)
         return data
 
@@ -379,7 +454,10 @@ class SessionLogger:
             dictWriter.writerow(line)
             
         # Update the stored copy of the log
-        lastLineNum = self.__log.max()[self.__rowCountCol][0]
+        if self.numLines > 0:
+            lastLineNum = self.__log.max()[self.__rowCountCol][0]
+        else:
+            lastLineNum = 0
         thisLine = pl.DataFrame(line).with_row_count(
             name=self.__rowCountCol,
             offset=lastLineNum+1
@@ -517,7 +595,7 @@ class JsonBackedDict:
                 
         
     def __setitem__(self, key, value):
-        self.__data[name] = value
+        self.__data[key] = value
         self.__updateFile()
             
             
@@ -538,54 +616,21 @@ class JsonBackedDict:
             return
         self.__data.update(items)
         self.__updateFile()
-
-class StudyBlock(Study):
-    """A block of a scientific study.
-    
-    An abstract class representing a block of trials in a scientific study.
-    Concrete subclasses must implement the abstract properties and methods, 
-    listed below.
-    
-    Paramaters
-    ----------
-    name : str
-        The name of this block.
-    
-    Attributes
-    ----------
-    name : str
-        The name of this block (read only).
-    
-    Abstract Attributes
-    -------------------
-    data : Any or None
-        The data collected during this block. If no data has been collected,
-        its value is `None`.
-    
-    Abstract Methods
-    ----------------
-    display() -> None
-        Visualize the data collected in this block.
-    """
-    def __init__(self, name: str) -> None:
-        super().__init__()
         
-        self.__name = name
-    
-    @property
-    def name(self) -> str:
-        return self.__name
-    
-    @property
-    @abstractmethod
-    def data(self) -> [Any | None]:
-        pass
-    
-    @abstractmethod
-    def display(self) -> None:
-        """Visualize the data collected in this block.
+    # TODO: ensure this is implemented correctly, maybe make a proper subclass
+    # of dict instead?
+    def items(self):
+        return self.__data.items()
         
-        Display the data collected for this block. If no data has been 
-        collected, display a message indicating so.
+    def safeView(self) -> dict:
+        """Get a copy of the jdict.
+        
+        Returns
+        -------
+        dict
+            A copy of the jdict. The returned dict is not backed by the
+            json file. It will not reflect any changes made to the jdict
+            and the jdict will not reflect any changes made to the returned
+            dict.
         """
-        pass
+        return {k : v for (k, v) in self.__data.items()}
