@@ -1,5 +1,5 @@
-from Study import Study
-from StudySession import StudySession
-from StudyBlock import StudyBlock
+from .Study import Study
+from .StudySession import StudySession
+from .StudyBlock import StudyBlock
 
-import gradCPT
+from . import gradCPT

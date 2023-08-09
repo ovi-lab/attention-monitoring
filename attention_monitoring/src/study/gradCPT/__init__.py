@@ -1,4 +1,4 @@
-from GradCPTSession import GradCPTSession
-from GradCPTBlock import GradCPTBlock
+from .GradCPTSession import GradCPTSession
+from .GradCPTBlock import GradCPTBlock
 
-import muse_gradCPT
+from . import muse_gradCPT
