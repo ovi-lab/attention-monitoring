@@ -1,2 +1,4 @@
 from GradCPTSession import GradCPTSession
 from GradCPTBlock import GradCPTBlock
+
+import muse_gradCPT

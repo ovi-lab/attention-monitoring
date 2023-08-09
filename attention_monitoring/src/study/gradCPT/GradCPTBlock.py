@@ -8,7 +8,7 @@ from typing_extensions import Self
 import sys
 
 from attention_monitoring.src.config import CONFIG
-from .study import StudyBlock
+from .. import StudyBlock
 
 class GradCPTBlock(StudyBlock):
     def __init__(

@@ -7,7 +7,7 @@ import matlab.engine
 from time import sleep
 
 from attention_monitoring.src.config import CONFIG
-from ..study import StudySession
+from .. import StudySession
 from ...eeg_device import Muse
 
 class GradCPTSession(StudySession):
