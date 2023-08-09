@@ -1,14 +1,16 @@
-import os
-import csv
-import polars as pl
 from abc import abstractmethod
+import csv
+import os
 import subprocess
-import matlab.engine
 from time import sleep
 
-from attention_monitoring.src.config import CONFIG
-from .. import StudySession, StudyBlock
-from ...eeg_device import EEGDevice
+import matlab.engine
+import polars as pl
+
+from src.config import CONFIG
+from src.data import StudySession, StudyBlock
+from src.eeg_device import EEGDevice
+from .GradCPTBlock import GradCPTBlock
 
 class GradCPTSession(StudySession):
     

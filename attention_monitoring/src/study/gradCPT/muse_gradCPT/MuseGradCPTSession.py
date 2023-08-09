@@ -1,6 +1,6 @@
-from attention_monitoring.src.config import CONFIG
-from .. import GradCPTSession
-from ....eeg_device import Muse
+from src.config import CONFIG
+from src.data.gradCPT import GradCPTSession
+from src.eeg_device import Muse
 
 class MuseGradCPTSession(GradCPTSession):
     

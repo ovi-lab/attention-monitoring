@@ -1,14 +1,15 @@
-import os
-import pyxdf
 import csv
+import os
 import random
-import polars as pl
+import sys
 from typing import Any
 from typing_extensions import Self
-import sys
 
-from attention_monitoring.src.config import CONFIG
-from .. import StudyBlock
+import polars as pl
+import pyxdf
+
+from src.config import CONFIG
+from src.study import StudyBlock
 
 class GradCPTBlock(StudyBlock):
     def __init__(

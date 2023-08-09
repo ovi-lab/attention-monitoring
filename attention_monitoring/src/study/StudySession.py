@@ -1,13 +1,14 @@
 from abc import abstractmethod
-import os
 import csv
-import errno
 from datetime import datetime
-import polars as pl
+import errno
 import logging
+import os
 from typing import Any
 
-from attention_monitoring.src.config import CONFIG
+import polars as pl
+
+from src.config import CONFIG
 from .helpers import JsonBackedDict
 from .Study import Study
 from .StudyBlock import StudyBlock

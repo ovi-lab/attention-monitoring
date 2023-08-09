@@ -28,6 +28,7 @@ configuration file `configs/(CONFIG_MODE).yaml` is used. Otherwise, the default
 configuration is used.
 """
 # TODO: update doc to include new import location
+# TODO: refactor and put in appropriate directory. Maybe make a different one for each study?
 
 import os
 import errno

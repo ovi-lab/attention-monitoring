@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import logging
 
-from attention_monitoring.src.config import CONFIG
+from src.config import CONFIG
 
 # TODO: change JsonBackedDict to properly behave like a dict
 
