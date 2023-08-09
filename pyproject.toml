@@ -23,6 +23,8 @@ mnelab = "^0.8.6"
 pyqt5 = "^5.15.9"
 pyqt6 = "^6.5.2"
 qtpy = "^2.3.1"
+pyloaders = "^0.0.5"
+typing-extensions = "^4.7.1"
 
 
 [build-system]

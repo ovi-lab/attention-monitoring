@@ -1250,6 +1250,16 @@ files = [
 plugins = ["importlib-metadata"]
 
 [[package]]
+name = "pyloaders"
+version = "0.0.5"
+description = "Basic animated ASCII loaders for Python scripts"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pyloaders-0.0.5.tar.gz", hash = "sha256:11c491190a9abc2d5886d87a3da1292d54c85cab422b51cc32ac307cf4e82016"},
+]
+
+[[package]]
 name = "pylsl"
 version = "1.16.1"
 description = "Python interface to the Lab Streaming Layer"
@@ -1849,6 +1859,17 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=2.0)", "pre-commit", "pytest", "pytest-mock"]
 
 [[package]]
+name = "typing-extensions"
+version = "4.7.1"
+description = "Backported and Experimental Type Hints for Python 3.7+"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "typing_extensions-4.7.1-py3-none-any.whl", hash = "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36"},
+    {file = "typing_extensions-4.7.1.tar.gz", hash = "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.0.4"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -1890,4 +1911,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<3.11"
-content-hash = "7b06b38af2bbcb9050d326b667487a4bc724f016f3916d75b3a16729aca5169a"
+content-hash = "0e12c20388563e58fd665162480b13c02455c7f35287aa9feaa825ff43c767a8"
