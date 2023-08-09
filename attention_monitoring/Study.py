@@ -13,9 +13,34 @@ from attention_monitoring.src.config import CONFIG
 
 # TODO: change JsonBackedDict to properly behave like a dict
 
+# TODO: change logging formatting, see note on performance in: https://stackoverflow.com/questions/32291361/how-can-i-log-a-dictionary-into-a-log-file
+
 class Study(ABC):
     
     def __init__(self):
+        
+        # Create a logger from the name of the class
+        self._log = logging.Logger(__name__ + "->" + self.__class__.__name__)
+        
+        ##############
+        if not self._log.hasHandlers():
+            handlerConsole = logging.StreamHandler()
+            formatterDefault = logging.Formatter("%(name)s")
+            formatterVerbose = logging.Formatter("%(asctime)s %(levelname)8s : %(name)16s :\n   %(message)s")
+            formatterConsole = logging.Formatter(
+                "%(asctime)s | %(levelname)8s : %(name)16s : "
+                + "File ""%(pathname)s"", line %(lineno)d: "
+                + "\n    %(message)-s"
+            ) 
+            handlerConsole.setFormatter(formatterConsole)
+            self._log.addHandler(handlerConsole)
+            
+            # handler = logging.StreamHandler()
+            # handler.setLevel(logging.DEBUG)
+            # handler.setFormatter(formatter)
+            # self._log.addHandler(handler)
+        ##############
+        
         # Define some useful directories, creating them if they don't already 
         # exist 
         
@@ -24,17 +49,20 @@ class Study(ABC):
             CONFIG.projectRoot, "src", "data", self.getStudyType()
             )
         if not os.path.isdir(self._DATA_DIR):
+            self._log.debug(f"Creating directory: {self._DATA_DIR}")
             os.makedirs(self._DATA_DIR)
         
         # Directory to store stimuli used in this study
         self._STIMULI_DIR = os.path.join(self._DATA_DIR, "stimuli")
         if not os.path.isdir(self._STIMULI_DIR):
+            self._log.debug(f"Creating directory: {self._STIMULI_DIR}")
             os.makedirs(self._STIMULI_DIR)
         
         # Parent directory to contain the individual directories of every
         # session of this study.
         self._SESSIONS_DIR = os.path.join(self._DATA_DIR, "sessions")
         if not os.path.isdir(self._SESSIONS_DIR):
+            self._log.debug(f"Creating directory: {self._SESSIONS_DIR}")
             os.makedirs(self._SESSIONS_DIR)
             
     # @property
@@ -83,6 +111,7 @@ class StudyBlock(Study):
         Visualize the data collected in this block.
     """
     def __init__(self, name: str) -> None:
+        self._log.debug("Initializing block")
         super().__init__()
         
         self._name = name
@@ -159,16 +188,14 @@ class StudySession(Study):
     for the session. Users should only access the info through the `info` 
     attribute, which safely returns a copy of `self._info` as `self._info` must
     not be directly modified by users.
-    """
-    
-    print(f"name in StudySession class: {__name__}")
-    
+    """    
     def __init__(
             self, 
             sessionName: [str | None] = None,
             participantID: [int | None] = None
             ) -> None:
         
+        self._log.debug("Initializing session.")
         super().__init__()
 
         # # Define some useful directories, creating them if they don't already 
@@ -188,12 +215,17 @@ class StudySession(Study):
         
         # Get the log for sessions of this study type
         sessionsLogPath = os.path.join(self._SESSIONS_DIR, "log.csv")
+        self._log.debug(f"Getting the sessions log: {sessionsLogPath}")
         sessionsLog = SessionLogger(sessionsLogPath)
         
-        # Create a new session if `sessionName` is unspecified. Otherwise, load
-        # the specified session.
         if sessionName is None:
-            # Update the session log with the info for this study
+            # Create a new session if `sessionName` is unspecified.
+            self._log.info("Creating a new session")
+            
+            # Update the session log with the info for this study. This
+            # includes the fields "session_name", "session_id", "date", and
+            # "participant_id", all of which are automatically formatted by the
+            # `SessionLogger` object.
             if sessionsLog.numLines > 0:
                 session_id = int(sessionsLog.read(-1)["session_id"][0]) + 1
             else:
@@ -208,16 +240,21 @@ class StudySession(Study):
                 k : v[0] for (k, v) in SessionLogEntry.items() 
                 if k in SessionLogger.logFields
                 }
+            self._log.debug(
+                f"Added session to log with fields: {SessionLogEntry}"
+                )
             
             # Create a directory to store data for this session
             self._DIR = os.path.join(
                 self._SESSIONS_DIR, 
                 SessionLogEntry["session_name"]
                 )
+            self._log.debug(f"Creating directory: {self._DIR}")
             os.makedirs(self._DIR, exist_ok=True)
             
             # Create an info file for this session
             infoPath = os.path.join(self._DIR, "info.json")
+            self._log.debug(f"Creating info file: {infoPath}")
             self._info = JsonBackedDict(infoPath)
             self._info.update(
                 **SessionLogEntry,
@@ -226,8 +263,11 @@ class StudySession(Study):
                 )
         else:
             # If a session name was provided, get its directory and info file
+            self._log.info(f"Loading existing session: {sessionName}")
+            
             self._DIR = os.path.join(self._SESSIONS_DIR, sessionName)
             infoPath = os.path.join(self._DIR, "info.json")
+            self._log.debug(f"Loading info file: {infoPath}")
             try:
                 self._info = JsonBackedDict(infoPath, forceReadFile=True)
             except FileNotFoundError as E:

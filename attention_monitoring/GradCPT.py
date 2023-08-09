@@ -20,6 +20,7 @@ class GradCPTSession(StudySession):
     
     # TODO: add documentation
     # TODO: add functionality for starting an existing session
+    # TODO: integrate logger with MATLAB and labrecorder
     
     def __init__(
             self, 
@@ -30,13 +31,16 @@ class GradCPTSession(StudySession):
         super().__init__(sessionName=sessionName, participantID=participantID)
                 
         # Create the blocks for this session
+        self._log.debug("Creating session blocks")
         self._blocks = {}
         if CONFIG.do_practice_block:
             name = f"{self._info['session_name']}_practice_block"
+            self._log.debug(f"Creating block: {name}")
             block = GradCPTBlock.makePracticeBlock(name, self._DIR)
             self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
             name = f"{self._info['session_name']}_full_block_{k + 1}"
+            self._log.debug(f"Creating block: {name}")
             block = GradCPTBlock.makeFullBlock(name, self._DIR, n=(k + 1))
             self._blocks[block.name] = block
         
@@ -45,6 +49,7 @@ class GradCPTSession(StudySession):
             # Create a "blocks file" that summarizes the blocks for this
             # session
             blocksFile = os.path.join(self._DIR, "blocks.csv")
+            self._log.debug(f"Creating blocks file: {blocksFile}")
             blocksFileFieldNames = [
                 "block_name", "pre_block_msg", "pre_block_wait_time",
                 "stim_sequence_file", "data_file"
@@ -64,13 +69,14 @@ class GradCPTSession(StudySession):
                         )
             self._info["blocks_file"] = blocksFile
             
-        # Update the info file with relevant config values
-        configVals = [
-            "num_full_blocks", "do_practice_block", "stim_transition_time_ms",
-            "stim_static_time_ms", "stim_diameter",
-            "full_block_sequence_length", "muse_signals"
-            ]
-        self._info.update(**{val : getattr(CONFIG, val) for val in configVals})
+            # Update the info file with relevant config values
+            configVals = [
+                "num_full_blocks", "do_practice_block", 
+                "stim_transition_time_ms", "stim_static_time_ms", 
+                "stim_diameter", "full_block_sequence_length", "muse_signals"
+                ]
+            self._log.debug(f"Updating info file with fields: {configVals}")
+            self._info.update(**{v : getattr(CONFIG, v) for v in configVals})
         
     @property
     @abstractmethod
@@ -84,32 +90,22 @@ class GradCPTSession(StudySession):
     def run(self) -> None:
         # TODO: finish this
         
-        if CONFIG.verbose == 2:
-            print("\nRunning GrapCPT session.\n")
-            print(f"Info file for this session: {infoFile}")
-        elif CONFIG.verbose >= 3:
-            msg = [
-                "\nStarting experiment:",
-                *[f"|   {key} : {value}" for key, value in self._info.items()]
-            ]
-            print("\n".join(msg))
+        self._log.info("Running GradCPT session")
+        self._log.debug("Session info: %s", self.info)
         
         # Start MATLAB engine asynchronously (do this first as it may take some
         # time)
-        if CONFIG.verbose >= 2:
-            print("Starting the MATLAB engine asynchronously.")
+        self._log.debug("Starting the MATLAB engine asynchronously")
         future = matlab.engine.start_matlab(background=True)
         
         # Connect to the EEG device and start streaming
-        if CONFIG.verbose >= 2:
-            print("Connecting to the EEG.")
+        self._log.debug("Connecting to the EEG")
         self.eeg.connect()
         self.eeg.startStreaming()
         
         # Start LabRecorder
         if CONFIG.path_to_LabRecorder != "":
-            if CONFIG.verbose >= 2:
-                print("Starting LabRecorder.")
+            self._log.debug("Starting LabRecorder")
             proc1 = subprocess.Popen(
                 os.path.realpath(CONFIG.path_to_LabRecorder),
                 stdout=subprocess.PIPE,
@@ -118,27 +114,14 @@ class GradCPTSession(StudySession):
                 )   
             
         # Wait for MATLAB to finish starting
-        if CONFIG.verbose >= 1:
-            print("Running experiment in MATLAB.")
-        if CONFIG.verbose >= 2:
-            print("Waiting for MATLAB to start ...")
-            loader = SpinningLoader("")
-            loader.start()
-            try:
-                while not future.done():
-                    sleep(0.5)
-            except Exception as E:
-                print(
-                    "WARNING: The below message indicates 'Done', but it was "
-                    + "stopped early due to an error."
-                    )
-                raise E
-            finally:
-                loader.stop()
+        self._log.info("Running experiment in MATLAB ...")
+        self._log.debug("Waiting for MATLAB to start ...")
+        while not future.done():
+            sleep(0.5)
+        self._log.debug("Waiting for MATLAB to start: DONE")
 
         # Run the experiment on MATLAB
-        if CONFIG.verbose >= 2:
-            print("Displaying stimuli using Psychtoolbox.")
+        self._log.debug("Displaying stimuli using Psychtoolbox")
         eng = future.result()
         p = eng.genpath(CONFIG.projectRoot)
         eng.addpath(p, nargout=0)
@@ -150,17 +133,16 @@ class GradCPTSession(StudySession):
             'tcpAddress', CONFIG.tcp_address,
             'tcpPort', CONFIG.tcp_port
             )
+        self._log.info("Running experiment in MATLAB: DONE")
 
         # Close the EEG device
-        if CONFIG.verbose >= 2:
-            print("Closing the EEG.")
+        self._log.debug("Closing the EEG")
         self.eeg.stopStreaming()
         self.eeg.disconnect()
 
         # Close LabRecorder
         if CONFIG.path_to_LabRecorder != "":
-            if CONFIG.verbose >= 2:
-                print("Closing LabRecorder.")
+            self._log.debug("Closing LabRecorder")
             proc1.kill()
             out, err = proc1.communicate()
             if CONFIG.verbose >= 2:
@@ -205,11 +187,13 @@ class GradCPTBlock(StudyBlock):
             self._STIMULI_DIR, "common_target"
             )
         if not os.path.isdir(self._COMMON_TARGET_DIR):
+            self._log.debug(f"Creating directory: {self._COMMON_TARGET_DIR}")
             os.makedirs(self._COMMON_TARGET_DIR)
         self._RARE_TARGET_DIR = os.path.join(
             self._STIMULI_DIR, "rare_target"
             )
         if not os.path.isdir(self._RARE_TARGET_DIR):
+            self._log.debug(f"Creating directory: {self._RARE_TARGET_DIR}")
             os.makedirs(self._RARE_TARGET_DIR)
         
         # Specify the paths to the stim sequence and data files
@@ -222,6 +206,9 @@ class GradCPTBlock(StudyBlock):
         
         # Create the stim sequence file if it doesn't exist yet
         if not os.path.isfile(self._stimSequenceFile):
+            self._log.debug(
+                f"Creating stimulus sequence file: {self._stimSequenceFile}"
+                )
             self.__generateStimSequence(stimSequenceLength)
             
         # Initialize the data as None
@@ -276,6 +263,9 @@ class GradCPTBlock(StudyBlock):
     
     @property
     def stimSequence(self) -> dict[str, list[str]]:
+        self._log.debug(
+            f"Reading stimulus sequence file: {self.stimSequenceFile}"
+            )
         return pl.read_csv(self.stimSequenceFile).to_dict(as_series=False)
     
     @property
@@ -287,7 +277,10 @@ class GradCPTBlock(StudyBlock):
     def data(self) -> [Any | None]:
         if self._data is None:
             if os.path.isfile(self.dataFile):
+                self._log.debug(f"Loading data file: {self.dataFile}")
                 self._data = self.loadData(self.dataFile)
+            else:
+                self._log.info("No data found")
         return self._data
     
     def display(self) -> None:
