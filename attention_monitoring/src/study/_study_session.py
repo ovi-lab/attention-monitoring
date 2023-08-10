@@ -70,11 +70,12 @@ class StudySession(Study):
     """    
     def __init__(
             self, 
+            dataSubDir: [None | str] = None,
             sessionName: [str | None] = None,
             participantID: [int | None] = None
             ) -> None:
         
-        super().__init__()
+        super().__init__(dataSubDir=dataSubDir)
         self._log.debug("Initializing session.")
 
         # # Define some useful directories, creating them if they don't already 

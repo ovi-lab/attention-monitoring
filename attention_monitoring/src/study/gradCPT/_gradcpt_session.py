@@ -20,11 +20,16 @@ class GradCPTSession(StudySession):
     
     def __init__(
             self, 
+            dataSubDir: [None | str] = None,
             sessionName: [str | None] = None,
             participantID: [int | None] = None
             ) -> None:
         
-        super().__init__(sessionName=sessionName, participantID=participantID)        
+        super().__init__(
+            dataSubDir=dataSubDir,
+            sessionName=sessionName, 
+            participantID=participantID
+            )        
         
         # Create the blocks for this session
         self._log.debug("Creating session blocks")

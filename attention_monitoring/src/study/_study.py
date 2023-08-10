@@ -5,16 +5,13 @@ import os
 from src.config import CONFIG
 
 # TODO: change JsonBackedDict to properly behave like a dict
+# TODO: add documentation for Study
 
 # TODO: change logging formatting, see note on performance in: https://stackoverflow.com/questions/32291361/how-can-i-log-a-dictionary-into-a-log-file
 
 class Study(ABC):
     
-    def __init__(self):
-        
-        print(f"name and module:")
-        print(__name__)
-        print(self.__module__)
+    def __init__(self, dataSubDir: [None | str] = None) -> None:
         
         consoleHandler = logging.StreamHandler()
         consoleFormatter = logging.Formatter(
@@ -55,6 +52,8 @@ class Study(ABC):
         self._DATA_DIR = os.path.join(
             CONFIG.projectRoot, "src", "data", self.getStudyType()
             )
+        if dataSubDir is not None:
+            self._DATA_DIR = os.path.join(self._DATA_DIR, dataSubDir)
         if not os.path.isdir(self._DATA_DIR):
             self._log.debug(f"Creating directory: {self._DATA_DIR}")
             os.makedirs(self._DATA_DIR)
