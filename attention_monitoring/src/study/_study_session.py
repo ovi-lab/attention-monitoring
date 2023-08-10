@@ -9,7 +9,7 @@ from typing import Any
 import polars as pl
 
 from src.config import CONFIG
-from ._helpers import JsonBackedDict
+from .helpers import JsonBackedDict
 from ._study import Study
 from ._study_block import StudyBlock
 
