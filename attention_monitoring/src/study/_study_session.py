@@ -13,6 +13,8 @@ from ._helpers import JsonBackedDict
 from ._study import Study
 from ._study_block import StudyBlock
 
+_log = logging.getLogger(__name__)
+
 class StudySession(Study):
     """A session of a scientific study.
     
@@ -76,7 +78,7 @@ class StudySession(Study):
             ) -> None:
         
         super().__init__(dataSubDir=dataSubDir)
-        self._log.debug("Initializing session.")
+        _log.debug("Initializing session.")
 
         # # Define some useful directories, creating them if they don't already 
         # # exist 
@@ -95,12 +97,12 @@ class StudySession(Study):
         
         # Get the log for sessions of this study type
         sessionsLogPath = os.path.join(self._SESSIONS_DIR, "log.csv")
-        self._log.debug(f"Getting the sessions log: {sessionsLogPath}")
+        _log.debug(f"Getting the sessions log: {sessionsLogPath}")
         sessionsLog = SessionLogger(sessionsLogPath)
         
         if sessionName is None:
             # Create a new session if `sessionName` is unspecified.
-            self._log.info("Creating a new session")
+            _log.info("Creating a new session")
             
             # Update the session log with the info for this study. This
             # includes the fields "session_name", "session_id", "date", and
@@ -120,21 +122,19 @@ class StudySession(Study):
                 k : v[0] for (k, v) in SessionLogEntry.items() 
                 if k in SessionLogger.logFields
                 }
-            self._log.debug(
-                f"Added session to log with fields: {SessionLogEntry}"
-                )
+            _log.debug(f"Added session to log with fields: {SessionLogEntry}")
             
             # Create a directory to store data for this session
             self._DIR = os.path.join(
                 self._SESSIONS_DIR, 
                 SessionLogEntry["session_name"]
                 )
-            self._log.debug(f"Creating directory: {self._DIR}")
+            _log.debug(f"Creating directory: {self._DIR}")
             os.makedirs(self._DIR, exist_ok=True)
             
             # Create an info file for this session
             infoPath = os.path.join(self._DIR, "info.json")
-            self._log.debug(f"Creating info file: {infoPath}")
+            _log.debug(f"Creating info file: {infoPath}")
             self._info = JsonBackedDict(infoPath)
             self._info.update(
                 **SessionLogEntry,
@@ -143,11 +143,11 @@ class StudySession(Study):
                 )
         else:
             # If a session name was provided, get its directory and info file
-            self._log.info(f"Loading existing session: {sessionName}")
+            _log.info(f"Loading existing session: {sessionName}")
             
             self._DIR = os.path.join(self._SESSIONS_DIR, sessionName)
             infoPath = os.path.join(self._DIR, "info.json")
-            self._log.debug(f"Loading info file: {infoPath}")
+            _log.debug(f"Loading info file: {infoPath}")
             try:
                 self._info = JsonBackedDict(infoPath, forceReadFile=True)
             except FileNotFoundError as E:

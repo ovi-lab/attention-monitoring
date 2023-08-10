@@ -1,4 +1,5 @@
 import csv
+import logging
 import os
 import random
 import sys
@@ -10,6 +11,8 @@ import pyxdf
 
 from src.config import CONFIG
 from src.study import StudyBlock
+
+_log = logging.getLogger(__name__)
 
 class GradCPTBlock(StudyBlock):
     def __init__(
@@ -33,13 +36,13 @@ class GradCPTBlock(StudyBlock):
             self._STIMULI_DIR, "common_target"
             )
         if not os.path.isdir(self._COMMON_TARGET_DIR):
-            self._log.debug(f"Creating directory: {self._COMMON_TARGET_DIR}")
+            _log.debug(f"Creating directory: {self._COMMON_TARGET_DIR}")
             os.makedirs(self._COMMON_TARGET_DIR)
         self._RARE_TARGET_DIR = os.path.join(
             self._STIMULI_DIR, "rare_target"
             )
         if not os.path.isdir(self._RARE_TARGET_DIR):
-            self._log.debug(f"Creating directory: {self._RARE_TARGET_DIR}")
+            _log.debug(f"Creating directory: {self._RARE_TARGET_DIR}")
             os.makedirs(self._RARE_TARGET_DIR)
         
         # Specify the paths to the stim sequence and data files
@@ -52,7 +55,7 @@ class GradCPTBlock(StudyBlock):
         
         # Create the stim sequence file if it doesn't exist yet
         if not os.path.isfile(self._stimSequenceFile):
-            self._log.debug(
+            _log.debug(
                 f"Creating stimulus sequence file: {self._stimSequenceFile}"
                 )
             self.__generateStimSequence(stimSequenceLength)
@@ -109,9 +112,7 @@ class GradCPTBlock(StudyBlock):
     
     @property
     def stimSequence(self) -> dict[str, list[str]]:
-        self._log.debug(
-            f"Reading stimulus sequence file: {self.stimSequenceFile}"
-            )
+        _log.debug(f"Reading stimulus sequence file: {self.stimSequenceFile}")
         return pl.read_csv(self.stimSequenceFile).to_dict(as_series=False)
     
     @property
@@ -123,10 +124,10 @@ class GradCPTBlock(StudyBlock):
     def data(self) -> [Any | None]:
         if self._data is None:
             if os.path.isfile(self.dataFile):
-                self._log.debug(f"Loading data file: {self.dataFile}")
+                _log.debug(f"Loading data file: {self.dataFile}")
                 self._data = self.loadData(self.dataFile)
             else:
-                self._log.info("No data found")
+                _log.info("No data found")
         return self._data
     
     def display(self) -> None:

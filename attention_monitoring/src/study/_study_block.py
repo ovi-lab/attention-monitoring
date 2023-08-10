@@ -4,6 +4,8 @@ from typing import Any
 
 from ._study import Study
 
+_log = logging.getLogger(__name__)
+
 class StudyBlock(Study):
     """A block of a scientific study.
     
@@ -34,7 +36,7 @@ class StudyBlock(Study):
     """
     def __init__(self, name: str) -> None:
         super().__init__()
-        self._log.debug("Initializing block")
+        _log.debug("Initializing block")
         
         self._name = name
     

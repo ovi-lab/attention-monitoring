@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import csv
+import logging
 import os
 import subprocess
 from time import sleep
@@ -11,6 +12,8 @@ from src.config import CONFIG
 from src.eeg_device import EEGDevice
 from src.study import StudySession, StudyBlock
 from ._gradcpt_block import GradCPTBlock
+
+_log = logging.getLogger(__name__)
 
 class GradCPTSession(StudySession):
     
@@ -32,16 +35,16 @@ class GradCPTSession(StudySession):
             )        
         
         # Create the blocks for this session
-        self._log.debug("Creating session blocks")
+        _log.debug("Creating session blocks")
         self._blocks = {}
         if CONFIG.do_practice_block:
             name = f"{self._info['session_name']}_practice_block"
-            self._log.debug(f"Creating block: {name}")
+            _log.debug(f"Creating block: {name}")
             block = GradCPTBlock.makePracticeBlock(name, self._DIR)
             self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
             name = f"{self._info['session_name']}_full_block_{k + 1}"
-            self._log.debug(f"Creating block: {name}")
+            _log.debug(f"Creating block: {name}")
             block = GradCPTBlock.makeFullBlock(name, self._DIR, n=(k + 1))
             self._blocks[block.name] = block
         
@@ -50,7 +53,7 @@ class GradCPTSession(StudySession):
             # Create a "blocks file" that summarizes the blocks for this
             # session
             blocksFile = os.path.join(self._DIR, "blocks.csv")
-            self._log.debug(f"Creating blocks file: {blocksFile}")
+            _log.debug(f"Creating blocks file: {blocksFile}")
             blocksFileFieldNames = [
                 "block_name", "pre_block_msg", "pre_block_wait_time",
                 "stim_sequence_file", "data_file"
@@ -76,7 +79,7 @@ class GradCPTSession(StudySession):
                 "stim_transition_time_ms", "stim_static_time_ms", 
                 "stim_diameter", "full_block_sequence_length", "muse_signals"
                 ]
-            self._log.debug(f"Updating info file with fields: {configVals}")
+            _log.debug(f"Updating info file with fields: {configVals}")
             self._info.update(**{v : getattr(CONFIG, v) for v in configVals})
         
     @property
@@ -91,22 +94,22 @@ class GradCPTSession(StudySession):
     def run(self) -> None:
         # TODO: finish this
         
-        self._log.info("Running GradCPT session")
-        self._log.debug("Session info: %s", self.info)
+        _log.info("Running GradCPT session")
+        _log.debug("Session info: %s", self.info)
         
         # Start MATLAB engine asynchronously (do this first as it may take some
         # time)
-        self._log.debug("Starting the MATLAB engine asynchronously")
+        _log.debug("Starting the MATLAB engine asynchronously")
         future = matlab.engine.start_matlab(background=True)
         
         # Connect to the EEG device and start streaming
-        self._log.debug("Connecting to the EEG")
+        _log.debug("Connecting to the EEG")
         self.eeg.connect()
         self.eeg.startStreaming()
         
         # Start LabRecorder
         if CONFIG.path_to_LabRecorder != "":
-            self._log.debug("Starting LabRecorder")
+            _log.debug("Starting LabRecorder")
             proc1 = subprocess.Popen(
                 os.path.realpath(CONFIG.path_to_LabRecorder),
                 stdout=subprocess.PIPE,
@@ -115,14 +118,14 @@ class GradCPTSession(StudySession):
                 )   
             
         # Wait for MATLAB to finish starting
-        self._log.info("Running experiment in MATLAB ...")
-        self._log.debug("Waiting for MATLAB to start ...")
+        _log.info("Running experiment in MATLAB ...")
+        _log.debug("Waiting for MATLAB to start ...")
         while not future.done():
             sleep(0.5)
-        self._log.debug("Waiting for MATLAB to start: DONE")
+        _log.debug("Waiting for MATLAB to start: DONE")
 
         # Run the experiment on MATLAB
-        self._log.debug("Displaying stimuli using Psychtoolbox")
+        _log.debug("Displaying stimuli using Psychtoolbox")
         eng = future.result()
         p = eng.genpath(CONFIG.projectRoot)
         eng.addpath(p, nargout=0)
@@ -134,16 +137,16 @@ class GradCPTSession(StudySession):
             'tcpAddress', CONFIG.tcp_address,
             'tcpPort', CONFIG.tcp_port
             )
-        self._log.info("Running experiment in MATLAB: DONE")
+        _log.info("Running experiment in MATLAB: DONE")
 
         # Close the EEG device
-        self._log.debug("Closing the EEG")
+        _log.debug("Closing the EEG")
         self.eeg.stopStreaming()
         self.eeg.disconnect()
 
         # Close LabRecorder
         if CONFIG.path_to_LabRecorder != "":
-            self._log.debug("Closing LabRecorder")
+            _log.debug("Closing LabRecorder")
             proc1.kill()
             out, err = proc1.communicate()
             if CONFIG.verbose >= 2:
