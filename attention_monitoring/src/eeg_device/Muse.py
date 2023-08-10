@@ -1,11 +1,14 @@
 # TODO: still needs a lot of fixing up
 
 import subprocess
+import logging
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
 import textwrap
 
 from .EEGDevice import EEGDevice
 from attention_monitoring.src.config import CONFIG
+
+_log = logging.getLogger(__name__)
 
 class Muse(EEGDevice):
     """Setup the Muse device to begin streaming data to LSL.
@@ -62,14 +65,12 @@ class Muse(EEGDevice):
                 for i in range(len(keys))
                 ]
 
-            if CONFIG.verbose >= 3:
-                print("Starting Bluemuse.")
+            _log.debug("Starting BLuemuse")
             for command in commands:
                 subprocess.run(command, shell=True) 
 
             # Connect to the Muse device
-            if CONFIG.verbose >= 3:
-                print("Connecting to Muse device")
+            _log.debug("Connecting to Muse device")
             if CONFIG.eeg_device_id is not None:
                 command = (
                     "start bluemuse://start?addresses="
@@ -83,30 +84,22 @@ class Muse(EEGDevice):
         # Connecting to the Muse device in `self.connect` automatically starts 
         # streaming, so here we just make sure that all desired signals are
         # streaming.
-        if CONFIG.verbose >= 3:
-            msg = textwrap.wrap(
-                "Waiting 30 seconds for all desired Muse signals to stream to"
-                + "LSL.",
-                width=80
+        _log.info(
+            "Waiting 30 seconds for all desired Muse signals to stream to"
+            + "LSL."
             )
-            print("\n".join(msg))
         pred = " or ".join(f"type='{x}'" for x in self.signals)
         streams = resolve_bypred(pred, minimum=len(self.signals), timeout=30)
         streamTypes = [stream.type() for stream in streams]
         if not all(signal in streamTypes for signal in self.signals):
-            if CONFIG.verbose >= 1:
-                label = "WARNING: "
-                msg = [
-                    "Not all of the desired Muse signals are streaming to "
-                    + "LSL (Waited 30 seconds).",
-                    f"Desired Signals: {self.signals}",
-                    f"Streaming Signals: {streamTypes}"
-                ]
-                for text in msg:
-                    lines = textwrap.wrap(text, width=80 - len(label))
-                    print("\n".join([label + line for line in lines]))
-        elif CONFIG.verbose >= 3:
-            print("All Muse signals are streaming on LSL.")
+            _log.warning(
+                "Not all of the desired Muse signals are streaming to "
+                + "LSL (Waited 30 seconds)."
+                + f" Desired Signals: {self.signals}"
+                + f" Streaming Signals: {streamTypes}"
+            )
+        else:
+            _log.debug("All Muse signals are streaming on LSL.")
             
     def disconnect(self):
         command = "start bluemuse://shutdown"
