@@ -74,8 +74,8 @@ class StudySession(Study):
             participantID: [int | None] = None
             ) -> None:
         
-        self._log.debug("Initializing session.")
         super().__init__()
+        self._log.debug("Initializing session.")
 
         # # Define some useful directories, creating them if they don't already 
         # # exist 

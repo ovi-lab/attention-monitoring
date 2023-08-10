@@ -24,8 +24,8 @@ class GradCPTSession(StudySession):
             participantID: [int | None] = None
             ) -> None:
         
-        super().__init__(sessionName=sessionName, participantID=participantID)
-                
+        super().__init__(sessionName=sessionName, participantID=participantID)        
+        
         # Create the blocks for this session
         self._log.debug("Creating session blocks")
         self._blocks = {}

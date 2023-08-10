@@ -33,8 +33,8 @@ class StudyBlock(Study):
         Visualize the data collected in this block.
     """
     def __init__(self, name: str) -> None:
-        self._log.debug("Initializing block")
         super().__init__()
+        self._log.debug("Initializing block")
         
         self._name = name
     

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import logging
+import os
 
 from src.config import CONFIG
 
@@ -12,8 +13,16 @@ class Study(ABC):
     def __init__(self):
         
         print(f"name and module:")
-        print(__name__, self.__module__)
-            
+        print(__name__)
+        print(self.__module__)
+        
+        consoleHandler = logging.StreamHandler()
+        consoleFormatter = logging.Formatter(
+            "%(levelname)-8s : %(cls)-16s : %(message)-s"
+            )   
+        consoleHandler.setFormatter(consoleFormatter)
+        
+                 
         
         
         # Create a logger from the name of the class
