@@ -1,5 +1,6 @@
 from abc import abstractmethod
 import csv
+from io import StringIO
 import logging
 import os
 import subprocess
@@ -140,6 +141,7 @@ class GradCPTSession(StudySession):
 
             # Run the experiment on MATLAB
             _log.debug("Displaying stimuli using Psychtoolbox")
+            matlabOut = StringIO()
             eng = future.result()
             p = eng.genpath(CONFIG.projectRoot)
             eng.addpath(p, nargout=0)
@@ -149,9 +151,15 @@ class GradCPTSession(StudySession):
                 'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
                 'recordLSL', CONFIG.record_lsl,
                 'tcpAddress', CONFIG.tcp_address,
-                'tcpPort', CONFIG.tcp_port
+                'tcpPort', CONFIG.tcp_port,
+                stdout=matlabOut,
+                stderr=matlabOut
                 )
             _log.info("Running experiment in MATLAB: DONE")
+            matlabLog = os.path.join(self._DIR, "matlab.log")
+            _log.debug("Writing MATLAB output to file: %s", matlabLog)
+            with open(matlabLog, "w") as f:
+                f.write(matlabOut.getvalue())
 
             # Close the EEG device
             _log.debug("Closing the EEG")
@@ -163,9 +171,12 @@ class GradCPTSession(StudySession):
                 _log.debug("Closing LabRecorder")
                 proc1.kill()
                 out, err = proc1.communicate()
-                if CONFIG.verbose >= 2:
-                    print("\nLabRecorder Output\n")
-                    print(out)
+                lrLogFile = os.path.join(self._DIR, "labrecorder.log")
+                _log.debug("Writing LabRecorder output to file: %s", lrLogFile)
+                with open(lrLogFile, "w") as f:
+                    f.write(out)
+                    
+                _log.info("DONE RUNNING GRADCPT SESSION")
         finally:
             runHandler.close()
             _log.removeHandler(runHandler)
