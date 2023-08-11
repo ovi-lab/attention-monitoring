@@ -41,14 +41,14 @@ class GradCPTSession(StudySession):
         self._blocks = {}
         if CONFIG.do_practice_block:
             name = f"{self._info['session_name']}_practice_block"
-            _log.debug("Creating block: ", name)
+            _log.debug("Creating block: %s", name)
             block = GradCPTBlock.makePracticeBlock(
                 name, self._DIR, dataSubDir=dataSubDir
                 )
             self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
             name = f"{self._info['session_name']}_full_block_{k + 1}"
-            _log.debug("Creating block: ", name)
+            _log.debug("Creating block: %s", name)
             block = GradCPTBlock.makeFullBlock(
                 name, self._DIR, dataSubDir=dataSubDir, n=(k + 1)
                 )

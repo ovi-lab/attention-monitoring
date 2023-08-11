@@ -17,7 +17,7 @@ _log = logging.getLogger(__name__)
 class GradCPTBlock(StudyBlock):
     def __init__(
             self, 
-            *args,
+            name,
             outputDir: str,
             preBlockMsg: [str | None] = None,
             preBlockWaitingTime: int = 30,
@@ -25,7 +25,7 @@ class GradCPTBlock(StudyBlock):
             **kwargs
             ) -> None:
         
-        super().__init__(*args, **kwargs)
+        super().__init__(name, **kwargs)
         
         self._OUTPUT_DIR = outputDir
         self.preBlockMsg = preBlockMsg if preBlockMsg is not None else ""
@@ -60,6 +60,8 @@ class GradCPTBlock(StudyBlock):
                 "Creating stimulus sequence file: %s", self._stimSequenceFile
                 )
             self.__generateStimSequence(stimSequenceLength)
+        else:
+            _log.debug("Loading existing block: %s", self.name)
             
         # Initialize the data as None
         self._data = None
