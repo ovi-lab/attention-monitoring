@@ -1,5 +1,5 @@
 from src.config import CONFIG
-from src.study.gradcpt import GradCPTSession
+from src.gradcpt import GradCPTSession
 from src.eeg_device import Muse
 
 class MuseGradCPTSession(GradCPTSession):
