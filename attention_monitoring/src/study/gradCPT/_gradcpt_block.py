@@ -19,12 +19,13 @@ class GradCPTBlock(StudyBlock):
             self, 
             name: str,
             outputDir: str,
+            dataSubDir: [None | str] = None,
             preBlockMsg: [str | None] = None,
             preBlockWaitingTime: int = 30,
             stimSequenceLength: int = 10
             ) -> None:
         
-        super().__init__(name)
+        super().__init__(name, dataSubDir=dataSubDir)
         
         self._OUTPUT_DIR = outputDir
         self.preBlockMsg = preBlockMsg if preBlockMsg is not None else ""
@@ -67,6 +68,7 @@ class GradCPTBlock(StudyBlock):
     def makePracticeBlock(cls, 
             name: str, 
             outputDir: str,
+            dataSubDir: [None | str] = None
             ) -> Self:
         
         preBlockWaitingTime = CONFIG.pre_practice_block_break_time
@@ -78,6 +80,7 @@ class GradCPTBlock(StudyBlock):
         return cls(
             name, 
             outputDir, 
+            dataSubDir=dataSubDir,
             preBlockMsg=preBlockMsg, 
             preBlockWaitingTime=preBlockWaitingTime, 
             stimSequenceLength=stimSequenceLength
@@ -88,6 +91,7 @@ class GradCPTBlock(StudyBlock):
             cls, 
             name: str, 
             outputDir: str, 
+            dataSubDir: [None | str] = None,
             n: [int | None] = None
             ) -> Self:
         
@@ -101,6 +105,7 @@ class GradCPTBlock(StudyBlock):
         return cls(
             name, 
             outputDir, 
+            dataSubDir=dataSubDir,
             preBlockMsg=preBlockMsg, 
             preBlockWaitingTime=preBlockWaitingTime, 
             stimSequenceLength=stimSequenceLength

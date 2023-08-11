@@ -34,8 +34,8 @@ class StudyBlock(Study):
     display() -> None
         Visualize the data collected in this block.
     """
-    def __init__(self, name: str) -> None:
-        super().__init__()
+    def __init__(self, name: str, dataSubDir: [None | str] = None) -> None:
+        super().__init__(dataSubDir=dataSubDir)
         _log.debug("Initializing block")
         
         self._name = name

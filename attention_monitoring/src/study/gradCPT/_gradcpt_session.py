@@ -41,12 +41,16 @@ class GradCPTSession(StudySession):
         if CONFIG.do_practice_block:
             name = f"{self._info['session_name']}_practice_block"
             _log.debug("Creating block: ", name)
-            block = GradCPTBlock.makePracticeBlock(name, self._DIR)
+            block = GradCPTBlock.makePracticeBlock(
+                name, self._DIR, dataSubDir=dataSubDir
+                )
             self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
             name = f"{self._info['session_name']}_full_block_{k + 1}"
             _log.debug("Creating block: ", name)
-            block = GradCPTBlock.makeFullBlock(name, self._DIR, n=(k + 1))
+            block = GradCPTBlock.makeFullBlock(
+                name, self._DIR, dataSubDir=dataSubDir, n=(k + 1)
+                )
             self._blocks[block.name] = block
         
         # Create a new session if `sessionName` is unspecified.
