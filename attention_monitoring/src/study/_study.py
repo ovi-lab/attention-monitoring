@@ -4,6 +4,8 @@ import os
 
 from src.config import CONFIG
 
+_log = logging.Logger(__name__)
+
 # TODO: change JsonBackedDict to properly behave like a dict
 # TODO: add documentation for Study
 
@@ -23,10 +25,10 @@ class Study(ABC):
         
         
         # # Create a logger from the name of the class
-        # self._log = logging.Logger(__name__ + "->" + self.__class__.__name__)
+        # _log = logging.Logger(__name__ + "->" + self.__class__.__name__)
         
         # ##############
-        # if not self._log.hasHandlers():
+        # if not _log.hasHandlers():
         #     handlerConsole = logging.StreamHandler()
         #     handlerConsole.setLevel(logging.CRITICAL)
         #     formatterDefault = logging.Formatter("%(name)s")
@@ -37,38 +39,39 @@ class Study(ABC):
         #         + "\n    %(message)-s"
         #     ) 
         #     handlerConsole.setFormatter(formatterConsole)
-        #     self._log.addHandler(handlerConsole)
+        #     _log.addHandler(handlerConsole)
             
         #     # handler = logging.StreamHandler()
         #     # handler.setLevel(logging.DEBUG)
         #     # handler.setFormatter(formatter)
-        #     # self._log.addHandler(handler)
+        #     # _log.addHandler(handler)
         # ##############
         
         # Define some useful directories, creating them if they don't already 
         # exist 
         
         # Directory to store all data for studies of this type
-        self._DATA_DIR = os.path.join(
-            CONFIG.projectRoot, "src", "data", self.getStudyType()
-            )
+        studyDir = self.getStudyType()
         if dataSubDir is not None:
-            self._DATA_DIR = os.path.join(self._DATA_DIR, dataSubDir)
+            studyDir = os.path.join(dataSubDir, studyDir)
+        self._DATA_DIR = os.path.join(
+            CONFIG.projectRoot, "src", "data", studyDir
+            )
         if not os.path.isdir(self._DATA_DIR):
-            self._log.debug(f"Creating directory: {self._DATA_DIR}")
+            _log.debug(f"Creating directory: {self._DATA_DIR}")
             os.makedirs(self._DATA_DIR)
         
         # Directory to store stimuli used in this study
         self._STIMULI_DIR = os.path.join(self._DATA_DIR, "stimuli")
         if not os.path.isdir(self._STIMULI_DIR):
-            self._log.debug(f"Creating directory: {self._STIMULI_DIR}")
+            _log.debug(f"Creating directory: {self._STIMULI_DIR}")
             os.makedirs(self._STIMULI_DIR)
         
         # Parent directory to contain the individual directories of every
         # session of this study.
         self._SESSIONS_DIR = os.path.join(self._DATA_DIR, "sessions")
         if not os.path.isdir(self._SESSIONS_DIR):
-            self._log.debug(f"Creating directory: {self._SESSIONS_DIR}")
+            _log.debug(f"Creating directory: {self._SESSIONS_DIR}")
             os.makedirs(self._SESSIONS_DIR)
             
     # @property
