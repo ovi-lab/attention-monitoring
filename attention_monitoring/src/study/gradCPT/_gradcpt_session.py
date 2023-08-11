@@ -11,6 +11,7 @@ import polars as pl
 from src.config import CONFIG
 from src.eeg_device import EEGDevice
 from src.study import StudySession, StudyBlock
+from src.study.helpers import getVerboseLogFormatter
 from ._gradcpt_block import GradCPTBlock
 
 _log = logging.getLogger(__name__)
@@ -94,64 +95,75 @@ class GradCPTSession(StudySession):
     def run(self) -> None:
         # TODO: finish this
         
-        _log.info("Running GradCPT session")
-        _log.debug("Session info: %s", self.info)
+        # Write log to file
+        runLogPath = os.path.join(self._DIR, "run_log.log")
+        runHandler = logging.FileHandler(runLogPath)
+        runHandler.setLevel(logging.DEBUG)
+        runHandler.setFormatter(getVerboseLogFormatter(self.getStudyType()))
+        _log.addHandler(runHandler)
         
-        # Start MATLAB engine asynchronously (do this first as it may take some
-        # time)
-        _log.debug("Starting the MATLAB engine asynchronously")
-        future = matlab.engine.start_matlab(background=True)
-        
-        # Connect to the EEG device and start streaming
-        _log.debug("Connecting to the EEG")
-        self.eeg.connect()
-        self.eeg.startStreaming()
-        
-        # Start LabRecorder
-        if CONFIG.path_to_LabRecorder != "":
-            _log.debug("Starting LabRecorder")
-            proc1 = subprocess.Popen(
-                os.path.realpath(CONFIG.path_to_LabRecorder),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True
-                )   
+        try:
+            _log.info("RUNNING GRADCPT SESSION")
+            _log.debug("Session info: %s", self.info)
             
-        # Wait for MATLAB to finish starting
-        _log.info("Running experiment in MATLAB ...")
-        _log.debug("Waiting for MATLAB to start ...")
-        while not future.done():
-            sleep(0.5)
-        _log.debug("Waiting for MATLAB to start: DONE")
+            # Start MATLAB engine asynchronously (do this first as it may take
+            # some time)
+            _log.debug("Starting the MATLAB engine asynchronously")
+            future = matlab.engine.start_matlab(background=True)
+            
+            # Connect to the EEG device and start streaming
+            _log.debug("Connecting to the EEG")
+            self.eeg.connect()
+            self.eeg.startStreaming()
+            
+            # Start LabRecorder
+            if CONFIG.path_to_LabRecorder != "":
+                _log.debug("Starting LabRecorder")
+                proc1 = subprocess.Popen(
+                    os.path.realpath(CONFIG.path_to_LabRecorder),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True
+                    )   
+                
+            # Wait for MATLAB to finish starting
+            _log.info("Running experiment in MATLAB ...")
+            _log.debug("Waiting for MATLAB to start ...")
+            while not future.done():
+                sleep(0.5)
+            _log.debug("Waiting for MATLAB to start: DONE")
 
-        # Run the experiment on MATLAB
-        _log.debug("Displaying stimuli using Psychtoolbox")
-        eng = future.result()
-        p = eng.genpath(CONFIG.projectRoot)
-        eng.addpath(p, nargout=0)
-        data = eng.gradCPT(
-            self._info["info_file"],
-            'verbose', CONFIG.verbose,
-            'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
-            'recordLSL', CONFIG.record_lsl,
-            'tcpAddress', CONFIG.tcp_address,
-            'tcpPort', CONFIG.tcp_port
-            )
-        _log.info("Running experiment in MATLAB: DONE")
+            # Run the experiment on MATLAB
+            _log.debug("Displaying stimuli using Psychtoolbox")
+            eng = future.result()
+            p = eng.genpath(CONFIG.projectRoot)
+            eng.addpath(p, nargout=0)
+            data = eng.gradCPT(
+                self._info["info_file"],
+                'verbose', CONFIG.verbose,
+                'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
+                'recordLSL', CONFIG.record_lsl,
+                'tcpAddress', CONFIG.tcp_address,
+                'tcpPort', CONFIG.tcp_port
+                )
+            _log.info("Running experiment in MATLAB: DONE")
 
-        # Close the EEG device
-        _log.debug("Closing the EEG")
-        self.eeg.stopStreaming()
-        self.eeg.disconnect()
+            # Close the EEG device
+            _log.debug("Closing the EEG")
+            self.eeg.stopStreaming()
+            self.eeg.disconnect()
 
-        # Close LabRecorder
-        if CONFIG.path_to_LabRecorder != "":
-            _log.debug("Closing LabRecorder")
-            proc1.kill()
-            out, err = proc1.communicate()
-            if CONFIG.verbose >= 2:
-                print("\nLabRecorder Output\n")
-                print(out)
+            # Close LabRecorder
+            if CONFIG.path_to_LabRecorder != "":
+                _log.debug("Closing LabRecorder")
+                proc1.kill()
+                out, err = proc1.communicate()
+                if CONFIG.verbose >= 2:
+                    print("\nLabRecorder Output\n")
+                    print(out)
+        finally:
+            runHandler.close()
+            _log.removeHandler(runHandler)
     
     def display(self) -> None:
         # TODO: finish this

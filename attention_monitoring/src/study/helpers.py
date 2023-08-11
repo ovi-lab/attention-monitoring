@@ -4,6 +4,14 @@ import logging
 import os
 from typing import Any
 
+def getVerboseLogFormatter(studyType: str) -> logging.Formatter:
+    _studyType = "%16s" % studyType
+    f = logging.Formatter(
+        ">>%(asctime)s : " + studyType + " : %(levelname)8s : %(name)16s : "
+        + "line %(lineno)d : File ""%(pathname)s"" : %(message)s"
+    )
+    return f
+
 class JsonBackedDict:
     """A dictionary-like object backed by a '.json' file.
     
