@@ -17,16 +17,15 @@ _log = logging.getLogger(__name__)
 class GradCPTBlock(StudyBlock):
     def __init__(
             self, 
-            name: str,
+            *args,
             outputDir: str,
-            /,
-            dataSubDir: [None | str] = None,
             preBlockMsg: [str | None] = None,
             preBlockWaitingTime: int = 30,
-            stimSequenceLength: int = 10
+            stimSequenceLength: int = 10,
+            **kwargs
             ) -> None:
         
-        super().__init__(name, dataSubDir=dataSubDir)
+        super().__init__(*args, **kwargs)
         
         self._OUTPUT_DIR = outputDir
         self.preBlockMsg = preBlockMsg if preBlockMsg is not None else ""

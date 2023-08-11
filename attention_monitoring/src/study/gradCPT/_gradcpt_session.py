@@ -27,13 +27,13 @@ class GradCPTSession(StudySession):
             /,
             dataSubDir: [None | str] = None,
             sessionName: [str | None] = None,
-            participantID: [int | None] = None
+            **kwargs
             ) -> None:
         
         super().__init__(
             dataSubDir=dataSubDir,
             sessionName=sessionName, 
-            participantID=participantID
+            **kwargs
             )        
         
         # Create the blocks for this session
