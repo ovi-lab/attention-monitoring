@@ -40,12 +40,12 @@ class GradCPTSession(StudySession):
         self._blocks = {}
         if CONFIG.do_practice_block:
             name = f"{self._info['session_name']}_practice_block"
-            _log.debug(f"Creating block: {name}")
+            _log.debug("Creating block: ", name)
             block = GradCPTBlock.makePracticeBlock(name, self._DIR)
             self._blocks[block.name] = block
         for k in range(CONFIG.num_full_blocks):
             name = f"{self._info['session_name']}_full_block_{k + 1}"
-            _log.debug(f"Creating block: {name}")
+            _log.debug("Creating block: ", name)
             block = GradCPTBlock.makeFullBlock(name, self._DIR, n=(k + 1))
             self._blocks[block.name] = block
         
@@ -54,7 +54,7 @@ class GradCPTSession(StudySession):
             # Create a "blocks file" that summarizes the blocks for this
             # session
             blocksFile = os.path.join(self._DIR, "blocks.csv")
-            _log.debug(f"Creating blocks file: {blocksFile}")
+            _log.debug("Creating blocks file: %s", blocksFile)
             blocksFileFieldNames = [
                 "block_name", "pre_block_msg", "pre_block_wait_time",
                 "stim_sequence_file", "data_file"
@@ -80,7 +80,7 @@ class GradCPTSession(StudySession):
                 "stim_transition_time_ms", "stim_static_time_ms", 
                 "stim_diameter", "full_block_sequence_length", "muse_signals"
                 ]
-            _log.debug(f"Updating info file with fields: {configVals}")
+            _log.debug("Updating info file with fields: %s", configVals)
             self._info.update(**{v : getattr(CONFIG, v) for v in configVals})
         
     @property

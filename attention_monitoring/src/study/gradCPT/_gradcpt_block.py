@@ -36,13 +36,13 @@ class GradCPTBlock(StudyBlock):
             self._STIMULI_DIR, "common_target"
             )
         if not os.path.isdir(self._COMMON_TARGET_DIR):
-            _log.debug(f"Creating directory: {self._COMMON_TARGET_DIR}")
+            _log.debug("Creating directory: %s", self._COMMON_TARGET_DIR)
             os.makedirs(self._COMMON_TARGET_DIR)
         self._RARE_TARGET_DIR = os.path.join(
             self._STIMULI_DIR, "rare_target"
             )
         if not os.path.isdir(self._RARE_TARGET_DIR):
-            _log.debug(f"Creating directory: {self._RARE_TARGET_DIR}")
+            _log.debug("Creating directory: %s", self._RARE_TARGET_DIR)
             os.makedirs(self._RARE_TARGET_DIR)
         
         # Specify the paths to the stim sequence and data files
@@ -56,7 +56,7 @@ class GradCPTBlock(StudyBlock):
         # Create the stim sequence file if it doesn't exist yet
         if not os.path.isfile(self._stimSequenceFile):
             _log.debug(
-                f"Creating stimulus sequence file: {self._stimSequenceFile}"
+                "Creating stimulus sequence file: %s", self._stimSequenceFile
                 )
             self.__generateStimSequence(stimSequenceLength)
             
@@ -112,7 +112,7 @@ class GradCPTBlock(StudyBlock):
     
     @property
     def stimSequence(self) -> dict[str, list[str]]:
-        _log.debug(f"Reading stimulus sequence file: {self.stimSequenceFile}")
+        _log.debug("Reading stimulus sequence file: %s", self.stimSequenceFile)
         return pl.read_csv(self.stimSequenceFile).to_dict(as_series=False)
     
     @property
@@ -124,7 +124,7 @@ class GradCPTBlock(StudyBlock):
     def data(self) -> [Any | None]:
         if self._data is None:
             if os.path.isfile(self.dataFile):
-                _log.debug(f"Loading data file: {self.dataFile}")
+                _log.debug("Loading data file: %s", self.dataFile)
                 self._data = self.loadData(self.dataFile)
             else:
                 _log.info("No data found")

@@ -97,7 +97,7 @@ class StudySession(Study):
         
         # Get the log for sessions of this study type
         sessionsLogPath = os.path.join(self._SESSIONS_DIR, "log.csv")
-        _log.debug(f"Getting the sessions log: {sessionsLogPath}")
+        _log.debug("Getting the sessions log: %s", sessionsLogPath)
         sessionsLog = SessionLogger(sessionsLogPath)
         
         if sessionName is None:
@@ -122,19 +122,19 @@ class StudySession(Study):
                 k : v[0] for (k, v) in SessionLogEntry.items() 
                 if k in SessionLogger.logFields
                 }
-            _log.debug(f"Added session to log with fields: {SessionLogEntry}")
+            _log.debug("Added session to log with fields: %s", SessionLogEntry)
             
             # Create a directory to store data for this session
             self._DIR = os.path.join(
                 self._SESSIONS_DIR, 
                 SessionLogEntry["session_name"]
                 )
-            _log.debug(f"Creating directory: {self._DIR}")
+            _log.debug("Creating directory: %s", self._DIR)
             os.makedirs(self._DIR, exist_ok=True)
             
             # Create an info file for this session
             infoPath = os.path.join(self._DIR, "info.json")
-            _log.debug(f"Creating info file: {infoPath}")
+            _log.debug("Creating info file: %s", infoPath)
             self._info = JsonBackedDict(infoPath)
             self._info.update(
                 **SessionLogEntry,
@@ -143,11 +143,11 @@ class StudySession(Study):
                 )
         else:
             # If a session name was provided, get its directory and info file
-            _log.info(f"Loading existing session: {sessionName}")
+            _log.info("Loading existing session: %s", sessionName)
             
             self._DIR = os.path.join(self._SESSIONS_DIR, sessionName)
             infoPath = os.path.join(self._DIR, "info.json")
-            _log.debug(f"Loading info file: {infoPath}")
+            _log.debug("Loading info file: %s", infoPath)
             try:
                 self._info = JsonBackedDict(infoPath, forceReadFile=True)
             except FileNotFoundError as E:
