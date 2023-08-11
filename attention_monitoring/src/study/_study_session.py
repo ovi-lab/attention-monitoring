@@ -238,7 +238,6 @@ class SessionLogger:
         self.__path = filePath
 
         dtypes = {field : pl.Utf8 for field in self.logFields}
-        dtypes[self.__rowCountCol] = pl.Int32
 
         if self.__exists():
             self.__log = pl.read_csv(
@@ -250,7 +249,10 @@ class SessionLogger:
             if not self.__rowCountCol in self.__log.columns:
                 self.__log = self.__log.with_row_count(name=self.__rowCountCol)
         else:
-            self.__log = pl.DataFrame(schema=dtypes)
+            self.__log = pl.DataFrame(schema=dtypes).with_row_count(
+                name=self.__rowCountCol,
+                offset=1
+                )
             with open(self.__path, 'w', newline="") as f:
                 dictWriter = csv.DictWriter(f, fieldnames=self.logFields)
                 dictWriter.writeheader()
