@@ -11,7 +11,7 @@ _log = logging.Logger(__name__)
 
 class Study(ABC):
     
-    def __init__(self, dataSubDir: [None | str] = None) -> None:
+    def __init__(self, /, dataSubDir: [None | str] = None) -> None:
         
         # Define some useful directories, creating them if they don't already 
         # exist 

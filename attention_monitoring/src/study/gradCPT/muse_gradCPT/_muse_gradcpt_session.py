@@ -6,6 +6,7 @@ class MuseGradCPTSession(GradCPTSession):
     
     def __init__(
             self, 
+            /,
             dataSubDir: [None | str] = None,
             sessionName: [str | None] = None,
             participantID: [int | None] = None

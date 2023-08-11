@@ -19,6 +19,7 @@ class GradCPTBlock(StudyBlock):
             self, 
             name: str,
             outputDir: str,
+            /,
             dataSubDir: [None | str] = None,
             preBlockMsg: [str | None] = None,
             preBlockWaitingTime: int = 30,
@@ -68,6 +69,7 @@ class GradCPTBlock(StudyBlock):
     def makePracticeBlock(cls, 
             name: str, 
             outputDir: str,
+            /,
             dataSubDir: [None | str] = None
             ) -> Self:
         
@@ -91,6 +93,7 @@ class GradCPTBlock(StudyBlock):
             cls, 
             name: str, 
             outputDir: str, 
+            /,
             dataSubDir: [None | str] = None,
             n: [int | None] = None
             ) -> Self:
