@@ -5,7 +5,7 @@ import logging
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
 import textwrap
 
-from .EEGDevice import EEGDevice
+from ._eeg_device import EEGDevice
 from attention_monitoring.src.config import CONFIG
 
 _log = logging.getLogger(__name__)

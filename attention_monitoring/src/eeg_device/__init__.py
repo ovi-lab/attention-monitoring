@@ -1,2 +1,2 @@
-from .EEGDevice import EEGDevice
-from .Muse import Muse
+from ._eeg_device import EEGDevice
+from ._muse import Muse
