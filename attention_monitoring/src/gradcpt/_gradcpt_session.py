@@ -8,7 +8,7 @@ import os
 import shlex
 import subprocess
 from time import sleep
-from typing import Callable
+from typing import Any, Callable
 
 import matlab.engine
 import polars as pl
@@ -128,38 +128,10 @@ class GradCPTSession(StudySession):
             
             #######
             
-            async def startMuse(*signals):
-                validSignals = ["EEG", "PPG", "Accelerometer", "Gyroscope"]                
-                if len(signals) > 0:
-                    if not all(signal in validSignals for signal in signals):
-                        raise Exception("Invalid signal.")
-                    _signals = signals
-                else:
-                    _signals = validSignals
                 
-                async def execBluemuse(**kwargs):
-                    if len(kwargs) == 0:
-                        raise ValueError(
-                            "Must specify at least one key-value pair."
-                            )
-                    for k, v in kwargs.items():
-                        command = f'start bluemuse://setting?key={k}!value={v}'
-                        command = shlex.split(command)
-                        yield asyncio.create_subprocess_exec(command)
-                        
-                bluemuseOptions = {
-                    (s.lower() + "_enabled") : (str(s in _signals).lower())
-                    for s in validSignals
-                    }
-                bluemuseOptions.update(
-                    {
-                        "primary_timestamp_format" : "LSL_LOCAL_CLOCK_NATIVE"
-                    }
-                )
-                
-                procs = [proc async for proc in execBluemuse(bluemuseOptions)]       
             
             async def startMatlab() -> matlab.engine.MatlabEngine:
+                _log.debug("Starting the MATLAB engine asynchronously")
                 future = matlab.engine.start_matlab(background=True)
                 while not future.done():
                     asyncio.wait(0.5)
@@ -167,8 +139,6 @@ class GradCPTSession(StudySession):
             
             async def startLR() -> asyncio.Process:
                 _log.debug("Starting LabRecorder")
-                lrLogPath = os.path.join(self._DIR, "lab_recorder.log")
-                _log.debug("Writing LabRecorder output to file: %s", lrLogPath)
                 proc = await asyncio.create_subprocess_exec(
                     os.path.realpath(CONFIG.path_to_LabRecorder),
                     stdout=asyncio.subprocess.PIPE,
@@ -176,7 +146,103 @@ class GradCPTSession(StudySession):
                     )
                 return proc
             
-            async def startBlueMuse() -> None:
+            async def logMATLAB(future: matlab.engine.FutureResult, stream: StringIO) -> None:
+                matlabLog = os.path.join(self._DIR, "matlab.log")
+                _log.debug("Writing MATLAB output to file: %s", matlabLog)
+                async with aiofiles.open(matlabLog, "a") as f:
+                    # Continue logging until the call to MATLAB for
+                    # displaying the stimuli is complete
+                    while not future.done():
+                        line = stream.readline()
+                        await f.write(line)
+                    await f.write(stream.getvalue())
+                _log.debug("Done writing MATLAB output to file")
+                    
+            async def logLR(proc) -> None:
+                lrLogPath = os.path.join(self._DIR, "lab_recorder.log")
+                _log.debug("Writing LabRecorder output to file: %s", lrLogPath)
+                async with aiofiles.open(lrLogPath, "a") as f:
+                    # Continue logging until TODO: FINISH DOCUMENTATION
+                    while not proc.stdout.at_eof():
+                        data = await proc.stdout.readLine()
+                        line = data.decode('ascii')
+                        await f.write(line)
+                _log.debug("Done writing LabRecorder output to file")
+                
+            async def stopLR() -> None:
+                pass
+            
+            # Start bluemuse asynchronously ( function in Muse.py)
+            # IMPLEMENT
+            async def startMuse():
+                pass
+           
+                        
+            
+            async def main():
+                # Wait for startup to complete
+                eng, proc_LR, _ = await asyncio.gather(
+                    startMatlab(),
+                    startLR(),
+                    startMuse()
+                    )
+                
+                # Run experiment in MATLAB
+                _log.debug("Displaying stimuli in MATLAB")
+                with StringIO() as matlabOut:
+                    # Add project root directory to MATLAB path
+                    p = eng.genpath(CONFIG.projectRoot)
+                    eng.addpath(p, nargout=0)
+                    
+                    # Display the stimuli, running in background
+                    future = eng.gradCPT(
+                        self._info["info_file"],
+                        'verbose', CONFIG.verbose,
+                        'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
+                        'recordLSL', CONFIG.record_lsl,
+                        'tcpAddress', CONFIG.tcp_address,
+                        'tcpPort', CONFIG.tcp_port,
+                        stdout=matlabOut,
+                        stderr=matlabOut,
+                        background=True
+                        )
+                    
+                    # While experiment is running, log the MATLAB and
+                    # LabRecorder outputs to log files. Run both logging
+                    # coroutines concurrently. Do not wait for their results
+                    logResults = asyncio.gather(logMATLAB(), logLR())
+                    
+                    # Wait for MATLAB to finish presenting the stimuli
+                    while not future.done():
+                        asyncio.sleep(1)
+                        
+                    # Stop LabRecorder
+                    _log.debug("Closing LabRecorder")
+                    proc_LR.terminate()
+                    
+                    # Wait for log writers to finish
+                    await logResults
+                        
+                    
+                    
+                        
+                    
+                        
+                    
+                    
+                    matlabLog = os.path.join(self._DIR, "matlab.log")
+                    _log.debug("Writing MATLAB output to file: %s", matlabLog)
+                    # TODO: is below with block allowed? this is naive code, does it work?
+                    with open(matlabLog, "a") as f:
+                        while not future.done():
+                            f.write(matlabOut.readline())
+                        _log.debug("Done running experiment in MATLAB")
+                        f.write(matlabOut.getvalue())
+                
+                
+            
+            async def monitorLR():
+                
                 
                 
             def runExperiment(eng) -> None:
@@ -229,7 +295,30 @@ class GradCPTSession(StudySession):
                 
                 
             
+            # async def monitorMATLAB(future: matlab.engine.FutureResult) -> Any:
+            #     # Write output received from MATLAB to log file
+            #     matlabLog = os.path.join(self._DIR, "matlab.log")
+            #     _log.debug("Writing MATLAB output to file: %s", matlabLog)
+            #     async with aiofiles.open(matlabLog, "a") as f:
+            #         while not future.done():
+            #             f.write(matlabOut.readline())
+            #         _log.debug("Done displaying stimuli in MATLAB")
+            #         f.write(matlabOut.getvalue())
+            #     return future.result()
             
+            # async def monitorLR(proc: asyncio.Process):
+            #     lrLogPath = os.path.join(self._DIR, "lab_recorder.log")
+            #     _log.debug("Writing LabRecorder output to file: %s", lrLogPath)
+            #     stream = proc.stdout
+                
+            #     async def writeLog():
+            #         with aiofiles.open(lrLogPath, "a") as f:
+            #             while not stream.at_eof():
+            #                 data = await stream.readLine()
+            #                 line = data.decode('ascii')
+            #                 await f.write(line)
+                            
+            #     await asyncio.gather(writeLog(), proc.wait())
             
             
             

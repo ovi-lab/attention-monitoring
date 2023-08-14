@@ -1,8 +1,10 @@
 # TODO: still needs a lot of fixing up
 
+import asyncio
 import subprocess
 import logging
 from pylsl import StreamInfo, StreamInlet, resolve_streams, resolve_bypred
+import shlex
 import textwrap
 
 from .EEGDevice import EEGDevice
@@ -79,6 +81,47 @@ class Muse(EEGDevice):
             else:
                 command = "start bluemuse://start?startall"
             subprocess.run(command, shell=True) 
+            
+    async def asyncConnect(self) -> tuple[asyncio.Process]:
+        streams = resolve_streams()
+        
+        # Helper method for writing common commands to bluemuse   
+        async def execBluemuse(key, value):
+            command = f'start bluemuse://setting?key={key}!value={value}'
+            command = shlex.split(command)
+            proc = await asyncio.create_subprocess_exec(command)
+            return proc
+        
+        # Check whether any desired signals are not yet streaming, starting
+        # Bluemuse if not
+        streamTypes = [stream.type() for stream in streams]
+        if not all(signal in streamTypes for signal in self.signals):
+            # Define commands to start Bluemuse with given preferences
+            _log.debug("Starting Bluemuse")
+            commands = {
+                (f"{s.lower()}_enabled") : (str(s in self.signals).lower())
+                for s in self.__validSignals
+                }
+            commands["primary_timestamp_format"] = "LSL_LOCAL_CLOCK_NATIVE"
+        
+            # Execute the commands
+            procs = await asyncio.gather(
+                *(execBluemuse(k, v) for k, v in commands.items())
+                )
+            
+            # Watt for all commands to finish
+            # IMPLEMENTs
+            
+            
+        
+            
+            
+        else:
+            _log.info("All desired signals are already streaming on LSL")
+            return ()
+         
+        # Run the commands
+        # IMPLEMENT
 
     def startStreaming(self):
         # Connecting to the Muse device in `self.connect` automatically starts 
