@@ -113,31 +113,29 @@ class GradCPTSession(StudySession):
         _log.addHandler(runHandler)
         
         try:
-            _log.info("RUNNING GRADCPT SESSION")
-            _log.debug("Session info: %s", self.info)
+            # _log.info("RUNNING GRADCPT SESSION")
+            # _log.debug("Session info: %s", self.info)
             
-            # Start MATLAB engine asynchronously (do this first as it may take
-            # some time)
-            _log.debug("Starting the MATLAB engine asynchronously")
-            future = matlab.engine.start_matlab(background=True)
+            # # Start MATLAB engine asynchronously (do this first as it may take
+            # # some time)
+            # _log.debug("Starting the MATLAB engine asynchronously")
+            # future = matlab.engine.start_matlab(background=True)
             
-            # Connect to the EEG device and start streaming
-            _log.debug("Connecting to the EEG")
-            self.eeg.connect()
-            self.eeg.startStreaming()
+            # # Connect to the EEG device and start streaming
+            # _log.debug("Connecting to the EEG")
+            # self.eeg.connect()
+            # self.eeg.startStreaming()
             
             #######
-            
-                
             
             async def startMatlab() -> matlab.engine.MatlabEngine:
                 _log.debug("Starting the MATLAB engine asynchronously")
                 future = matlab.engine.start_matlab(background=True)
                 while not future.done():
-                    asyncio.wait(0.5)
+                    await asyncio.sleep(0.5)
                 return future.result()
             
-            async def startLR() -> asyncio.Process:
+            async def startLR() -> asyncio.subprocess.Process:
                 _log.debug("Starting LabRecorder")
                 proc = await asyncio.create_subprocess_exec(
                     os.path.realpath(CONFIG.path_to_LabRecorder),
@@ -167,24 +165,14 @@ class GradCPTSession(StudySession):
                         data = await proc.stdout.readLine()
                         line = data.decode('ascii')
                         await f.write(line)
-                _log.debug("Done writing LabRecorder output to file")
-                
-            async def stopLR() -> None:
-                pass
-            
-            # Start bluemuse asynchronously ( function in Muse.py)
-            # IMPLEMENT
-            async def startMuse():
-                pass
-           
-                        
+                _log.debug("Done writing LabRecorder output to file")      
             
             async def main():
                 # Wait for startup to complete
                 eng, proc_LR, _ = await asyncio.gather(
                     startMatlab(),
                     startLR(),
-                    startMuse()
+                    self.eeg.asyncConnect()
                     )
                 
                 # Run experiment in MATLAB
@@ -210,7 +198,10 @@ class GradCPTSession(StudySession):
                     # While experiment is running, log the MATLAB and
                     # LabRecorder outputs to log files. Run both logging
                     # coroutines concurrently. Do not wait for their results
-                    logResults = asyncio.gather(logMATLAB(), logLR())
+                    logResults = asyncio.gather(
+                        logMATLAB(future, stream), 
+                        logLR(proc_LR)
+                        )
                     
                     # Wait for MATLAB to finish presenting the stimuli
                     while not future.done():
@@ -220,165 +211,73 @@ class GradCPTSession(StudySession):
                     _log.debug("Closing LabRecorder")
                     proc_LR.terminate()
                     
+                    # Close EEG device
+                    _log.debug("Closing the EEG")
+                    self.eeg.stopStreaming()
+                    self.eeg.disconnect()
+                    
                     # Wait for log writers to finish
                     await logResults
-                        
+                      
+            asyncio.run(main(), debug=True)  
                     
-                    
-                        
-                    
-                        
-                    
-                    
-                    matlabLog = os.path.join(self._DIR, "matlab.log")
-                    _log.debug("Writing MATLAB output to file: %s", matlabLog)
-                    # TODO: is below with block allowed? this is naive code, does it work?
-                    with open(matlabLog, "a") as f:
-                        while not future.done():
-                            f.write(matlabOut.readline())
-                        _log.debug("Done running experiment in MATLAB")
-                        f.write(matlabOut.getvalue())
-                
-                
-            
-            async def monitorLR():
-                
-                
-                
-            def runExperiment(eng) -> None:
-                # Intentionally blocking, give as much control to MATLAB as
-                # possible. Run MATLAB in background so we can save output to a
-                # file instead.
-                # TODO: should we save output to file directly in MATLAB instead?
-                _log.debug("Displaying stimuli using Psychtoolbox")
-                with StringIO() as matlabOut:
-                    p = eng.genpath(CONFIG.projectRoot)
-                    eng.addpath(p, nargout=0)
-                    future = eng.gradCPT(
-                        self._info["info_file"],
-                        'verbose', CONFIG.verbose,
-                        'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
-                        'recordLSL', CONFIG.record_lsl,
-                        'tcpAddress', CONFIG.tcp_address,
-                        'tcpPort', CONFIG.tcp_port,
-                        stdout=matlabOut,
-                        stderr=matlabOut,
-                        background=True
-                        )
-                    
-                    matlabLog = os.path.join(self._DIR, "matlab.log")
-                    _log.debug("Writing MATLAB output to file: %s", matlabLog)
-                    # TODO: is below with block allowed? this is naive code, does it work?
-                    with open(matlabLog, "a") as f:
-                        while not future.done():
-                            f.write(matlabOut.readline())
-                        _log.debug("Done running experiment in MATLAB")
-                        f.write(matlabOut.getvalue())
-            
-                            
-            async def writeStreamToFile(
-                stream: asyncio.StreamReader, 
-                filePath: str, 
-                callback: [None | Callable[[str], str]] = None
-                ) -> None:
-                _callback = callback if callback is not None else lambda x: x
-                with aiofiles.open(filePath, "a") as f:
-                    while not stream.at_eof():
-                        data = await stream.readLine()
-                        line = data.decode('ascii')
-                        line = _callback(line)
-                        await f.write(line)
-                        
-                        
-                
-            
-                
-                
-            
-            # async def monitorMATLAB(future: matlab.engine.FutureResult) -> Any:
-            #     # Write output received from MATLAB to log file
-            #     matlabLog = os.path.join(self._DIR, "matlab.log")
-            #     _log.debug("Writing MATLAB output to file: %s", matlabLog)
-            #     async with aiofiles.open(matlabLog, "a") as f:
-            #         while not future.done():
-            #             f.write(matlabOut.readline())
-            #         _log.debug("Done displaying stimuli in MATLAB")
-            #         f.write(matlabOut.getvalue())
-            #     return future.result()
-            
-            # async def monitorLR(proc: asyncio.Process):
-            #     lrLogPath = os.path.join(self._DIR, "lab_recorder.log")
-            #     _log.debug("Writing LabRecorder output to file: %s", lrLogPath)
-            #     stream = proc.stdout
-                
-            #     async def writeLog():
-            #         with aiofiles.open(lrLogPath, "a") as f:
-            #             while not stream.at_eof():
-            #                 data = await stream.readLine()
-            #                 line = data.decode('ascii')
-            #                 await f.write(line)
-                            
-            #     await asyncio.gather(writeLog(), proc.wait())
-            
-            
-            
             #######
             
-            # Start LabRecorder
-            if CONFIG.path_to_LabRecorder != "":
-                _log.debug("Starting LabRecorder")
-                proc1 = subprocess.Popen(
-                    os.path.realpath(CONFIG.path_to_LabRecorder),
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.STDOUT,
-                    text=True
-                    )   
+            # # Start LabRecorder
+            # if CONFIG.path_to_LabRecorder != "":
+            #     _log.debug("Starting LabRecorder")
+            #     proc1 = subprocess.Popen(
+            #         os.path.realpath(CONFIG.path_to_LabRecorder),
+            #         stdout=subprocess.PIPE,
+            #         stderr=subprocess.STDOUT,
+            #         text=True
+            #         )   
                 
-            # Wait for MATLAB to finish starting
-            _log.info("Running experiment in MATLAB ...")
-            _log.debug("Waiting for MATLAB to start ...")
-            while not future.done():
-                sleep(0.5)
-            _log.debug("Waiting for MATLAB to start: DONE")
+            # # Wait for MATLAB to finish starting
+            # _log.info("Running experiment in MATLAB ...")
+            # _log.debug("Waiting for MATLAB to start ...")
+            # while not future.done():
+            #     sleep(0.5)
+            # _log.debug("Waiting for MATLAB to start: DONE")
 
-            # Run the experiment on MATLAB
-            _log.debug("Displaying stimuli using Psychtoolbox")
-            matlabOut = StringIO()
-            eng = future.result()
-            p = eng.genpath(CONFIG.projectRoot)
-            eng.addpath(p, nargout=0)
-            data = eng.gradCPT(
-                self._info["info_file"],
-                'verbose', CONFIG.verbose,
-                'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
-                'recordLSL', CONFIG.record_lsl,
-                'tcpAddress', CONFIG.tcp_address,
-                'tcpPort', CONFIG.tcp_port,
-                stdout=matlabOut,
-                stderr=matlabOut
-                )
-            _log.info("Running experiment in MATLAB: DONE")
-            matlabLog = os.path.join(self._DIR, "matlab.log")
-            _log.debug("Writing MATLAB output to file: %s", matlabLog)
-            with open(matlabLog, "w") as f:
-                f.write(matlabOut.getvalue())
+            # # Run the experiment on MATLAB
+            # _log.debug("Displaying stimuli using Psychtoolbox")
+            # matlabOut = StringIO()
+            # eng = future.result()
+            # p = eng.genpath(CONFIG.projectRoot)
+            # eng.addpath(p, nargout=0)
+            # data = eng.gradCPT(
+            #     self._info["info_file"],
+            #     'verbose', CONFIG.verbose,
+            #     'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
+            #     'recordLSL', CONFIG.record_lsl,
+            #     'tcpAddress', CONFIG.tcp_address,
+            #     'tcpPort', CONFIG.tcp_port,
+            #     stdout=matlabOut,
+            #     stderr=matlabOut
+            #     )
+            # _log.info("Running experiment in MATLAB: DONE")
+            # matlabLog = os.path.join(self._DIR, "matlab.log")
+            # _log.debug("Writing MATLAB output to file: %s", matlabLog)
+            # with open(matlabLog, "w") as f:
+            #     f.write(matlabOut.getvalue())
 
-            # Close the EEG device
-            _log.debug("Closing the EEG")
-            self.eeg.stopStreaming()
-            self.eeg.disconnect()
+            # # Close the EEG device
+            # _log.debug("Closing the EEG")
+            # self.eeg.stopStreaming()
+            # self.eeg.disconnect()
 
-            # Close LabRecorder
-            if CONFIG.path_to_LabRecorder != "":
-                _log.debug("Closing LabRecorder")
-                proc1.kill()
-                out, err = proc1.communicate()
-                lrLogFile = os.path.join(self._DIR, "labrecorder.log")
-                _log.debug("Writing LabRecorder output to file: %s", lrLogFile)
-                with open(lrLogFile, "w") as f:
-                    f.write(out)
+            # # Close LabRecorder
+            # if CONFIG.path_to_LabRecorder != "":
+            #     _log.debug("Closing LabRecorder")
+            #     proc1.kill()
+            #     out, err = proc1.communicate()
+            #     lrLogFile = os.path.join(self._DIR, "labrecorder.log")
+            #     _log.debug("Writing LabRecorder output to file: %s", lrLogFile)
+            #     with open(lrLogFile, "w") as f:
+            #         f.write(out)
                     
-                _log.info("DONE RUNNING GRADCPT SESSION")
+            #     _log.info("DONE RUNNING GRADCPT SESSION")
         finally:
             runHandler.close()
             _log.removeHandler(runHandler)

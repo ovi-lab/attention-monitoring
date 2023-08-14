@@ -82,14 +82,16 @@ class Muse(EEGDevice):
                 command = "start bluemuse://start?startall"
             subprocess.run(command, shell=True) 
             
-    async def asyncConnect(self) -> tuple[asyncio.Process]:
+    async def asyncConnect(self) -> tuple[asyncio.subprocess.Process]:
         streams = resolve_streams()
         
         # Helper method for writing common commands to bluemuse   
         async def execBluemuse(key, value):
             command = f'start bluemuse://setting?key={key}!value={value}'
-            command = shlex.split(command)
-            proc = await asyncio.create_subprocess_exec(command)
+            # command = shlex.split(command)
+            _log.debug("Running command: %s", command)
+            proc = await asyncio.create_subprocess_shell(command)
+            await proc.wait()
             return proc
         
         # Check whether any desired signals are not yet streaming, starting
@@ -105,12 +107,12 @@ class Muse(EEGDevice):
             commands["primary_timestamp_format"] = "LSL_LOCAL_CLOCK_NATIVE"
         
             # Execute the commands
-            procs = await asyncio.gather(
+            await asyncio.gather(
                 *(execBluemuse(k, v) for k, v in commands.items())
                 )
             
-            # Watt for all commands to finish
-            # IMPLEMENTs
+            # Wait until all signals are streaming
+            # TODO: implement
             
             
         
