@@ -9,7 +9,7 @@ from typing import Any
 import polars as pl
 
 from src.config import CONFIG
-from .helpers import JsonBackedDict
+from src.helpers import JsonBackedDict
 from ._study import Study
 from ._study_block import StudyBlock
 
@@ -170,12 +170,18 @@ class StudySession(Study):
         pass
 
     @abstractmethod
-    def run(self) -> None:
+    def run(self, writeLogToFile: bool = True) -> None:
         """Run the study session.
         
         Perform all necessary actions for running the study, including (but not
-        limited to) setup, having the participant perform tasks, applying 
+        limited to) setup, having the participant perform tasks, applying
         stimuli, recording data, communicating with external tools, etc.
+        
+        Parameters
+        ----------
+        writeLogToFile : bool, default=True
+            whether to write logging messages produced by this function to a
+            file named "run.log" in this session's directory.
         """
         pass
     

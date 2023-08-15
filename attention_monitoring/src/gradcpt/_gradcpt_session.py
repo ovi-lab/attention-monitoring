@@ -1,6 +1,7 @@
 from abc import abstractmethod
 import aiofiles
 import asyncio
+from contextlib import ExitStack
 import csv
 from io import StringIO
 import logging
@@ -10,11 +11,12 @@ import subprocess
 from time import sleep
 from typing import Any, Callable
 
-import matlab.engine
+import matlab.engine as me
 import polars as pl
 
 from src.config import CONFIG
 from src.eeg_device import EEGDevice
+from src.gradcpt.helpers import _GradCPTLogToFileCM
 from src.study import StudySession, StudyBlock
 from src.study.helpers import getVerboseLogFormatter
 from ._gradcpt_block import GradCPTBlock
@@ -39,7 +41,15 @@ class GradCPTSession(StudySession):
             dataSubDir=dataSubDir,
             sessionName=sessionName, 
             **kwargs
-            )        
+            )
+        
+        # Initialize attribute to store result of calls to asynchronously start
+        # MATLAB. This attribute may only be accessed or modified by the
+        # `_startMatlab()` method of this class. 
+        # 
+        # Rep invariant: `self.__matlabEng` is either `None` or an instance of
+        # `matlab.engine.FutureResult`.
+        self.__matlabEng = None
         
         # Create the blocks for this session
         _log.debug("Creating session blocks")
@@ -82,13 +92,14 @@ class GradCPTSession(StudySession):
                             "data_file" : block.dataFile
                         }
                         )
+            _log.debug("Updating info file with fields: %s", ["blocks_file"])
             self._info["blocks_file"] = blocksFile
             
             # Update the info file with relevant config values
             configVals = [
                 "num_full_blocks", "do_practice_block", 
                 "stim_transition_time_ms", "stim_static_time_ms", 
-                "stim_diameter", "full_block_sequence_length", "muse_signals"
+                "stim_diameter", "full_block_sequence_length"
                 ]
             _log.debug("Updating info file with fields: %s", configVals)
             self._info.update(**{v : getattr(CONFIG, v) for v in configVals})
@@ -102,185 +113,90 @@ class GradCPTSession(StudySession):
     def blocks(self) -> dict[str, StudyBlock]:
         return {k : v for (k, v) in self._blocks.items()}
     
-    def run(self) -> None:
-        # TODO: finish this
+    def run(self, writeLogToFile: bool = True) -> None:
+        with ExitStack() as stack:
+            # Setup writing log to file if specified
+            if writeLogToFile:
+                logFilePath = os.path.join(self._DIR, "run.log")
+                formatter = getVerboseLogFormatter(self.getStudyType())
+                stack.enter_context(_GradCPTLogToFileCM(logFilePath))
+            
+            # Start MATLAB engine asynchronously (do this first as it may take
+            # some time)
+            future = self._startMatlab()
+            # Add callback to cancel MATLAB startup
+            errmsg = "Failed to cancel MATLAB startup"
+            stack.callback(_makeMatlabCanceller(future, errmsg))
+            
+            
+            
+            # Wait for MATLAB to finish starting
+            _log.info("Running experiment in MATLAB")
+            _log.debug("Waiting for MATLAB to start ...")
+            while not future.done():
+                sleep(0.5)
+            _log.debug("Matlab started")
+            
+            # Run experiment in MATLAB
+            _log.debug("Displaying stimuli in MATLAB")
+            # Add project root directory to MATLAB path
+            p = eng.genpath(CONFIG.projectRoot)
+            eng.addpath(p, nargout=0)
+            # Display the stimuli, running in background
+            future = eng.gradCPT(
+                self._info["info_file"],
+                'verbose', CONFIG.verbose,
+                'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
+                'recordLSL', CONFIG.record_lsl,
+                'tcpAddress', CONFIG.tcp_address,
+                'tcpPort', CONFIG.tcp_port,
+                stdout=matlabOut,
+                stderr=matlabOut,
+                background=True
+                )
+            # Add callback to cancel stimuli presentation in MATLAB
+            errmsg = "Failed to cancel `gradCPT.m` in MATLAB"
+            stack.callback(_makeMatlabCanceller(future, errmsg))
+            
+            # Wait for experiment in MATLAB to end, then close the engine
+            future.result()
+            # TODO: add logging
+            eng.quit()
+            
+            
+            
+            
+            
+            
         
-        # Write log to file
-        runLogPath = os.path.join(self._DIR, "run_log.log")
-        runHandler = logging.FileHandler(runLogPath)
-        runHandler.setLevel(logging.DEBUG)
-        runHandler.setFormatter(getVerboseLogFormatter(self.getStudyType()))
-        _log.addHandler(runHandler)
+    
+    def _startMatlab(self):        
+        startNewEngine = True
         
-        try:
-            # _log.info("RUNNING GRADCPT SESSION")
-            # _log.debug("Session info: %s", self.info)
-            
-            # # Start MATLAB engine asynchronously (do this first as it may take
-            # # some time)
-            # _log.debug("Starting the MATLAB engine asynchronously")
-            # future = matlab.engine.start_matlab(background=True)
-            
-            # # Connect to the EEG device and start streaming
-            # _log.debug("Connecting to the EEG")
-            # self.eeg.connect()
-            # self.eeg.startStreaming()
-            
-            #######
-            
-            async def startMatlab() -> matlab.engine.MatlabEngine:
-                _log.debug("Starting the MATLAB engine asynchronously")
-                future = matlab.engine.start_matlab(background=True)
-                while not future.done():
-                    await asyncio.sleep(0.5)
-                return future.result()
-            
-            async def startLR() -> asyncio.subprocess.Process:
-                _log.debug("Starting LabRecorder")
-                proc = await asyncio.create_subprocess_exec(
-                    os.path.realpath(CONFIG.path_to_LabRecorder),
-                    stdout=asyncio.subprocess.PIPE,
-                    stderr=asyncio.subprocess.STDOUT
-                    )
-                return proc
-            
-            async def logMATLAB(future: matlab.engine.FutureResult, stream: StringIO) -> None:
-                matlabLog = os.path.join(self._DIR, "matlab.log")
-                _log.debug("Writing MATLAB output to file: %s", matlabLog)
-                async with aiofiles.open(matlabLog, "a") as f:
-                    # Continue logging until the call to MATLAB for
-                    # displaying the stimuli is complete
-                    while not future.done():
-                        line = stream.readline()
-                        await f.write(line)
-                    await f.write(stream.getvalue())
-                _log.debug("Done writing MATLAB output to file")
-                    
-            async def logLR(proc) -> None:
-                lrLogPath = os.path.join(self._DIR, "lab_recorder.log")
-                _log.debug("Writing LabRecorder output to file: %s", lrLogPath)
-                async with aiofiles.open(lrLogPath, "a") as f:
-                    # Continue logging until TODO: FINISH DOCUMENTATION
-                    while not proc.stdout.at_eof():
-                        data = await proc.stdout.readLine()
-                        line = data.decode('ascii')
-                        await f.write(line)
-                _log.debug("Done writing LabRecorder output to file")      
-            
-            async def main():
-                # Wait for startup to complete
-                eng, proc_LR, _ = await asyncio.gather(
-                    startMatlab(),
-                    startLR(),
-                    self.eeg.asyncConnect()
-                    )
+        # Check if the call to start MATLAB has already been made for this
+        # session and that it has not been cancelled
+        if self.__matlabEng is not None and not self.__matlabEng.cancelled():
+            if self.__matlabEng.done():
+                # If MATLAB startup has finished, Ensure the engine hasn't been
+                # terminated by trying to call a MATLAB function (in this case,
+                # `plus(1, 1)`)
+                try:
+                    eng = self.__matlabEng.result()
+                    eng.plus(1,1, nargout=0)
+                except matlab.engine.RejectedExecutionError:
+                    # The engine has been terminated, Reset `self.__matlabEng`
+                    # to `None` and re-call this method to start a new engine
+                    self.__matlabEng = None
+                    return self._startMatlab()
                 
-                # Run experiment in MATLAB
-                _log.debug("Displaying stimuli in MATLAB")
-                with StringIO() as matlabOut:
-                    # Add project root directory to MATLAB path
-                    p = eng.genpath(CONFIG.projectRoot)
-                    eng.addpath(p, nargout=0)
-                    
-                    # Display the stimuli, running in background
-                    future = eng.gradCPT(
-                        self._info["info_file"],
-                        'verbose', CONFIG.verbose,
-                        'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
-                        'recordLSL', CONFIG.record_lsl,
-                        'tcpAddress', CONFIG.tcp_address,
-                        'tcpPort', CONFIG.tcp_port,
-                        stdout=matlabOut,
-                        stderr=matlabOut,
-                        background=True
-                        )
-                    
-                    # While experiment is running, log the MATLAB and
-                    # LabRecorder outputs to log files. Run both logging
-                    # coroutines concurrently. Do not wait for their results
-                    logResults = asyncio.gather(
-                        logMATLAB(future, stream), 
-                        logLR(proc_LR)
-                        )
-                    
-                    # Wait for MATLAB to finish presenting the stimuli
-                    while not future.done():
-                        asyncio.sleep(1)
-                        
-                    # Stop LabRecorder
-                    _log.debug("Closing LabRecorder")
-                    proc_LR.terminate()
-                    
-                    # Close EEG device
-                    _log.debug("Closing the EEG")
-                    self.eeg.stopStreaming()
-                    self.eeg.disconnect()
-                    
-                    # Wait for log writers to finish
-                    await logResults
-                      
-            asyncio.run(main(), debug=True)  
-                    
-            #######
-            
-            # # Start LabRecorder
-            # if CONFIG.path_to_LabRecorder != "":
-            #     _log.debug("Starting LabRecorder")
-            #     proc1 = subprocess.Popen(
-            #         os.path.realpath(CONFIG.path_to_LabRecorder),
-            #         stdout=subprocess.PIPE,
-            #         stderr=subprocess.STDOUT,
-            #         text=True
-            #         )   
-                
-            # # Wait for MATLAB to finish starting
-            # _log.info("Running experiment in MATLAB ...")
-            # _log.debug("Waiting for MATLAB to start ...")
-            # while not future.done():
-            #     sleep(0.5)
-            # _log.debug("Waiting for MATLAB to start: DONE")
+            startNewEngine = False
+        
+        # Start a new MATLAB engine if necessary
+        if startNewEngine:
+            _log.debug("Starting MATLAB engine asynchronously")
+            self.__matlabEng = matlab.engine.start_matlab(background=True)
 
-            # # Run the experiment on MATLAB
-            # _log.debug("Displaying stimuli using Psychtoolbox")
-            # matlabOut = StringIO()
-            # eng = future.result()
-            # p = eng.genpath(CONFIG.projectRoot)
-            # eng.addpath(p, nargout=0)
-            # data = eng.gradCPT(
-            #     self._info["info_file"],
-            #     'verbose', CONFIG.verbose,
-            #     'streamMarkersToLSL', CONFIG.stream_markers_to_lsl,
-            #     'recordLSL', CONFIG.record_lsl,
-            #     'tcpAddress', CONFIG.tcp_address,
-            #     'tcpPort', CONFIG.tcp_port,
-            #     stdout=matlabOut,
-            #     stderr=matlabOut
-            #     )
-            # _log.info("Running experiment in MATLAB: DONE")
-            # matlabLog = os.path.join(self._DIR, "matlab.log")
-            # _log.debug("Writing MATLAB output to file: %s", matlabLog)
-            # with open(matlabLog, "w") as f:
-            #     f.write(matlabOut.getvalue())
-
-            # # Close the EEG device
-            # _log.debug("Closing the EEG")
-            # self.eeg.stopStreaming()
-            # self.eeg.disconnect()
-
-            # # Close LabRecorder
-            # if CONFIG.path_to_LabRecorder != "":
-            #     _log.debug("Closing LabRecorder")
-            #     proc1.kill()
-            #     out, err = proc1.communicate()
-            #     lrLogFile = os.path.join(self._DIR, "labrecorder.log")
-            #     _log.debug("Writing LabRecorder output to file: %s", lrLogFile)
-            #     with open(lrLogFile, "w") as f:
-            #         f.write(out)
-                    
-            #     _log.info("DONE RUNNING GRADCPT SESSION")
-        finally:
-            runHandler.close()
-            _log.removeHandler(runHandler)
+        return self.__matlabEng
     
     def display(self) -> None:
         # TODO: finish this
@@ -296,3 +212,44 @@ class GradCPTSession(StudySession):
     @classmethod
     def getStudyType(cls) -> str:
         return "GradCPT"
+    
+    
+def _makeMatlabCanceller(
+        future: matlab.engine.FutureResult, 
+        errmsg: str
+        ) -> Callable[[], None]:
+    """Get a function that, when called, cancels the specified asynchronous
+    call to MATLAB.
+    
+    When calling the returned function, if (at that time) the specified call to
+    MATLAB is already done or has already been cancelled, the returned function
+    will return without attempting to cancel the call to MATLAB.
+    
+    Parameters
+    ----------
+    future : matlab.engine.FutureResult
+        The call to MATLAB that is to be cancelled. Specifically, this is the
+        value that was returned by making a call to MATLAB with
+        `background=True`.
+    errmsg : str
+        The error message to include in the raised exception if the call to
+        MATLAB is not successfully cancelled.
+        
+    Raises
+    ------
+    matlab.engine.CancelledError
+        If the call to MATLAB is not successfully cancelled.
+        
+    Returns
+    -------
+    Callable[[], None]
+        The function to call to cancel the specified MATLAB call.
+    """
+    def f() -> None:
+        # Only cancel if not already cancelled or done
+        if not (future.cancelled() or future.done()):
+            future.cancel()
+            if not future.cancelled():
+                raise matlab.engine.CancelledError(errmsg)
+        
+    return f  
