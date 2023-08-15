@@ -147,7 +147,7 @@ class GradCPTSession(StudySession):
             
             # Setup LabRecorder
             lrPath = CONFIG.path_to_LabRecorder
-            if lrPath is not None:
+            if CONFIG.record_lsl and lrPath is not None:
                 lrLogFilePath = os.path.join(self.__dir, "lab_recorder.log")
                 stack.enter_context(_LaunchLabRecorder(lrLogFilePath, lrPath))
             
