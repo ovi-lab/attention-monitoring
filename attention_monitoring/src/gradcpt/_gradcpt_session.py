@@ -18,7 +18,7 @@ from src.config import CONFIG
 from src.eeg_device import EEGDevice
 from src.gradcpt.helpers import _GradCPTLogToFileCM, _makeMatlabCanceller
 from src.study import StudySession, StudyBlock
-from src.study.helpers import getVerboseLogFormatter
+from src.study.helpers import getVerboseLogFormatter, _LaunchLabRecorder
 from ._gradcpt_block import GradCPTBlock
 
 _log = logging.getLogger(__name__)
@@ -114,21 +114,22 @@ class GradCPTSession(StudySession):
         return {k : v for (k, v) in self._blocks.items()}
     
     def run(self, writeLogToFile: bool = True) -> None:
-        
         # Define a context manager for connecting to the EEG device and
         # streaming its data
         @contextmanager
         def eegCM():
+            # Start
             _log.debug("Attempting to connect to the EEG device")
             self.eeg.connect()
             self.eeg.startStreaming()
             yield
+            # Exit
             _log.debug("Attempting to disconnect the EEG device")
             self.eeg.stopStreaming()
             self.eeg.disconnect()
                 
         with ExitStack() as stack:
-            # Setup writing log to file if specified
+            # Setup writing log to file if necessary
             if writeLogToFile:
                 logFilePath = os.path.join(self._DIR, "run.log")
                 formatter = getVerboseLogFormatter(self.getStudyType())
@@ -143,6 +144,12 @@ class GradCPTSession(StudySession):
             
             # Connect to the EEG device
             stack.enter_context(eegCM())
+            
+            # Setup LabRecorder
+            lrPath = CONFIG.path_to_LabRecorder
+            if lrPath is not None:
+                lrLogFilePath = os.path.join(self.__dir, "lab_recorder.log")
+                stack.enter_context(_LaunchLabRecorder(lrLogFilePath, lrPath))
             
             # Wait for MATLAB to finish starting
             _log.info("Running experiment in MATLAB")
@@ -178,6 +185,9 @@ class GradCPTSession(StudySession):
             _log.debug("Done presenting stimuli in MATLAB")
             _log.debug("Terminating the MATLAB engine")
             eng.quit()   
+            
+            # Remaining resources (eg. the EEG device, LabRecorder) are closed
+            # automatically when exiting the context manager
         
     
     def _startMatlab(self): 
