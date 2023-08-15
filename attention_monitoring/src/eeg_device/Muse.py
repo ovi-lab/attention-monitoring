@@ -8,7 +8,7 @@ import shlex
 import textwrap
 
 from .EEGDevice import EEGDevice
-from attention_monitoring.src.config import CONFIG
+from src.config import CONFIG
 
 _log = logging.getLogger(__name__)
 
@@ -147,9 +147,11 @@ class Muse(EEGDevice):
             _log.debug("All Muse signals are streaming on LSL.")
             
     def disconnect(self):
+        _log.debug("Closing Bluemuse")
         command = "start bluemuse://shutdown"
         subprocess.run(command, shell=True)
     
     def stopStreaming(self):
+        _log.debug("Stopping Bluemuse from streaming to LSL")
         command = "start bluemuse://stop?stopall"
         subprocess.run(command, shell=True)
