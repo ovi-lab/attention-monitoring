@@ -1,7 +1,7 @@
 from abc import abstractmethod
 import aiofiles
 import asyncio
-from contextlib import ExitStack
+from contextlib import ExitStack, contextmanager
 import csv
 from io import StringIO
 import logging
@@ -16,7 +16,7 @@ import polars as pl
 
 from src.config import CONFIG
 from src.eeg_device import EEGDevice
-from src.gradcpt.helpers import _GradCPTLogToFileCM
+from src.gradcpt.helpers import _GradCPTLogToFileCM, _makeMatlabCanceller
 from src.study import StudySession, StudyBlock
 from src.study.helpers import getVerboseLogFormatter
 from ._gradcpt_block import GradCPTBlock
@@ -114,6 +114,19 @@ class GradCPTSession(StudySession):
         return {k : v for (k, v) in self._blocks.items()}
     
     def run(self, writeLogToFile: bool = True) -> None:
+        
+        # Define a context manager for connecting to the EEG device and
+        # streaming its data
+        @contextmanager
+        def eegCM():
+            _log.debug("Attempting to connect to the EEG device")
+            self.eeg.connect()
+            self.eeg.startStreaming()
+            yield
+            _log.debug("Attempting to disconnect the EEG device")
+            self.eeg.stopStreaming()
+            self.eeg.disconnect()
+                
         with ExitStack() as stack:
             # Setup writing log to file if specified
             if writeLogToFile:
@@ -128,14 +141,15 @@ class GradCPTSession(StudySession):
             errmsg = "Failed to cancel MATLAB startup"
             stack.callback(_makeMatlabCanceller(future, errmsg))
             
-            
+            # Connect to the EEG device
+            stack.enter_context(eegCM())
             
             # Wait for MATLAB to finish starting
             _log.info("Running experiment in MATLAB")
             _log.debug("Waiting for MATLAB to start ...")
             while not future.done():
                 sleep(0.5)
-            _log.debug("Matlab started")
+            _log.debug("MATLAB started")
             
             # Run experiment in MATLAB
             _log.debug("Displaying stimuli in MATLAB")
@@ -159,18 +173,17 @@ class GradCPTSession(StudySession):
             stack.callback(_makeMatlabCanceller(future, errmsg))
             
             # Wait for experiment in MATLAB to end, then close the engine
+            _log.debug("Waiting for MATLAB to finish presenting stimuli...")
             future.result()
-            # TODO: add logging
-            eng.quit()
-            
-            
-            
-            
-            
-            
+            _log.debug("Done presenting stimuli in MATLAB")
+            _log.debug("Terminating the MATLAB engine")
+            eng.quit()   
         
     
-    def _startMatlab(self):        
+    def _startMatlab(self): 
+        
+        # TODO: start with -logfile option
+                    
         startNewEngine = True
         
         # Check if the call to start MATLAB has already been made for this
@@ -212,44 +225,3 @@ class GradCPTSession(StudySession):
     @classmethod
     def getStudyType(cls) -> str:
         return "GradCPT"
-    
-    
-def _makeMatlabCanceller(
-        future: matlab.engine.FutureResult, 
-        errmsg: str
-        ) -> Callable[[], None]:
-    """Get a function that, when called, cancels the specified asynchronous
-    call to MATLAB.
-    
-    When calling the returned function, if (at that time) the specified call to
-    MATLAB is already done or has already been cancelled, the returned function
-    will return without attempting to cancel the call to MATLAB.
-    
-    Parameters
-    ----------
-    future : matlab.engine.FutureResult
-        The call to MATLAB that is to be cancelled. Specifically, this is the
-        value that was returned by making a call to MATLAB with
-        `background=True`.
-    errmsg : str
-        The error message to include in the raised exception if the call to
-        MATLAB is not successfully cancelled.
-        
-    Raises
-    ------
-    matlab.engine.CancelledError
-        If the call to MATLAB is not successfully cancelled.
-        
-    Returns
-    -------
-    Callable[[], None]
-        The function to call to cancel the specified MATLAB call.
-    """
-    def f() -> None:
-        # Only cancel if not already cancelled or done
-        if not (future.cancelled() or future.done()):
-            future.cancel()
-            if not future.cancelled():
-                raise matlab.engine.CancelledError(errmsg)
-        
-    return f  
