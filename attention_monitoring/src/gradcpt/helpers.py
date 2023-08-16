@@ -1,11 +1,13 @@
 import logging
 from typing import Callable
 
-import matab.engine
+import matlab.engine
 
 import src.gradcpt as gradcpt
 from src.helpers import _LogToFileCM
 from src.study.helpers import getVerboseLogFormatter
+
+_log = logging.getLogger(__name__)
     
 class _GradCPTLogToFileCM(_LogToFileCM):
     """Context manager for temporarily writing gradCPT logs to a file.
@@ -61,3 +63,52 @@ def _makeMatlabCanceller(
                 raise matlab.engine.CancelledError(errmsg)
         
     return f  
+
+class _MatlabLauncher:
+    def __init__(
+            self, 
+            future: [matlab.engine.MatlabFuture | None] = None,
+            **kwargs
+            ) -> None:
+        
+        if future is not None:
+            if not isinstance(future, matlab.engine.MatlabFuture):
+                raise TypeError(
+                    f"Invalid type for argument `future`: {type(future)}"
+                    )
+            self._future = future
+        else:
+            _log.debug("Starting new MATLAB engine")
+            self._future = matlab.engine.start_matlab(**kwargs)
+            
+        
+    def __enter__(self) -> matlab.engine.MatlabEngine:
+        if not self._future.done():
+            # Wait for MATLAB to finish starting
+            _log.debug("Waiting for MATLAB to start ...")
+            while not self._future.done():
+                sleep(0.5)
+            _log.debug("MATLAB started")
+            
+        self._eng = self._future.result()
+        return self._eng
+    
+    def  __exit__(self, exc_type, exc_value, exc_tb):
+        if exc_type is not None:
+            _log.error("Exception occurred, exiting MATLAB")
+        else:
+            _log.debug("Exiting MATLAB")
+            
+        if not self._future.cancelled():
+            if self._future.done():
+                _log.debug("Terminating the MATLAB engine")
+                self._eng.exit()
+            else:
+                _log.debug("Cancelling call to startup MATLAB")
+                self._future.cancel()
+                if not self._future.cancelled():
+                    raise matlab.engine.CancelledError(
+                        "Failed to cancel MATLAB startup"
+                        )
+        else:
+            _log.debug("Call to startup MATLAB already cancelled")
