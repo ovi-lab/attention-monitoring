@@ -228,61 +228,6 @@ class GradCPTSession(StudySession):
             
             # Remaining resources (eg. the EEG device, LabRecorder) are closed
             # automatically when exiting the context manager
-        
-    
-    def _startMatlab(self): 
-        
-        # TODO: start with -logfile option
-        _log.debug("Attempting to start MATLAB for session: %s", self)
-        startNewEngine = True
-        
-        # Check if the call to start MATLAB has already been made for this
-        # session and that it has not been cancelled
-        if self.__matlabEng is not None and not self.__matlabEng.cancelled():
-            _log.debug("MATLAB has already been started for session: %s", self)
-            if self.__matlabEng.done():
-                # If MATLAB startup has finished, Ensure the engine hasn't been
-                # terminated by trying to call a MATLAB function (in this case,
-                # `plus(1, 1)`)
-                _log.debug(
-                    "MATLAB startup has already completed for session: %s", 
-                    self
-                    )
-                try:
-                    eng = self.__matlabEng.result()
-                    eng.plus(1,1, nargout=0)
-                except matlab.engine.RejectedExecutionError:
-                    # The engine has been terminated, Reset `self.__matlabEng`
-                    # to `None` and re-call this method to start a new engine
-                    _log.debug(
-                        "The previously created MATLAB engine for this "
-                        + "session has been terminated. Restarting engine for "
-                        + "this session: %s",
-                        self
-                        )
-                    self.__matlabEng = None
-                    return self._startMatlab()
-                
-            _log.debug(
-                "Returning existing MATLAB startup call for session: %s",
-                self
-                )
-            startNewEngine = False
-        else:
-            _log.debug(
-                "MATLAB was never started or it was cancelled for session: %s",
-                self,
-                )
-        
-        # Start a new MATLAB engine if necessary
-        if startNewEngine:
-            _log.debug(
-                "Starting new MATLAB engine asynchronously for session: %s",
-                self
-                )
-            self.__matlabEng = matlab.engine.start_matlab(background=True)
-
-        return self.__matlabEng
     
     def display(self) -> None:
         # TODO: finish this
