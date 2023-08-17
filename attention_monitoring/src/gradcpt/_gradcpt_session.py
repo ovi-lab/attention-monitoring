@@ -7,18 +7,20 @@ from io import StringIO
 import logging
 import os
 import shlex
+import shutil
 import subprocess
 from time import sleep
 from typing import Any, Callable
 
-import matlab.engine as me
+import matlab.engine
 import polars as pl
 
 from src.config import CONFIG
 from src.eeg_device import EEGDevice
-from src.gradcpt.helpers import _GradCPTLogToFileCM, _makeMatlabCanceller
+from src.gradcpt.helpers import _GradCPTLogToFileCM
+from src.gradcpt.matlab.pyhelpers import _getMatlabCallback
 from src.study import StudySession, StudyBlock
-from src.study.helpers import getVerboseLogFormatter, _LaunchLabRecorder
+from src.study.helpers import _LaunchLabRecorder
 from ._gradcpt_block import GradCPTBlock
 
 _log = logging.getLogger(__name__)
@@ -114,56 +116,94 @@ class GradCPTSession(StudySession):
         return {k : v for (k, v) in self._blocks.items()}
     
     def run(self, writeLogToFile: bool = True) -> None:
-        # Define a context manager for connecting to the EEG device and
-        # streaming its data
-        @contextmanager
-        def eegCM():
-            # Start
-            _log.debug("Attempting to connect to the EEG device")
-            self.eeg.connect()
-            self.eeg.startStreaming()
-            yield
-            # Exit
-            _log.debug("Attempting to disconnect the EEG device")
-            self.eeg.stopStreaming()
-            self.eeg.disconnect()
-                
-        with ExitStack() as stack:
+        _log.debug("Running session: '%s'", self.info["session_name"])
+        with ExitStack() as mainStack:
+            # On `mainStack` place a new `ExitStack` object followed by a
+            # callback function. This allows the new stack to be used as a
+            # normal `ExitStack`, with the exception that the callback function
+            # is always executed first when exiting the stack
+            
+            # Add all context managers for running the study to `stack`
+            stack = mainStack.enter_context(ExitStack())
+            
+            # Add callback to top of mainStack that logs any errors that may
+            # have occurred while running the study session. This makes it more
+            # clear in the logs when exactly the Exception occurred, as it gets
+            # logged before any logging messages made by exiting the stack
+            @mainStack.push
+            def exitLogger(exc_type, exc_value, exc_tb) -> None:
+                studyType = self.getStudyType()
+                name = self.info["session_name"]
+                if exc_type is not None:
+                    exc_info = (exc_type, exc_value, exc_tb)
+                    _log.error(
+                        "%s occurred while running a %s session (%s), "
+                        + "performing clean-up operations",
+                        exc_type, studyType, name,
+                        exc_info=exc_info
+                        )
+                else:
+                    _log.info(
+                        "The %s session (%s) concluded without raising "
+                        + "Exceptions, performing clean-up operations",
+                        studyType, name
+                        )
+                                
             # Setup writing log to file if necessary
             if writeLogToFile:
                 logFilePath = os.path.join(self._DIR, "run.log")
-                formatter = getVerboseLogFormatter(self.getStudyType())
-                stack.enter_context(_GradCPTLogToFileCM(logFilePath))
+                stack.enter_context(
+                    _GradCPTLogToFileCM(logFilePath, useBaseLogger=True)
+                    )
+                
+            _log.info(
+                "Starting a %s session: '%s'", 
+                self.getStudyType(), self.info["session_name"]
+                )
             
             # Start MATLAB engine asynchronously (do this first as it may take
-            # some time)
-            future = self._startMatlab()
-            # Add callback to cancel MATLAB startup
-            errmsg = "Failed to cancel MATLAB startup"
-            stack.callback(_makeMatlabCanceller(future, errmsg))
+            # some time) and add callback to cancel MATLAB startup
+            _log.debug("Starting the MATLAB engine")
+            future = matlab.engine.start_matlab(background=True)
+            stack.push(_getMatlabCallback(future, "MATLAB startup"))
             
             # Connect to the EEG device
-            stack.enter_context(eegCM())
+            stack.enter_context(self.eeg)
             
             # Setup LabRecorder
             lrPath = CONFIG.path_to_LabRecorder
             if CONFIG.record_lsl and lrPath is not None:
-                lrLogFilePath = os.path.join(self.__dir, "lab_recorder.log")
+                lrLogFilePath = os.path.join(self._DIR, "lab_recorder.log")
                 stack.enter_context(_LaunchLabRecorder(lrLogFilePath, lrPath))
-            
-            # Wait for MATLAB to finish starting
+                
+            # Wait for MATLAB to finish starting and get the MATLAB engine
             _log.info("Running experiment in MATLAB")
             _log.debug("Waiting for MATLAB to start ...")
             while not future.done():
                 sleep(0.5)
             _log.debug("MATLAB started")
+            eng = stack.enter_context(future.result())
             
             # Run experiment in MATLAB
             _log.debug("Displaying stimuli in MATLAB")
+            
             # Add project root directory to MATLAB path
             p = eng.genpath(CONFIG.projectRoot)
             eng.addpath(p, nargout=0)
-            # Display the stimuli, running in background
+            
+            # Write MATLAB output from stimuli presentation to file on exit
+            matlabOut = stack.enter_context(StringIO())
+            @stack.push
+            def foo(exc_type, exc_value, exc_tb):
+                # TODO: should we do this while running the experiment?
+                matlabLogFile = os.path.join(self._DIR, "matlab.log")
+                _log.debug("Writing MATLAB output to file: %s", matlabLogFile)
+                with open(matlabLogFile, "a") as f:
+                    matlabOut.seek(0)
+                    shutil.copyfileobj(matlabOut, f)
+                    
+            # Display the stimuli, running in background, and add callback to
+            # cancel stimuli presentation
             future = eng.gradCPT(
                 self._info["info_file"],
                 'verbose', CONFIG.verbose,
@@ -175,14 +215,14 @@ class GradCPTSession(StudySession):
                 stderr=matlabOut,
                 background=True
                 )
-            # Add callback to cancel stimuli presentation in MATLAB
-            errmsg = "Failed to cancel `gradCPT.m` in MATLAB"
-            stack.callback(_makeMatlabCanceller(future, errmsg))
+            stack.push(_getMatlabCallback(future, "stimuli presentation"))
             
-            # Wait for experiment in MATLAB to end, then close the engine
+            # Wait for experiment in MATLAB to end
             _log.debug("Waiting for MATLAB to finish presenting stimuli...")
             future.result()
             _log.debug("Done presenting stimuli in MATLAB")
+            
+            # Close the MATLAB engine
             _log.debug("Terminating the MATLAB engine")
             eng.quit()   
             
@@ -193,30 +233,53 @@ class GradCPTSession(StudySession):
     def _startMatlab(self): 
         
         # TODO: start with -logfile option
-                    
+        _log.debug("Attempting to start MATLAB for session: %s", self)
         startNewEngine = True
         
         # Check if the call to start MATLAB has already been made for this
         # session and that it has not been cancelled
         if self.__matlabEng is not None and not self.__matlabEng.cancelled():
+            _log.debug("MATLAB has already been started for session: %s", self)
             if self.__matlabEng.done():
                 # If MATLAB startup has finished, Ensure the engine hasn't been
                 # terminated by trying to call a MATLAB function (in this case,
                 # `plus(1, 1)`)
+                _log.debug(
+                    "MATLAB startup has already completed for session: %s", 
+                    self
+                    )
                 try:
                     eng = self.__matlabEng.result()
                     eng.plus(1,1, nargout=0)
                 except matlab.engine.RejectedExecutionError:
                     # The engine has been terminated, Reset `self.__matlabEng`
                     # to `None` and re-call this method to start a new engine
+                    _log.debug(
+                        "The previously created MATLAB engine for this "
+                        + "session has been terminated. Restarting engine for "
+                        + "this session: %s",
+                        self
+                        )
                     self.__matlabEng = None
                     return self._startMatlab()
                 
+            _log.debug(
+                "Returning existing MATLAB startup call for session: %s",
+                self
+                )
             startNewEngine = False
+        else:
+            _log.debug(
+                "MATLAB was never started or it was cancelled for session: %s",
+                self,
+                )
         
         # Start a new MATLAB engine if necessary
         if startNewEngine:
-            _log.debug("Starting MATLAB engine asynchronously")
+            _log.debug(
+                "Starting new MATLAB engine asynchronously for session: %s",
+                self
+                )
             self.__matlabEng = matlab.engine.start_matlab(background=True)
 
         return self.__matlabEng
