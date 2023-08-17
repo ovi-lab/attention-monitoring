@@ -1,4 +1,6 @@
 import logging
+import os
+import subprocess
 
 _log = logging.getLogger(__name__)
 
@@ -6,8 +8,8 @@ def getVerboseLogFormatter(studyType: str) -> logging.Formatter:
     """Get a formatter for verbose logging of studies"""
     _studyType = "%16s" % studyType
     f = logging.Formatter(
-        ">>%(asctime)s : " + studyType + " : %(levelname)8s : %(name)16s : "
-        + "line %(lineno)d : File ""%(pathname)s"" : %(message)s"
+        ">>%(asctime)s : " + studyType + " : %(levelname)8s : %(name)32s : "
+        + "line %(lineno)4d : File ""%(pathname)s"" : %(message)s"
     )
     return f
 
@@ -33,7 +35,10 @@ class _LaunchLabRecorder:
             ) 
                 
     def __exit__(self, exc_type, exc_value, exc_tb):
-        _log.debug("Closing LabRecorder")
+        if exc_type is not None:
+            _log.error("%s occurred, closing LabRecorder", exc_type)
+        else:
+            _log.debug("Closing LabRecorder")
         # End the LR subprocess and close the log file
         self._proc_LR.kill()
         self._f.close()
