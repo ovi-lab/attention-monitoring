@@ -32,12 +32,15 @@ class _LogToFileCM:
         
     def __exit__(self, exc_type, exc_value, exc_tb):
         # Include any exceptions in the log file
-        exc_info = (exc_type, exc_val, exc_tb)
+        exc_info = (exc_type, exc_value, exc_tb)
         if any(x is not None for x in exc_info):
-            self._log.error("Exception occurred", exc_info=exc_info)
+            self._log.error(
+                "%s occurred, stopping logger %s from being written to file", 
+                exc_type, self._log.name
+                )
             
         self._handler.close()
-        self._log.removeHandler(self.handler)
+        self._log.removeHandler(self._handler)
         self._log.debug("Stopped writing logger '%s' to file", self._log.name)
 
 class JsonBackedDict:
