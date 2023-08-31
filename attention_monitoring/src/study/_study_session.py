@@ -242,8 +242,6 @@ class SessionLogger:
                 )
         self.__path = name + ".csv"
         
-        self.__path = filePath
-
         dtypes = {field : pl.Utf8 for field in self.logFields}
 
         if self.__exists():
