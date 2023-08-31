@@ -1,9 +1,10 @@
 # See documentation for `src/config.py` for descriptions of attributes
 constants:
-  path_to_LabRecorder: lib/LabRecorder.lnk
+  path_to_LabRecorder: lib/LabRecorder/LabRecorder.exe
 preferences:
   general:
     verbose: 0
+    eeg_device_id:
   study:
     num_full_blocks: 3
     do_practice_block: True

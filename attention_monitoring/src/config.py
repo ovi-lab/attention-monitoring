@@ -27,6 +27,8 @@ checked for `config.yaml`, which is used if it exists. The environment variable
 configuration file `configs/(CONFIG_MODE).yaml` is used. Otherwise, the default
 configuration is used.
 """
+# TODO: update doc to include new import location
+# TODO: refactor and put in appropriate directory. Maybe make a different one for each study?
 
 import os
 import errno
@@ -42,7 +44,7 @@ def _getRoot():
         "attention-monitoring".
     """
 
-    rootName = "attention-monitoring"
+    rootName = "attention_monitoring"
     root = os.path.abspath(__file__)
     while os.path.basename(root) != rootName:
         root = os.path.dirname(root)
@@ -123,20 +125,23 @@ class _Config:
         "attention-monitoring". (Automtically generated - not included in the
         configuration `.yaml` file.)
     path_to_LabRecorder : str, optional
-        The absolute file path to the `LabRecorder` directory. This is the
-        directory named `LabRecorder` that was created when installing 
-        the LabRecorder app. If specified, LabRecorder will automatically be
-        started when needed by running `LabRecorder.exe` in the directory
-        specified by `path_to_LabRecorder`. If unspecified, it is assumed that
-        LabRecorder is already running when needed and no attempt will be made
-        to start it. May be specified in the configuration `.yaml` file as an
-        absolute path or as a relative path from the project root directory.
+        The absolute file path to the installed LabRecorder program (this
+        should lead to a file named `LabRecorder.exe`). If specified,
+        LabRecorder will automatically be started when needed by running the 
+        executable specified by `path_to_LabRecorder`. If unspecified, it is
+        assumed that LabRecorder is already running when needed and no attempt
+        will be made to start it. May be specified in the configuration `.yaml`
+        file as an absolute path or as a relative path from the project root
+        directory.
     verbose : int
         The level of verbosity to use for printing messages. At 0, nothing is
         printed. At 1, warnings and important info messages are printed. At 2,
         information about program execution as well as more detailed error
         messages are printed. At 3, more verbose information is printed. Note
         that Psychtoolbox's verbosity level is also set to this value.
+    eeg_device_id
+        The id of the EEG device. Format may vary depending on the type of EEG
+        device used.
     num_full_blocks : int
         (gradCPT) The number of non-practice blocks to perform.
     do_practice_block : bool
@@ -228,6 +233,10 @@ class _Config:
 
     verbose = __fetch(
         *__pathGeneral, 'verbose'
+        )
+
+    eeg_device_id = __fetch(
+        *__pathGeneral, "eeg_device_id"
         )
 
     # |---|---Study

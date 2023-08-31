@@ -163,10 +163,20 @@ cython_debug/
 # ADDITIONAL
 ###
 
-src/data/*
-!src/data/README.MD
+attention_monitoring/src/data/*
+!attention_monitoring/src/data/README.MD
 
-sandbox.ipynb
+attention_monitoring/sandbox.ipynb
 
-lib/*
-!lib/README.MD
+attention_monitoring/lib/*
+!attention_monitoring/lib/README.MD
+
+attention_monitoring/config.yaml
+
+attention_monitoring/src/tools/muse_sync/sync_session_data/*
+attention_monitoring/src/tools/muse_sync/sync_results
+attention_monitoring/src/tools/muse_sync/untitled*
+attention_monitoring/src/tools/muse_sync/soundDemo.m
+attention_monitoring/main.ipynb
+attention_monitoring/main.py
+attention_monitoring/sandbox.py
