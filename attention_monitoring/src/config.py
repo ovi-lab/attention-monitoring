@@ -9,107 +9,31 @@ that changes to the configuration file are automatically reflected in the
 (Note that paths specified below are relative to the project root directory.)
 
 Custom configurations can be specified in a `.yaml` file and must follow the
-same structure as the default configuration file (`default_config.yaml` in the
-project root directory). This can be done in two ways:
-
-local config 
-    A configuration file named `config.yaml` can be placed in the project root
-    directory.
-environment config
-    Multiple configuration files can be placed in `configs` to use as preset
-    configurations. To select which one to use, specify an environment variable
-    named `CONFIG_MODE` storing the name of the desired file (not including the
-    `.yaml` extension).
-
-To determine the configuration to use, the project root directory is first
-checked for `config.yaml`, which is used if it exists. The environment variable
-`CONFIG_MODE` is then checked; if it exists and is not set to `DEFAULT`, the
-configuration file `configs/(CONFIG_MODE).yaml` is used. Otherwise, the default
-configuration is used.
+same structure as the default configuration file (`src/default_config.yaml`).
+The files to read config values from are specified as a list of file paths
+relative to the project root directory stored in the PATH attribute of CONFIG;
+if a value is specified in both PATH[i] and PATH[j] for integers
+0<=i<j<len(PATH), the value in PATH[j] is used. In other words, values
+specified in files later in the list overwrite corresponding values specified
+in files earlier in the list. PATH may be specified in two ways:
+  - Specifying the list of file paths as a list name 'PATH' in the default
+    config file before initializing CONFIG (that is, before importing CONFIG
+    for the first time)
+  - Directly modifying CONFIG.PATH after initialization. Note that this changes
+    PATH project wide, ie. everywhere that CONFIG has been imported
+See the documentation for the _Config class for more information.
 """
 # TODO: update doc to include new import location
 # TODO: refactor and put in appropriate directory. Maybe make a different one for each study?
 
+import glob
+import logging
 import os
-import errno
+from typing import Any
+
 import yaml
 
-def _getRoot():
-    """Get the absolute path to the root directory of this project.
-    
-    Returns
-    -------
-    string
-        The absolute path to the root directory of this project, named
-        "attention-monitoring".
-    """
-
-    rootName = "attention_monitoring"
-    root = os.path.abspath(__file__)
-    while os.path.basename(root) != rootName:
-        root = os.path.dirname(root)
-        if not os.path.basename(root):
-            raise Exception(
-                f"Could not find target root directory `{rootName}` on path "
-                + os.path.abspath(__file__)
-                )
-    return root
-
-__configsDir = os.path.join(_getRoot(), "configs")
-__customConfigPath = os.path.join(_getRoot(), "config.yaml")
-__defaultConfigPath = os.path.join(_getRoot(), "default_config.yaml")
-    
-def _getConfigPath():
-    """Get the path to the configuration file to use.
-    
-    Returns
-    -------
-    string
-        The path to the configuration file to use.
-    """
-
-    envVar = 'CONFIG_MODE'
-    if os.path.isfile(__customConfigPath):
-        # Check for a custom config file
-        return __customConfigPath
-    elif envVar in os.environ and os.environ.get(envVar).lower() != 'default':
-        # Check if a config file is specified by the environment variable
-        # `envVar`, and attempt to use that config file
-        envConfigFilename = os.environ.get(envVar) + ".yaml"
-        envConfigPath = os.path.join(__configsDir, envConfigFilename)
-        if os.path.isfile(envConfigPath):
-            return envConfigPath
-        else:
-            msg = (
-                f'Illegal value for environment variable `{envVar}` - '
-                + os.strerror(errno.ENOENT)
-                )
-            raise FileNotFoundError(
-                errno.ENOENT, msg, envConfigPath
-                )
-    else:
-        # In all other cases, use the default config file
-        if os.path.isfile(__defaultConfigPath):
-            return __defaultConfigPath
-        else:
-            msg = (
-                "Default config file not found - " + os.strerror(errno.ENOENT)
-                )
-            raise FileNotFoundError(
-                errno.ENOENT, msg, __defaultConfigPath
-                )
-
-def _getConfig():
-    """Get the contents of the configuration file.
-    
-    Returns
-    -------
-    dict
-        The contents of the configuration file as key value pairs in a `dict`.
-    """
-
-    with open(_getConfigPath(), 'rt') as f:
-        return yaml.load(f, Loader=yaml.FullLoader)
+_log = logging.Logger(__name__)
 
 class _Config:
     """Project-level configuration values.
@@ -120,186 +44,106 @@ class _Config:
 
     Attributes
     ----------
-    projectRoot : str
-        The absolute file path to the root directory of this project, named
-        "attention-monitoring". (Automtically generated - not included in the
-        configuration `.yaml` file.)
-    path_to_LabRecorder : str, optional
-        The absolute file path to the installed LabRecorder program (this
-        should lead to a file named `LabRecorder.exe`). If specified,
-        LabRecorder will automatically be started when needed by running the 
-        executable specified by `path_to_LabRecorder`. If unspecified, it is
-        assumed that LabRecorder is already running when needed and no attempt
-        will be made to start it. May be specified in the configuration `.yaml`
-        file as an absolute path or as a relative path from the project root
-        directory.
-    verbose : int
-        The level of verbosity to use for printing messages. At 0, nothing is
-        printed. At 1, warnings and important info messages are printed. At 2,
-        information about program execution as well as more detailed error
-        messages are printed. At 3, more verbose information is printed. Note
-        that Psychtoolbox's verbosity level is also set to this value.
-    eeg_device_id
-        The id of the EEG device. Format may vary depending on the type of EEG
-        device used.
-    num_full_blocks : int
-        (gradCPT) The number of non-practice blocks to perform.
-    do_practice_block : bool
-        (gradCPT) Whether to perform a practice block.
-    stim_transition_time_ms : int
-        (gradCPT) The time in milliseconds for one stimulus to transition to
-        the next (equivalently, the length of the transition period).
-    stim_static_time_ms : int
-        (gradCPT) The time in milliseconds that one stimulus remains fully
-        coherent after transitioning from the previous stimulus (equivalently, 
-        the length of the static period).
-    full_block_sequence_length : int
-        (gradCPT) The number of stimuli in a non-practice block.
-    practice_block_sequence_length : int
-        (gradCPT) The number of stimuli in a practice block.
-    pre_full_block_break_time : int
-        (gradCPT) The time in seconds to wait before starting a non-practice
-        block.
-    pre_practice_block_break_time : int
-        (gradCPT) The time in seconds to wait before starting a practice block.
-    stim_diameter : int
-        (gradCPT) The diameter in pixels of the circle that stimuli are cropped
-        to.
-    muse_signals : list of str
-        The signals to obtain from the muse. Any combination of "EEG", "PPG",
-        "Accelerometer", "Gyroscope".
-    stream_markers_to_lsl : bool
-        Whether to stream marker signals indicating the start of transition and
-        static periods, the start and end of blocks, and the participant
-        responses to the lab streaming layer during gradCPT.
-    record_lsl : bool
-        Whether to automatically record lab streaming layer streams using
-        LabRecorder during gradCPT.
-    tcp_address : str
-        The remote host name or IP address to use for communicating with
-        LabRecorder using TCP.
-    tcp_port : int
-        The port number to use for communicating with LabRecorder using TCP.
-        Must be between 1 and 65535.
+    PATH : list[str]
+        The list of files read from to create the config (excludes the default
+        config file, which is always read from first), specified as paths
+        relative to the project root directory. If a value is specified in both
+        PATH[i] and PATH[j] for integers 0<=i<j<len(PATH), the value in PATH[j]
+        is used. In other words, values specified in files later in the list
+        overwrite corresponding values specified in files earlier in the list.
+        File paths may be added or removed from PATH after initialization by
+        accessing a _Config instance's PATH attribute; changes to the PATH list
+        in the default config file are not reflected by existing _Config
+        instances.
+    Any
+        Any values specified in an included config file.
     """
-
-    def __fetch(*namev):
-        """Get the specified configuration value as a property.
+    
+    def __init__(self) -> None:
+        # Get the path to the project root directory by searching for the
+        # "closest" parent directory that contains a .gitignore file
+        root = os.path.dirname(os.path.abspath(__file__))
+        target = ".gitignore"
+        while len(glob.glob(target, root_dir=root)) == 0:
+            # Check if the system root has been reached
+            if len(os.path.basename(root)) == 0:
+                raise Exception(
+                    "Could not find project root directory on path "
+                    + os.path.abspath(__file__)
+                )
+            else:
+                root = os.path.dirname(root)
+        self.__root = root
         
-        Parameters
-        ----------
-        *namev : str
-            The name of the configuration value to get, as specified in the
-            configuration file. If nested within other elements in the file,
-            also specify the parent elements as additional argument from
-            highest to lowest level.
+        # Specfiy the path to the default config, stored in the same directory
+        # as this file
+        dirPath = os.path.relpath(os.path.dirname(__file__), start=self.__root)
+        self.__defaultConfig = os.path.join(dirPath, "default_config.yaml")
+        
+        # Read the list of config paths to check from the default config.
+        # Values specified in config files later in the list will overwrite
+        # corresponding values in config files earlier in the list. Changes to
+        # this list in the default config file made after initializing this
+        # object are not reflected.
+        with open(os.path.join(self.__root, self.__defaultConfig), "r") as f:
+            contents = yaml.load(f, Loader=yaml.FullLoader)
+            self.PATH = contents["PATH"] if contents is not None else []
+            if isinstance(self.PATH, str):
+                self.PATH = [self.PATH]
+    
+    def __getConfig(self) -> dict[str: Any]:
+        config = {}
+        for k, configPath in enumerate((self.__defaultConfig, *self.PATH)):
+            try:
+                f = open(os.path.join(self.__root, configPath), 'rt')
+            except FileNotFoundError as E:
+                if k == 0:
+                    errmsg = (
+                        "Could not read from default config file: " + 
+                        f"{configPath}"
+                    )
+                    raise RuntimeError(errmsg) from E
+                else:
+                    _log.warn(
+                        "Config file at following location could not be " +
+                        "read, continuing execution: %s", configPath
+                    )
+            else:
+                _log.debug("Loading config file: %s", configPath)
+                contents = yaml.load(f, Loader=yaml.FullLoader)
+                if contents is not None:
+                    config.update(contents)
+            finally:
+                f.close()
+                
+        config["root"] = self.__root
+        return config
 
-        Returns
-        -------
-        property object
-            The configuration value as a property object. Set a variable in the
-            `_Config` class equal to this value to set it as a property.
-        """
-
-        @property
-        def f(self):
-            configVal = _getConfig()
-            for name in namev:
-                configVal = configVal[name]
-            return configVal
-        return f
-
-    # Config Values
-
-    # |---Constants
-    __pathConstants = ['constants']
-
-    @property
-    def projectRoot(self):
-        return _getRoot()
-
-    @property
-    def path_to_LabRecorder(self):
-        val = _getConfig()['constants']['path_to_LabRecorder']
-        if not os.path.isabs(val):
-            val = os.path.join(_getRoot(), val)
-        return os.path.normpath(val)
-
-    # |---Preferences
-    __pathPreferences = ['preferences']
-
-    # |---|---General
-    __pathGeneral = *__pathPreferences, 'general'
-
-    verbose = __fetch(
-        *__pathGeneral, 'verbose'
-        )
-
-    eeg_device_id = __fetch(
-        *__pathGeneral, "eeg_device_id"
-        )
-
-    # |---|---Study
-    __pathStudy = *__pathPreferences, 'study'
-
-    num_full_blocks = __fetch(
-        *__pathStudy, 'num_full_blocks'
-        )
-
-    do_practice_block = __fetch(
-        *__pathStudy, 'do_practice_block'
-        )
-
-    stim_transition_time_ms = __fetch(
-        *__pathStudy, 'stim_transition_time_ms'
-        )
-
-    stim_static_time_ms = __fetch(
-        *__pathStudy, 'stim_static_time_ms'
-        )
-
-    full_block_sequence_length = __fetch(
-        *__pathStudy, 'full_block_sequence_length'
-        )
-
-    practice_block_sequence_length = __fetch(
-        *__pathStudy, 'practice_block_sequence_length'
-        )
-
-    pre_full_block_break_time = __fetch(
-        *__pathStudy, 'pre_full_block_break_time'
-        )
-
-    pre_practice_block_break_time = __fetch(
-        *__pathStudy, 'pre_practice_block_break_time'
-        )
-
-    stim_diameter = __fetch(
-        *__pathStudy, 'stim_diameter'
-        )
-
-    muse_signals = __fetch(
-        *__pathStudy, 'muse_signals'
-        )
-
-    # |---|---LSL
-    __pathLSL = *__pathPreferences, 'lsl'
-
-    stream_markers_to_lsl = __fetch(
-        *__pathLSL, 'stream_markers_to_lsl'
-        )
-
-    record_lsl = __fetch(
-        *__pathLSL, 'record_lsl'
-        )
-
-    tcp_address = __fetch(
-        *__pathLSL, 'tcp_address'
-        )
-
-    tcp_port = __fetch(
-        *__pathLSL, 'tcp_port'
-        )
+    def __getattr__(self, name):
+        # PATH is both a attribute of this class and a value in the config.
+        # Users must only interact with the attribute, so this method must not
+        # be called with name="PATH". Calling `self.PATH` is the itended way of
+        # accessing PATH and internally will not call this method. 
+        if name == "PATH":
+            raise ValueError(
+                "`name` must not be 'PATH'. Use `self.PATH` instead."
+            )
+        
+        try:
+            val = self.__getConfig()[name]
+        except KeyError as E:
+            raise AttributeError(name) from E
+        else:
+            return val
+    
+    def attrNames(self) -> list[str]:
+        c = self.__getConfig()
+        c["PATH"] = self.PATH
+        return list(c.keys())
+    
+    def __str__(self):
+        c = self.__getConfig()
+        c["PATH"] = self.PATH
+        return str(c)
 
 CONFIG = _Config()
-CONFIG.__doc__ = _Config.__doc__

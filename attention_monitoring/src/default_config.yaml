@@ -1,0 +1,6 @@
+# List of file paths to custom config files to check, relative to the project
+# root directory. 
+PATH:
+  config.yaml
+
+bar: hello
