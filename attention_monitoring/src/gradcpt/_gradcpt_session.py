@@ -1,16 +1,11 @@
 from abc import abstractmethod
-import aiofiles
-import asyncio
-from contextlib import ExitStack, contextmanager
+from contextlib import ExitStack
 import csv
 from io import StringIO
 import logging
 import os
-import shlex
 import shutil
-import subprocess
 from time import sleep
-from typing import Any, Callable
 
 import matlab.engine
 import polars as pl
@@ -29,29 +24,80 @@ class GradCPTSession(StudySession):
     
     # TODO: add documentation
     # TODO: add functionality for starting an existing session
-    # TODO: integrate logger with MATLAB and labrecorder
     
+    # def __init__(
+    #         self, 
+    #         /,
+    #         dataSubDir: [None | str] = None,
+    #         sessionName: [str | None] = None,
+    #         **kwargs
+    #         ) -> None:
+        
+    #     super().__init__(
+    #         dataSubDir=dataSubDir,
+    #         sessionName=sessionName, 
+    #         **kwargs
+    #         )
+        
+        ###################################
     def __init__(
             self, 
             /,
-            dataSubDir: [None | str] = None,
-            sessionName: [str | None] = None,
             **kwargs
             ) -> None:
         
-        super().__init__(
-            dataSubDir=dataSubDir,
-            sessionName=sessionName, 
-            **kwargs
-            )
+        super().__init__(**kwargs)
         
-        # Initialize attribute to store result of calls to asynchronously start
-        # MATLAB. This attribute may only be accessed or modified by the
-        # `_startMatlab()` method of this class. 
-        # 
-        # Rep invariant: `self.__matlabEng` is either `None` or an instance of
-        # `matlab.engine.FutureResult`.
-        self.__matlabEng = None
+        _name = kwargs.get(name)
+        
+        if _name is None:
+            # Create a new session if name is unspecified
+            
+            # Create the blocks for this session
+            # TODO: implement
+            _log.debug("Creating blocks for this session")
+            self._blocks = []
+            if CONFIG.do_practice_block:
+                pass
+            for k in range(CONFIG.num_full_blocks):
+                pass
+            
+            # Get the path to the directory storing all the blocks (this is the
+            # same for every block)
+            try:
+                firstBlock = self._blocks[0]
+            except IndexError as E:
+                self._BLOCKS_DIR = None
+            else:
+                self._BLOCKS_DIR = firstBlock.info["parent_dir"]
+                
+            # Update the info file with the names of the blocks and relevant
+            # config vals
+            configVals = [
+                "num_full_blocks", "do_practice_block", 
+                "stim_transition_time_ms", "stim_static_time_ms", 
+                "stim_diameter", "full_block_sequence_length"
+                ]
+            self._info.update(
+                block_names=[b.info["name"] for b in self.blocks],
+                **{v : getattr(CONFIG, v) for v in configVals}
+                )
+            
+        else:
+            # If a session name was specified, load it
+            
+            # Load the existing blocks specified in the info file
+            block_names = self.info["block_names"]
+            _log.debug("Loading blocks for this session: %s", block_names)
+            self._blocks = [GradCPTBlock(self, name=bn) for bn in block_names]
+                
+                
+                
+            
+        
+        
+        
+        ############################
         
         # Create the blocks for this session
         _log.debug("Creating session blocks")
@@ -70,17 +116,38 @@ class GradCPTSession(StudySession):
                 name, self._DIR, dataSubDir=dataSubDir, n=(k + 1)
                 )
             self._blocks[block.name] = block
-        
-        # Create a new session if `sessionName` is unspecified.
-        if sessionName is None:
-            # Create a "blocks file" that summarizes the blocks for this
-            # session
-            blocksFile = os.path.join(self._DIR, "blocks.csv")
-            _log.debug("Creating blocks file: %s", blocksFile)
-            blocksFileFieldNames = [
+            
+        # Specify the path to the "blocks file" that summarizes the blocks for
+        # this session
+        blocksFile = os.path.join(self._DIR, "blocks.csv")
+        blocksFileFieldNames = [
                 "block_name", "pre_block_msg", "pre_block_wait_time",
                 "stim_sequence_file", "data_file"
                 ]
+        
+        if sessionName is None:
+            # Create a new session if `sessionName` is unspecified.
+            
+            # Create the blocks for this session
+            _log.debug("Creating session blocks")
+            self._blocks = {}
+            if CONFIG.do_practice_block:
+                name = f"{self._info['session_name']}_practice_block"
+                _log.debug("Creating block: %s", name)
+                block = GradCPTBlock.makePracticeBlock(
+                    name, self._DIR, dataSubDir=dataSubDir
+                    )
+                self._blocks[block.name] = block
+            for k in range(CONFIG.num_full_blocks):
+                name = f"{self._info['session_name']}_full_block_{k + 1}"
+                _log.debug("Creating block: %s", name)
+                block = GradCPTBlock.makeFullBlock(
+                    name, self._DIR, dataSubDir=dataSubDir, n=(k + 1)
+                    )
+                self._blocks[block.name] = block
+            
+            # Create the blocks file
+            _log.debug("Creating blocks file: %s", blocksFile)
             with open(blocksFile, "w") as f:
                 dictWriter = csv.DictWriter(f, fieldnames=blocksFileFieldNames)
                 dictWriter.writeheader()
@@ -105,6 +172,19 @@ class GradCPTSession(StudySession):
                 ]
             _log.debug("Updating info file with fields: %s", configVals)
             self._info.update(**{v : getattr(CONFIG, v) for v in configVals})
+        else:
+            # If a session name was provided, get its blocks file and load its
+            # blocks
+            _log.debug("Loading blocks file: %s", blocksFile)
+            with open(blocksFile, "r") as f:
+                dictReader = csv.DictReader(f, fieldnames=blocksFileFieldNames)
+                self._blocks = {}
+                for line in dictReader:
+                    self._blocks[line["block_name"]] = f
+                    
+            
+            
+            
         
     @property
     @abstractmethod
@@ -112,8 +192,8 @@ class GradCPTSession(StudySession):
         pass
     
     @property
-    def blocks(self) -> dict[str, StudyBlock]:
-        return {k : v for (k, v) in self._blocks.items()}
+    def blocks(self) -> list[GradCPTBlock]:
+        return [b for b in self._blocks]
     
     def run(self, writeLogToFile: bool = True) -> None:
         _log.debug("Running session: '%s'", self.info["session_name"])
