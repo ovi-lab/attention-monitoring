@@ -94,23 +94,24 @@ class _Config:
     def __getConfig(self) -> dict[str: Any]:
         config = {}
         for k, configPath in enumerate((self.__defaultConfig, *self.PATH)):
+            fullConfigPath = os.path.join(self.__root, configPath)
             try:
-                f = open(os.path.join(self.__root, configPath), 'rt')
+                f = open(fullConfigPath, 'rt')
             except FileNotFoundError as E:
                 if k == 0:
                     errmsg = (
                         "Could not read from default config file: " + 
-                        f"{configPath}"
+                        f"{fullConfigPath}"
                     )
                     raise RuntimeError(errmsg) from E
                 else:
                     _log.warn(
                         "Config file at following location could not be " +
-                        "read, continuing execution: %s", configPath
+                        "read, continuing execution: %s", fullConfigPath
                     )
             else:
-                _log.debug("Loading config file: %s", configPath)
-                contents = yaml.load(f, Loader=yaml.FullLoader)
+                _log.debug("Loading config file: %s", fullConfigPath)
+                contents = yaml.safe_load(f)
                 if contents is not None:
                     config.update(contents)
             finally:

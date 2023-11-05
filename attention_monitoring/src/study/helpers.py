@@ -270,7 +270,7 @@ class CSVLogger:
             
         return data.to_dict(as_series=False)
         
-    def addLine(self, **items) -> None:
+    def addLine(self, **lineItems) -> None:
         """Add a line to the end of the log.
 
         Data to include in the line are specified as keyword arguments, where
@@ -283,7 +283,7 @@ class CSVLogger:
 
         Parameters
         ----------
-        **items
+        **lineItems
             The data to include in the line, specified as keyword arguments.
             
         Raises
@@ -295,7 +295,12 @@ class CSVLogger:
         
         # Assume the log file exists and is properly formatted
         
+        # Convert data to strings for writing to the log
+        _lineItems = {}
+        for k, v in lineItems.items():
+            _lineItems[k] = str(v) if v is not None else ""
+        
         # Add the line to the log
         with open(self.path, "a") as f:
             dWriter = csv.DictWriter(f, fieldnames=self.fieldNames, restval="")
-            dWriter.writerow(items)    
+            dWriter.writerow(_lineItems)    

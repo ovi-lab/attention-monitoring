@@ -3,4 +3,4 @@
 PATH:
   config.yaml
 
-bar: hello
+data_dir: attention_monitoring\data
