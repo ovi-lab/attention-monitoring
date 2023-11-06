@@ -1,0 +1,1783 @@
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" created
+WriteRegStr: "HKEY_LOCAL_MACHINE\SOFTWARE\openvibe350-64bit" "InstallDir"="C:\Program Files\openvibe-3.5.0-64bit"
+created uninstaller: 11026, "C:\Program Files\openvibe-3.5.0-64bit\Uninstall.exe"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch" (0)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies" (1)
+IfFileExists: file "C:\WINDOWS\system32\d3dx9_43.dll" exists, jumping 360
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch" (1)
+File: overwriteflag=0, allowskipfilesflag=2, name="gtk_2.24.31_x64_vc120_runtime.zip"
+File: wrote 11465371 to "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch\gtk_2.24.31_x64_vc120_runtime.zip"
+File: overwriteflag=0, allowskipfilesflag=2, name="pthread_2.9.1_x64_vc120_dev.zip"
+File: wrote 41819 to "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch\pthread_2.9.1_x64_vc120_dev.zip"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcredist_x64_vc100.zip"
+File: wrote 585485 to "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch\vcredist_x64_vc100.zip"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcredist_x64_vc110.zip"
+File: wrote 821698 to "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch\vcredist_x64_vc110.zip"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcredist_x64_vc120.zip"
+File: wrote 1016685 to "C:\Program Files\openvibe-3.5.0-64bit\dependencies\arch\vcredist_x64_vc120.zip"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\dependencies" (1)
+Call: 313
+Jump: 321
+Jump: 321
+Jump: 321
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+File: wrote 167424 to "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+Jump: 369
+Call: 313
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll" (overwriteflag=1)
+Jump: 369
+Call: 313
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll" (overwriteflag=1)
+Jump: 369
+Call: 313
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll" (overwriteflag=1)
+Jump: 369
+Call: 313
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Jump: 321
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll" (overwriteflag=1)
+Jump: 369
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\bin" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\bin" created
+File: overwriteflag=0, allowskipfilesflag=2, name="ActiChamp.bit"
+File: wrote 464302 to "C:\Program Files\openvibe-3.5.0-64bit\bin\ActiChamp.bit"
+File: overwriteflag=0, allowskipfilesflag=2, name="ActiChampX.bit"
+File: wrote 464302 to "C:\Program Files\openvibe-3.5.0-64bit\bin\ActiChampX.bit"
+File: overwriteflag=0, allowskipfilesflag=2, name="ActiChamp_x64.dll"
+File: wrote 196608 to "C:\Program Files\openvibe-3.5.0-64bit\bin\ActiChamp_x64.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="AmplifierSDK.dll"
+File: wrote 131072 to "C:\Program Files\openvibe-3.5.0-64bit\bin\AmplifierSDK.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="FirstAmp.dll"
+File: wrote 84992 to "C:\Program Files\openvibe-3.5.0-64bit\bin\FirstAmp.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="GDSClientAPI.dll"
+File: wrote 1364992 to "C:\Program Files\openvibe-3.5.0-64bit\bin\GDSClientAPI.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="GDSServer.dll"
+File: wrote 3748864 to "C:\Program Files\openvibe-3.5.0-64bit\bin\GDSServer.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="Labview_DLL.dll"
+File: wrote 49664 to "C:\Program Files\openvibe-3.5.0-64bit\bin\Labview_DLL.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="LiveAmpLib2.dll"
+File: wrote 415744 to "C:\Program Files\openvibe-3.5.0-64bit\bin\LiveAmpLib2.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="Networking.dll"
+File: wrote 524288 to "C:\Program Files\openvibe-3.5.0-64bit\bin\Networking.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="OpenAL32.dll"
+File: wrote 122904 to "C:\Program Files\openvibe-3.5.0-64bit\bin\OpenAL32.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="TMSiSDK.dll"
+File: wrote 239832 to "C:\Program Files\openvibe-3.5.0-64bit\bin\TMSiSDK.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="Unicorn.dll"
+File: wrote 174080 to "C:\Program Files\openvibe-3.5.0-64bit\bin\Unicorn.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="actiCHampLib.dll"
+File: wrote 103936 to "C:\Program Files\openvibe-3.5.0-64bit\bin\actiCHampLib.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="alut.dll"
+File: wrote 29184 to "C:\Program Files\openvibe-3.5.0-64bit\bin\alut.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="asprintf.dll"
+File: wrote 25600 to "C:\Program Files\openvibe-3.5.0-64bit\bin\asprintf.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="atk-1.0.dll"
+File: wrote 132096 to "C:\Program Files\openvibe-3.5.0-64bit\bin\atk-1.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="blas_win64_MT.dll"
+File: wrote 2051584 to "C:\Program Files\openvibe-3.5.0-64bit\bin\blas_win64_MT.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="cairo-gobject.dll"
+File: wrote 24576 to "C:\Program Files\openvibe-3.5.0-64bit\bin\cairo-gobject.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="cairo.dll"
+File: wrote 1900544 to "C:\Program Files\openvibe-3.5.0-64bit\bin\cairo.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="concrt140.dll"
+File: wrote 317864 to "C:\Program Files\openvibe-3.5.0-64bit\bin\concrt140.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="dllMicromed.dll"
+File: wrote 33792 to "C:\Program Files\openvibe-3.5.0-64bit\bin\dllMicromed.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="eego-SDK.dll"
+File: wrote 684544 to "C:\Program Files\openvibe-3.5.0-64bit\bin\eego-SDK.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="fontconfig.dll"
+File: wrote 796160 to "C:\Program Files\openvibe-3.5.0-64bit\bin\fontconfig.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gAPI.dll"
+File: wrote 3771392 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gAPI.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gMOBIlabplus.dll"
+File: wrote 78336 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gMOBIlabplus.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gUSBamp.dll"
+File: wrote 2187776 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gUSBamp.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gailutil-2.0.dll"
+File: wrote 27648 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gailutil-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdk-win32-2.0.dll"
+File: wrote 688640 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gdk-win32-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdk_pixbuf-2.0.dll"
+File: wrote 208896 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gdk_pixbuf-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gettextlib.dll"
+File: wrote 1651200 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gettextlib.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gettextpo.dll"
+File: wrote 261632 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gettextpo.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gettextsrc.dll"
+File: wrote 255488 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gettextsrc.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gio-2.0.dll"
+File: wrote 1529344 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gio-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="glib-2.0.dll"
+File: wrote 1337856 to "C:\Program Files\openvibe-3.5.0-64bit\bin\glib-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gmodule-2.0.dll"
+File: wrote 15872 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gmodule-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gobject-2.0.dll"
+File: wrote 272896 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gobject-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gthread-2.0.dll"
+File: wrote 9216 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gthread-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="gtk-win32-2.0.dll"
+File: wrote 4287488 to "C:\Program Files\openvibe-3.5.0-64bit\bin\gtk-win32-2.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="harfbuzz-gobject-vs12.dll"
+File: wrote 38400 to "C:\Program Files\openvibe-3.5.0-64bit\bin\harfbuzz-gobject-vs12.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="harfbuzz-vs12.dll"
+File: wrote 1048576 to "C:\Program Files\openvibe-3.5.0-64bit\bin\harfbuzz-vs12.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="iconv.dll"
+File: wrote 49664 to "C:\Program Files\openvibe-3.5.0-64bit\bin\iconv.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="intl.dll"
+File: wrote 89600 to "C:\Program Files\openvibe-3.5.0-64bit\bin\intl.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="itpp.dll"
+File: wrote 3266560 to "C:\Program Files\openvibe-3.5.0-64bit\bin\itpp.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="lapack_win64_MT.dll"
+File: wrote 12637184 to "C:\Program Files\openvibe-3.5.0-64bit\bin\lapack_win64_MT.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libexpat.dll"
+File: wrote 137216 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libexpat.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libfftw3-3_win64.dll"
+File: wrote 2662451 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libfftw3-3_win64.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="liblsl64.dll"
+File: wrote 1114624 to "C:\Program Files\openvibe-3.5.0-64bit\bin\liblsl64.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libogg.dll"
+File: wrote 19968 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libogg.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libpng16.dll"
+File: wrote 238080 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libpng16.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libvorbis.dll"
+File: wrote 1699328 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libvorbis.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libvorbisfile.dll"
+File: wrote 34304 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libvorbisfile.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="libxml2.dll"
+File: wrote 1339392 to "C:\Program Files\openvibe-3.5.0-64bit\bin\libxml2.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="msvcp140.dll"
+File: wrote 566704 to "C:\Program Files\openvibe-3.5.0-64bit\bin\msvcp140.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="msvcp140_1.dll"
+File: wrote 23944 to "C:\Program Files\openvibe-3.5.0-64bit\bin\msvcp140_1.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="msvcp140_2.dll"
+File: wrote 186800 to "C:\Program Files\openvibe-3.5.0-64bit\bin\msvcp140_2.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="msvcp140_atomic_wait.dll"
+File: wrote 57264 to "C:\Program Files\openvibe-3.5.0-64bit\bin\msvcp140_atomic_wait.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="msvcp140_codecvt_ids.dll"
+File: wrote 21424 to "C:\Program Files\openvibe-3.5.0-64bit\bin\msvcp140_codecvt_ids.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-acquisition-server.exe"
+File: wrote 947712 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-acquisition-server.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-convert-real.cmd"
+File: wrote 2190 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-convert-real.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-designer.exe"
+File: wrote 773632 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-designer.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-external-stimulation-connection.exe"
+File: wrote 90624 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-example-external-stimulation-connection.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-openvibe-to-tcpip.exe"
+File: wrote 112640 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-example-openvibe-to-tcpip.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-openvibe-to-vrpn.exe"
+File: wrote 98816 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-example-openvibe-to-vrpn.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-vrpn-to-openvibe.exe"
+File: wrote 105984 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-example-vrpn-to-openvibe.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-external-application-launcher.cmd"
+File: wrote 396 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-external-application-launcher.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-id-generator.exe"
+File: wrote 23552 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-id-generator.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-kernel.dll"
+File: wrote 970240 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-kernel.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-lib-adv-viz-test-renderer.exe"
+File: wrote 1011712 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-lib-adv-viz-test-renderer.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-communication.dll"
+File: wrote 81408 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-communication.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-csv.dll"
+File: wrote 292352 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-csv.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-ebml.dll"
+File: wrote 33280 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-ebml.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-eigen.dll"
+File: wrote 112128 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-eigen.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-fs.dll"
+File: wrote 99328 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-fs.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-socket.dll"
+File: wrote 67584 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-socket.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-system.dll"
+File: wrote 45568 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-system.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-tcptagging.dll"
+File: wrote 81920 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-tcptagging.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-module-xml.dll"
+File: wrote 69632 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-module-xml.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugin-inspector-sdk.exe"
+File: wrote 79360 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugin-inspector-sdk.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugin-inspector.exe"
+File: wrote 122880 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugin-inspector.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-acquisition.dll"
+File: wrote 36864 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-acquisition.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-artifact.dll"
+File: wrote 736768 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-artifact.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-classification.dll"
+File: wrote 215552 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-classification.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-file-io.dll"
+File: wrote 189952 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-file-io.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-misc.dll"
+File: wrote 22528 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-misc.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-network-io.dll"
+File: wrote 68096 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-network-io.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-pybox.dll"
+File: wrote 176128 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-pybox.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-python3.dll"
+File: wrote 129024 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-python3.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-contrib-signal-processing.dll"
+File: wrote 210432 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-contrib-signal-processing.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-data-generation.dll"
+File: wrote 54784 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-data-generation.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-designer-advanced-vis.dll"
+File: wrote 1332224 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-designer-advanced-vis.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-designer-examples.dll"
+File: wrote 24576 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-designer-examples.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-designer-simple-vis.dll"
+File: wrote 149504 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-designer-simple-vis.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-dll-bridge.dll"
+File: wrote 46592 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-dll-bridge.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-evaluation.dll"
+File: wrote 176640 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-evaluation.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-examples.dll"
+File: wrote 54272 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-examples.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-features-selection.dll"
+File: wrote 116736 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-features-selection.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-file-io.dll"
+File: wrote 401408 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-file-io.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-games.dll"
+File: wrote 70656 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-games.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-matlab.dll"
+File: wrote 182272 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-matlab.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-network-io.dll"
+File: wrote 350208 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-network-io.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-riemannian.dll"
+File: wrote 816640 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-riemannian.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-classification.dll"
+File: wrote 396800 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-classification.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-data-generation.dll"
+File: wrote 37888 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-data-generation.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-feature-extraction.dll"
+File: wrote 47104 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-feature-extraction.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-file-io.dll"
+File: wrote 424448 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-file-io.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-signal-processing.dll"
+File: wrote 1080320 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-signal-processing.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-stimulation.dll"
+File: wrote 100352 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-stimulation.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-stream-codecs.dll"
+File: wrote 111104 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-stream-codecs.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-streaming.dll"
+File: wrote 64512 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-streaming.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-sdk-tools.dll"
+File: wrote 148480 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-sdk-tools.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-signal-processing.dll"
+File: wrote 640512 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-signal-processing.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-simple-visualization.dll"
+File: wrote 343040 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-simple-visualization.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-stimulation.dll"
+File: wrote 409600 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-stimulation.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-streaming.dll"
+File: wrote 76288 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-streaming.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-tests.dll"
+File: wrote 49152 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-tests.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-tools.dll"
+File: wrote 52736 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-tools.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugins-vrpn.dll"
+File: wrote 181760 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-plugins-vrpn.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-scenario-player.exe"
+File: wrote 146944 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-scenario-player.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-set-env.cmd"
+File: wrote 669 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-set-env.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-skeleton-generator.exe"
+File: wrote 397312 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-skeleton-generator.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-toolkit.dll"
+File: wrote 271360 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-toolkit.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-tracker.exe"
+File: wrote 1640960 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-tracker.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-visualization-toolkit.dll"
+File: wrote 27136 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-visualization-toolkit.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-vrpn-simulator.exe"
+File: wrote 111104 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe-vrpn-simulator.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe.dll"
+File: wrote 165888 to "C:\Program Files\openvibe-3.5.0-64bit\bin\openvibe.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="pango-1.0.dll"
+File: wrote 287744 to "C:\Program Files\openvibe-3.5.0-64bit\bin\pango-1.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="pangocairo-1.0.dll"
+File: wrote 585728 to "C:\Program Files\openvibe-3.5.0-64bit\bin\pangocairo-1.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="pangoft2-1.0.dll"
+File: wrote 610816 to "C:\Program Files\openvibe-3.5.0-64bit\bin\pangoft2-1.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="pangowin32-1.0.dll"
+File: wrote 63488 to "C:\Program Files\openvibe-3.5.0-64bit\bin\pangowin32-1.0.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="pthread.dll"
+File: wrote 52224 to "C:\Program Files\openvibe-3.5.0-64bit\bin\pthread.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="sdk-examples-communication-client-filter.exe"
+File: wrote 24064 to "C:\Program Files\openvibe-3.5.0-64bit\bin\sdk-examples-communication-client-filter.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="sdk-examples-communication-client-generator.exe"
+File: wrote 33792 to "C:\Program Files\openvibe-3.5.0-64bit\bin\sdk-examples-communication-client-generator.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test-module-eigen.exe"
+File: wrote 221184 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test-module-eigen.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test-module-geometry.exe"
+File: wrote 1343488 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test-module-geometry.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_accuracy.exe"
+File: wrote 35840 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test_accuracy.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_eigen.exe"
+File: wrote 36352 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test_eigen.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_evaluation.exe"
+File: wrote 34304 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test_evaluation.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_tagstream.exe"
+File: wrote 87552 to "C:\Program Files\openvibe-3.5.0-64bit\bin\test_tagstream.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="thinkgear64.dll"
+File: wrote 105472 to "C:\Program Files\openvibe-3.5.0-64bit\bin\thinkgear64.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="threshold-comparison.exe"
+File: wrote 79360 to "C:\Program Files\openvibe-3.5.0-64bit\bin\threshold-comparison.exe"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcomp140.dll"
+File: wrote 180616 to "C:\Program Files\openvibe-3.5.0-64bit\bin\vcomp140.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcruntime140.dll"
+File: wrote 98224 to "C:\Program Files\openvibe-3.5.0-64bit\bin\vcruntime140.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="vcruntime140_1.dll"
+File: wrote 37256 to "C:\Program Files\openvibe-3.5.0-64bit\bin\vcruntime140_1.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="xerces-c_3_1.dll"
+File: wrote 2885120 to "C:\Program Files\openvibe-3.5.0-64bit\bin\xerces-c_3_1.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="xerces-c_3_1D.dll"
+File: wrote 4982272 to "C:\Program Files\openvibe-3.5.0-64bit\bin\xerces-c_3_1D.dll"
+File: overwriteflag=0, allowskipfilesflag=2, name="zlib1.dll"
+File: wrote 82432 to "C:\Program Files\openvibe-3.5.0-64bit\bin\zlib1.dll"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-acquisition-server.cmd"
+File: wrote 1467 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-acquisition-server.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-convert.cmd"
+File: wrote 1455 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-convert.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-designer.cmd"
+File: wrote 1440 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-designer.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-external-stimulation-connection.cmd"
+File: wrote 1509 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-example-external-stimulation-connection.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-openvibe-to-tcpip.cmd"
+File: wrote 1481 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-example-openvibe-to-tcpip.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-openvibe-to-vrpn.cmd"
+File: wrote 1479 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-example-openvibe-to-vrpn.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-example-vrpn-to-openvibe.cmd"
+File: wrote 1479 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-example-vrpn-to-openvibe.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-id-generator.cmd"
+File: wrote 1455 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-id-generator.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-plugin-inspector.cmd"
+File: wrote 1463 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-plugin-inspector.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-skeleton-generator.cmd"
+File: wrote 1467 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-skeleton-generator.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-tracker.cmd"
+File: wrote 1445 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-tracker.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-vrpn-simulator.cmd"
+File: wrote 1459 to "C:\Program Files\openvibe-3.5.0-64bit\openvibe-vrpn-simulator.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test-module-eigen.cmd"
+File: wrote 1447 to "C:\Program Files\openvibe-3.5.0-64bit\test-module-eigen.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test-module-geometry.cmd"
+File: wrote 1453 to "C:\Program Files\openvibe-3.5.0-64bit\test-module-geometry.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_accuracy.cmd"
+File: wrote 1439 to "C:\Program Files\openvibe-3.5.0-64bit\test_accuracy.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_eigen.cmd"
+File: wrote 1433 to "C:\Program Files\openvibe-3.5.0-64bit\test_eigen.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_evaluation.cmd"
+File: wrote 1443 to "C:\Program Files\openvibe-3.5.0-64bit\test_evaluation.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="test_tagstream.cmd"
+File: wrote 1441 to "C:\Program Files\openvibe-3.5.0-64bit\test_tagstream.cmd"
+File: overwriteflag=0, allowskipfilesflag=2, name="threshold-comparison.cmd"
+File: wrote 1453 to "C:\Program Files\openvibe-3.5.0-64bit\threshold-comparison.cmd"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0\i686-pc-vs10" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0\i686-pc-vs10" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0\i686-pc-vs10\engines" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0\i686-pc-vs10\engines" created
+File: overwriteflag=0, allowskipfilesflag=2, name="libwimp.dll"
+File: wrote 56832 to "C:\Program Files\openvibe-3.5.0-64bit\lib\gtk-2.0\i686-pc-vs10\engines\libwimp.dll"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\etc" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\etc" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\etc\gtk-2.0" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\etc\gtk-2.0" created
+File: overwriteflag=0, allowskipfilesflag=2, name="gtkrc"
+File: wrote 1825 to "C:\Program Files\openvibe-3.5.0-64bit\etc\gtk-2.0\gtkrc"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe\kernel\log" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\include" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe\kernel" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe\kernel\log" created
+File: overwriteflag=0, allowskipfilesflag=2, name="ovILogListener.h"
+File: wrote 7731 to "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe\kernel\log\ovILogListener.h"
+File: overwriteflag=0, allowskipfilesflag=2, name="ovILogManager.h"
+File: wrote 1930 to "C:\Program Files\openvibe-3.5.0-64bit\include\openvibe\kernel\log\ovILogManager.h"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server" created
+File: overwriteflag=0, allowskipfilesflag=2, name="acquisition-server-defaults.conf"
+File: wrote 2014 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\acquisition-server-defaults.conf"
+File: overwriteflag=0, allowskipfilesflag=2, name="capset-brainproducts-acticap32.txt"
+File: wrote 144 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\capset-brainproducts-acticap32.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="easycap-64ch-electrode-names-10-20.txt"
+File: wrote 292 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\easycap-64ch-electrode-names-10-20.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="electrode-names.txt"
+File: wrote 495 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\electrode-names.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BioSemi-ActiveTwo.ui"
+File: wrote 33891 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BioSemi-ActiveTwo.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BrainProducts-ActiCHamp.ui"
+File: wrote 30738 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BrainProducts-ActiCHamp.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BrainProducts-BrainVisionRecorder.ui"
+File: wrote 22284 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BrainProducts-BrainVisionRecorder.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BrainProducts-BrainampSeries.ui"
+File: wrote 49544 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BrainProducts-BrainampSeries.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BrainProducts-VAmp.ui"
+File: wrote 49003 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BrainProducts-VAmp.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-BrainProductsLiveAmp.ui"
+File: wrote 34851 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-BrainProductsLiveAmp.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Brainmaster-Discovery.ui"
+File: wrote 33932 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Brainmaster-Discovery.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Cognionics.ui"
+File: wrote 21259 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Cognionics.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-CtfVsm-Meg.ui"
+File: wrote 21277 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-CtfVsm-Meg.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-EEGO.ui"
+File: wrote 39197 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-EEGO.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Emotiv-EPOC.ui"
+File: wrote 17612 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Emotiv-EPOC.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Encephalan.ui"
+File: wrote 18225 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Encephalan.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Enobio3G.ui"
+File: wrote 19495 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Enobio3G.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-GTec-GMobiLabPlus.ui"
+File: wrote 19508 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-GTec-GMobiLabPlus.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-GTec-GUSBamp.ui"
+File: wrote 48454 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-GTec-GUSBamp.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-GTec-GUSBampLegacy.ui"
+File: wrote 37295 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-GTec-GUSBampLegacy.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-GTecGUSBampLinux.ui"
+File: wrote 135287 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-GTecGUSBampLinux.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Generic-Oscillator.ui"
+File: wrote 23481 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Generic-Oscillator.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Generic-RawFileReader.ui"
+File: wrote 31007 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Generic-RawFileReader.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Generic-RawTelnetReader.ui"
+File: wrote 31703 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Generic-RawTelnetReader.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Generic-TimeSignal.ui"
+File: wrote 15317 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Generic-TimeSignal.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-LabStreamingLayer.ui"
+File: wrote 22455 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-LabStreamingLayer.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-MBTSmarting.ui"
+File: wrote 19874 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-MBTSmarting.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-MCSNVXDriver.ui"
+File: wrote 23220 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-MCSNVXDriver.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Micromed-SystemPlusEvolution.ui"
+File: wrote 15205 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Micromed-SystemPlusEvolution.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-MindMedia-NeXus32B.ui"
+File: wrote 15258 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-MindMedia-NeXus32B.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Mitsar-EEG202.ui"
+File: wrote 18074 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Mitsar-EEG202.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-NeuroServoHid.ui"
+File: wrote 21246 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-NeuroServoHid.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Neurosky-Mindset.ui"
+File: wrote 19575 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Neurosky-Mindset.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-OpenALAudioCapture.ui"
+File: wrote 14931 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-OpenALAudioCapture.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-OpenBCI.ui"
+File: wrote 32932 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-OpenBCI.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-OpenEEG-ModularEEG.ui"
+File: wrote 17073 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-OpenEEG-ModularEEG.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-ShimmerGSR.ui"
+File: wrote 19821 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-ShimmerGSR.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-Simulated-Deviator.ui"
+File: wrote 37946 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-Simulated-Deviator.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-TMSI-Refa32B.ui"
+File: wrote 20875 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-TMSI-Refa32B.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-TMSi.ui"
+File: wrote 36031 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-TMSi.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-channel-names.ui"
+File: wrote 10037 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-channel-names.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-egi-ampserver.ui"
+File: wrote 20259 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-egi-ampserver.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-gNautilusInterface.ui"
+File: wrote 180558 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface-gNautilusInterface.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface.ui"
+File: wrote 37608 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\interface.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="ov-channel-rename-easycap-64ch.cfg"
+File: wrote 317 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\ov-channel-rename-easycap-64ch.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="vamp-acquiring.bmp"
+File: wrote 230454 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\vamp-acquiring.bmp"
+File: overwriteflag=0, allowskipfilesflag=2, name="vamp-default.bmp"
+File: wrote 78198 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\vamp-default.bmp"
+File: overwriteflag=0, allowskipfilesflag=2, name="vamp-impedance-mask.bmp"
+File: wrote 230454 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\vamp-impedance-mask.bmp"
+File: overwriteflag=0, allowskipfilesflag=2, name="vamp-standby.bmp"
+File: wrote 230454 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\vamp-standby.bmp"
+File: overwriteflag=0, allowskipfilesflag=2, name="vamp.bmp"
+File: wrote 230454 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\vamp.bmp"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters" created
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_1024.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_128.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_2048.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_256.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_4096.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_100k_512.bin"
+File: wrote 80000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_100k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_1024.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_128.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_2048.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_256.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_4096.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_10k_512.bin"
+File: wrote 8000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_10k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_1024.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_128.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_2048.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_256.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_4096.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_20k_512.bin"
+File: wrote 16000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_20k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_1024.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_128.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_2048.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_256.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_4096.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_25k_512.bin"
+File: wrote 20000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_25k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_2k_128.bin"
+File: wrote 1600 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_2k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_2k_256.bin"
+File: wrote 1600 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_2k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_2k_512.bin"
+File: wrote 1600 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_2k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_1024.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_128.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_2048.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_256.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_4096.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_50k_512.bin"
+File: wrote 40000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_50k_512.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_1024.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_1024.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_128.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_128.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_2048.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_2048.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_256.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_256.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_4096.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_4096.bin"
+File: overwriteflag=0, allowskipfilesflag=2, name="f64_5k_512.bin"
+File: wrote 4000 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\filters\f64_5k_512.bin"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="egi-default-initialize.script"
+File: wrote 197 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts\egi-default-initialize.script"
+File: overwriteflag=0, allowskipfilesflag=2, name="egi-default-start.script"
+File: wrote 0 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts\egi-default-start.script"
+File: overwriteflag=0, allowskipfilesflag=2, name="egi-default-stop.script"
+File: wrote 0 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts\egi-default-stop.script"
+File: overwriteflag=0, allowskipfilesflag=2, name="egi-default-uninitialize.script"
+File: wrote 0 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\acquisition-server\scripts\egi-default-uninitialize.script"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer" created
+File: overwriteflag=0, allowskipfilesflag=2, name="about-dialog.ui"
+File: wrote 3821 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\about-dialog.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="designer.conf"
+File: wrote 3451 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\designer.conf"
+File: overwriteflag=0, allowskipfilesflag=2, name="designer.ico"
+File: wrote 99678 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\designer.ico"
+File: overwriteflag=0, allowskipfilesflag=2, name="header_logo.png"
+File: wrote 54258 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\header_logo.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface-settings.ui"
+File: wrote 58131 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\interface-settings.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface.ui"
+File: wrote 291086 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\interface.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="mensia-decoration.png"
+File: wrote 2531 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\designer\mensia-decoration.png"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\plugin-inspector" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\plugin-inspector" created
+File: overwriteflag=0, allowskipfilesflag=2, name="plugin-inspector.conf"
+File: wrote 1122 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\plugin-inspector\plugin-inspector.conf"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator" created
+File: overwriteflag=0, allowskipfilesflag=2, name="box.cpp-codec-toolkit-skeleton"
+File: wrote 6234 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\box.cpp-codec-toolkit-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="box.cpp-skeleton"
+File: wrote 6513 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\box.cpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="box.hpp-skeleton"
+File: wrote 7229 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\box.hpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="configuration.cpp-skeleton"
+File: wrote 2829 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\configuration.cpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="configuration.hpp-skeleton"
+File: wrote 1439 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\configuration.hpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="driver.cpp-skeleton"
+File: wrote 4693 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\driver.cpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="driver.hpp-skeleton"
+File: wrote 1923 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\driver.hpp-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="generator-interface.ui"
+File: wrote 162240 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\generator-interface.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="interface.ui-skeleton"
+File: wrote 15165 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\interface.ui-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="readme-box.txt-skeleton"
+File: wrote 1808 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\readme-box.txt-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="readme-driver.txt-skeleton"
+File: wrote 1775 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\readme-driver.txt-skeleton"
+File: overwriteflag=0, allowskipfilesflag=2, name="skeleton-generator.conf"
+File: wrote 940 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\skeleton-generator\skeleton-generator.conf"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker" created
+File: overwriteflag=0, allowskipfilesflag=2, name="advanced-visualization.ui"
+File: wrote 44365 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\advanced-visualization.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="designer-interface-settings.ui"
+File: wrote 58131 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\designer-interface-settings.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="designer-interface.ui"
+File: wrote 291037 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\designer-interface.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="header_logo.png"
+File: wrote 54258 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\header_logo.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="processor-example-bidir.xml"
+File: wrote 26491 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\processor-example-bidir.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="processor-example-erp.xml"
+File: wrote 37651 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\processor-example-erp.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="processor-example-sink.xml"
+File: wrote 21590 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\processor-example-sink.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="processor-example-source.xml"
+File: wrote 22828 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\processor-example-source.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="tracker.ui"
+File: wrote 150560 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\tracker\tracker.ui"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\vrpn-simulator" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\vrpn-simulator" created
+File: overwriteflag=0, allowskipfilesflag=2, name="interface.ui"
+File: wrote 12293 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\applications\vrpn-simulator\interface.ui"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\electrode_sets" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\electrode_sets" created
+File: overwriteflag=0, allowskipfilesflag=2, name="electrode_set_standard_cartesian.txt"
+File: wrote 32792 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\electrode_sets\electrode_set_standard_cartesian.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="electrode_set_standard_spherical.txt"
+File: wrote 1966 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\electrode_sets\electrode_set_standard_spherical.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel" created
+File: overwriteflag=0, allowskipfilesflag=2, name="cone_ov.material"
+File: wrote 180 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\cone_ov.material"
+File: overwriteflag=0, allowskipfilesflag=2, name="cone_ov.mesh"
+File: wrote 9784 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\cone_ov.mesh"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-delayed.conf"
+File: wrote 1397 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\openvibe-delayed.conf"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-scenario-legacy.xsd"
+File: wrote 6927 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\openvibe-scenario-legacy.xsd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-scenario-v1.xsd"
+File: wrote 6619 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\openvibe-scenario-v1.xsd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-scenario-v2.xsd"
+File: wrote 7484 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\openvibe-scenario-v2.xsd"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe.conf"
+File: wrote 6147 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\openvibe.conf"
+File: overwriteflag=0, allowskipfilesflag=2, name="resources.cfg"
+File: wrote 100 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\resources.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="sphere_ov.material"
+File: wrote 720 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\sphere_ov.material"
+File: overwriteflag=0, allowskipfilesflag=2, name="sphere_ov.mesh"
+File: wrote 30584 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\kernel\sphere_ov.mesh"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes" created
+File: overwriteflag=0, allowskipfilesflag=2, name="CSP-Trainer-Metabox.xml"
+File: wrote 21156 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\CSP-Trainer-Metabox.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="EDA-Phasic-Component.xml"
+File: wrote 7859 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\EDA-Phasic-Component.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="EDA-Tonic-Component.xml"
+File: wrote 7859 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\EDA-Tonic-Component.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="EDA-Tonic-Phasic-Components.xml"
+File: wrote 10869 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\EDA-Tonic-Phasic-Components.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="Signal-Power-Log-Metabox.xml"
+File: wrote 8384 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\Signal-Power-Log-Metabox.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="SignalCleanup.mxb"
+File: wrote 9471 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\metaboxes\SignalCleanup.mxb"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins" created
+File: overwriteflag=0, allowskipfilesflag=2, name="LORETA-Talairach-BAs.csv"
+File: wrote 415338 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\LORETA-Talairach-BAs.csv"
+File: overwriteflag=0, allowskipfilesflag=2, name="advanced-visualization.conf"
+File: wrote 2794 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\advanced-visualization.conf"
+File: overwriteflag=0, allowskipfilesflag=2, name="advanced-visualization.ui"
+File: wrote 44365 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\advanced-visualization.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="cartesian.txt"
+File: wrote 32792 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\cartesian.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="generate-loreta-epoch.sh"
+File: wrote 87 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\generate-loreta-epoch.sh"
+File: overwriteflag=0, allowskipfilesflag=2, name="loreta-braincap-32.cfg"
+File: wrote 4528252 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\loreta-braincap-32.cfg"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\evaluation" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\evaluation" created
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-ClassifierAccuracyMeasure.ui"
+File: wrote 5386 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\evaluation\openvibe-simple-visualization-ClassifierAccuracyMeasure.ui"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab" created
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_addInputBuffer.m"
+File: wrote 616 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_addInputBuffer.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_addOutputBuffer.m"
+File: wrote 626 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_addOutputBuffer.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_createBoxInstance.m"
+File: wrote 715 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_createBoxInstance.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_define.m"
+File: wrote 2863 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_define.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getChannelLocalisationOutputHeader.m"
+File: wrote 756 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getChannelLocalisationOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getFeatureVectorOutputHeader.m"
+File: wrote 629 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getFeatureVectorOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getNbPendingInputChunk.m"
+File: wrote 584 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getNbPendingInputChunk.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getNbPendingOutputChunk.m"
+File: wrote 597 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getNbPendingOutputChunk.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getSignalOutputHeader.m"
+File: wrote 916 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getSignalOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getSpectrumOutputHeader.m"
+File: wrote 1191 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getSpectrumOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getStimulationOutputHeader.m"
+File: wrote 379 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getStimulationOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getStimulationsOutputHeader.m"
+File: wrote 380 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getStimulationsOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_getStreamedMatrixOutputHeader.m"
+File: wrote 803 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_getStreamedMatrixOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_popInputBuffer.m"
+File: wrote 895 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_popInputBuffer.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_popOutputBuffer.m"
+File: wrote 984 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_popOutputBuffer.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_popOutputBufferReshape.m"
+File: wrote 1014 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_popOutputBufferReshape.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setChannelLocalisationInputHeader.m"
+File: wrote 680 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setChannelLocalisationInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setChannelLocalisationOutputHeader.m"
+File: wrote 687 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setChannelLocalisationOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setFeatureVectorInputHeader.m"
+File: wrote 569 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setFeatureVectorInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setFeatureVectorOutputHeader.m"
+File: wrote 579 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setFeatureVectorOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setSettings.m"
+File: wrote 462 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setSettings.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setSignalInputHeader.m"
+File: wrote 751 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setSignalInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setSignalOutputHeader.m"
+File: wrote 800 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setSignalOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setSpectrumInputHeader.m"
+File: wrote 878 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setSpectrumInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setSpectrumOutputHeader.m"
+File: wrote 904 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setSpectrumOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStimulationInputHeader.m"
+File: wrote 426 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStimulationInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStimulationOutputHeader.m"
+File: wrote 425 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStimulationOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStimulationsInputHeader.m"
+File: wrote 427 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStimulationsInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStimulationsOutputHeader.m"
+File: wrote 426 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStimulationsOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStreamedMatrixInputHeader.m"
+File: wrote 661 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStreamedMatrixInputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_setStreamedMatrixOutputHeader.m"
+File: wrote 700 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_setStreamedMatrixOutputHeader.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="OV_stimulations.m"
+File: wrote 42377 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\matlab\OV_stimulations.m"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3" created
+File: overwriteflag=0, allowskipfilesflag=2, name="PolyBox.py"
+File: wrote 6313 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\PolyBox.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="PolyStimulations.py"
+File: wrote 675 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\PolyStimulations.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="StimulationsCodes.py"
+File: wrote 13512 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\StimulationsCodes.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe.py"
+File: wrote 4544 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\openvibe.py"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox" created
+File: overwriteflag=0, allowskipfilesflag=2, name="DataViz.py"
+File: wrote 6038 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox\DataViz.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="DatasetCreator.py"
+File: wrote 16573 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox\DatasetCreator.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="ProcessML.py"
+File: wrote 3718 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox\ProcessML.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="TrainerML.py"
+File: wrote 9505 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\python3\pybox\TrainerML.py"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization" created
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-plot.ui"
+File: wrote 619 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\erp-plot.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-DisplayCueImage.ui"
+File: wrote 897 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-DisplayCueImage.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization-bar.png"
+File: wrote 714 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization-bar.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization-downArrow.png"
+File: wrote 831 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization-downArrow.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization-leftArrow.png"
+File: wrote 732 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization-leftArrow.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization-rightArrow.png"
+File: wrote 703 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization-rightArrow.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization-upArrow.png"
+File: wrote 722 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization-upArrow.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-GrazVisualization.ui"
+File: wrote 924 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-GrazVisualization.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-LevelMeasure.ui"
+File: wrote 6388 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-LevelMeasure.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-MatrixDisplay.ui"
+File: wrote 3745 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-MatrixDisplay.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-PowerSpectrumDisplay.ui"
+File: wrote 22352 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-PowerSpectrumDisplay.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-SignalDisplay.ui"
+File: wrote 57198 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-SignalDisplay.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-Simple3DDisplay.ui"
+File: wrote 31086 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-Simple3DDisplay.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-TimeFrequencyMapDisplay.ui"
+File: wrote 22089 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-TimeFrequencyMapDisplay.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-TopographicMap2D.ui"
+File: wrote 8832 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-TopographicMap2D.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-simple-visualization-TopographicMap3D.ui"
+File: wrote 4572 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\openvibe-simple-visualization-TopographicMap3D.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-identifier-card.ui"
+File: wrote 6653 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-identifier-card.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card.ui"
+File: wrote 14173 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller.ui"
+File: wrote 37169 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-speller.ui"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz" created
+File: overwriteflag=0, allowskipfilesflag=2, name="bar.png"
+File: wrote 1937 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\bar.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="blank.png"
+File: wrote 3028 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\blank.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="compute.png"
+File: wrote 77309 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\compute.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="down.png"
+File: wrote 7063 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\down.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="feet.png"
+File: wrote 5811 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\feet.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="hand.png"
+File: wrote 12056 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\hand.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="left.png"
+File: wrote 6446 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\left.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="music.png"
+File: wrote 8644 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\music.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="none.png"
+File: wrote 4308 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\none.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="palm.png"
+File: wrote 72128 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\palm.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="rest.png"
+File: wrote 14648 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\rest.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="right.png"
+File: wrote 5416 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\right.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="rotation.png"
+File: wrote 8235 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\rotation.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="stop.png"
+File: wrote 14190 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\stop.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="tongue.png"
+File: wrote 4710 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\tongue.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="up.png"
+File: wrote 7083 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\up.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="word.png"
+File: wrote 12296 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\graz\word.png"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card" created
+File: overwriteflag=0, allowskipfilesflag=2, name="01.png"
+File: wrote 29960 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\01.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="01.png-offscreen"
+File: wrote 22928 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\01.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="02.png"
+File: wrote 38435 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\02.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="02.png-offscreen"
+File: wrote 30265 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\02.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="03.png"
+File: wrote 31719 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\03.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="03.png-offscreen"
+File: wrote 26176 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\03.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="04.png"
+File: wrote 39409 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\04.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="04.png-offscreen"
+File: wrote 33071 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\04.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="05.png"
+File: wrote 34523 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\05.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="05.png-offscreen"
+File: wrote 27522 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\05.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="06.png"
+File: wrote 34088 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\06.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="06.png-offscreen"
+File: wrote 27131 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\06.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="07.png"
+File: wrote 32251 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\07.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="07.png-offscreen"
+File: wrote 27133 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\07.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="08.png"
+File: wrote 29587 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\08.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="08.png-offscreen"
+File: wrote 23787 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\08.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="09.png"
+File: wrote 40209 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\09.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="09.png-offscreen"
+File: wrote 29547 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\09.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="10.png"
+File: wrote 45203 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\10.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="10.png-offscreen"
+File: wrote 33801 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\10.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="11.png"
+File: wrote 29801 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\11.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="11.png-offscreen"
+File: wrote 24664 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\11.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="12.png"
+File: wrote 33475 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\12.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="12.png-offscreen"
+File: wrote 27715 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\12.png-offscreen"
+File: overwriteflag=0, allowskipfilesflag=2, name="convert.sh"
+File: wrote 192 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\convert.sh"
+File: overwriteflag=0, allowskipfilesflag=2, name="license.txt"
+File: wrote 202 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\license.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-logo.png"
+File: wrote 20008 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\openvibe-logo.png"
+File: overwriteflag=0, allowskipfilesflag=2, name="openvibe-logo.png-offscreen"
+File: wrote 14108 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\p300-magic-card\openvibe-logo.png-offscreen"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D" created
+File: overwriteflag=0, allowskipfilesflag=2, name="face.mesh"
+File: wrote 193131 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D\face.mesh"
+File: overwriteflag=0, allowskipfilesflag=2, name="head.material"
+File: wrote 347 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D\head.material"
+File: overwriteflag=0, allowskipfilesflag=2, name="projection_center.mesh"
+File: wrote 1355 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D\projection_center.mesh"
+File: overwriteflag=0, allowskipfilesflag=2, name="projection_center.txt"
+File: wrote 174 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D\projection_center.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="scalp.mesh"
+File: wrote 14241 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\simple-visualization\topographicmap3D\scalp.mesh"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation" created
+File: overwriteflag=0, allowskipfilesflag=2, name="graz_keyboard_to_stimulations.txt"
+File: wrote 290 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\graz_keyboard_to_stimulations.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="keyboard-stimulator.ui"
+File: wrote 1021 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\keyboard-stimulator.ui"
+File: overwriteflag=0, allowskipfilesflag=2, name="lua-stimulator-legacy.lua"
+File: wrote 1114 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\lua-stimulator-legacy.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="lua-stimulator-stim-codes.lua"
+File: wrote 14545 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\lua-stimulator-stim-codes.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="ov_beep.wav"
+File: wrote 3805 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\ov_beep.wav"
+File: overwriteflag=0, allowskipfilesflag=2, name="simple-keyboard-to-stimulations.txt"
+File: wrote 252 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\stimulation\simple-keyboard-to-stimulations.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\tools" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\tools" created
+File: overwriteflag=0, allowskipfilesflag=2, name="config-ebml-stream-spy.txt"
+File: wrote 6300 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\plugins\tools\config-ebml-stream-spy.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples" created
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording" created
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-1-monitor-signal.xml"
+File: wrote 14592 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\erp-1-monitor-signal.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-2-record-signal.xml"
+File: wrote 39169 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\erp-2-record-signal.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-3-replay-file.xml"
+File: wrote 10271 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\erp-3-replay-file.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\assets" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\assets" created
+File: overwriteflag=0, allowskipfilesflag=2, name="rest.png"
+File: wrote 9776 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\assets\rest.png"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="experiment-timeline.lua"
+File: wrote 2402 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\scripts\experiment-timeline.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 39 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\erp-recording\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP" created
+File: overwriteflag=0, allowskipfilesflag=2, name="0-monitoring.xml"
+File: wrote 59294 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\0-monitoring.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1-baseline.xml"
+File: wrote 32374 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\1-baseline.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="2-acquisition.xml"
+File: wrote 34028 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\2-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="3-file-concatenation.xml"
+File: wrote 20627 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\3-file-concatenation.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="4-train-CSP.xml"
+File: wrote 76276 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\4-train-CSP.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="5-train-mRMR.xml"
+File: wrote 96491 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\5-train-mRMR.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="6-train-classifier.xml"
+File: wrote 100202 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\6-train-classifier.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="7-online.xml"
+File: wrote 104639 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\7-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="8-replay.xml"
+File: wrote 84373 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\8-replay.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="sham.ov"
+File: wrote 199317 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\sham.ov"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\img" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\img" created
+File: overwriteflag=0, allowskipfilesflag=2, name="Cross.png"
+File: wrote 1918 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\img\Cross.png"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="channel-list.xml"
+File: wrote 244 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\channel-list.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="classifier.xml"
+File: wrote 961 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\classifier.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-12_16-XP_C1_S1.xml"
+File: wrote 1756 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-12_16-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-16_20-XP_C1_S1.xml"
+File: wrote 1755 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-16_20-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-20_24-XP_C1_S1.xml"
+File: wrote 1754 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-20_24-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-24_28-XP_C1_S1.xml"
+File: wrote 1748 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-24_28-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-28_32-XP_C1_S1.xml"
+File: wrote 1754 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-28_32-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-32_36-XP_C1_S1.xml"
+File: wrote 1754 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-32_36-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-36_40-XP_C1_S1.xml"
+File: wrote 1756 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-36_40-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-4_8-XP_C1_S1.xml"
+File: wrote 1754 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-4_8-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fbcsp-spatial-filter-8_12-XP_C1_S1.xml"
+File: wrote 1756 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\fbcsp-spatial-filter-8_12-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="features-selected-XP_C1_S1.xml"
+File: wrote 98 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\features-selected-XP_C1_S1.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-bci-graz-stimulator.lua"
+File: wrote 2579 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\mi-bci-graz-stimulator.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="scenario-baseline.lua"
+File: wrote 800 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\scripts\scenario-baseline.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\filter-bank-CSP\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery" created
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-0-signal-monitoring.xml"
+File: wrote 17258 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-0-signal-monitoring.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-1-acquisition.xml"
+File: wrote 19124 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-1-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-2-classifier-trainer.xml"
+File: wrote 48054 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-2-classifier-trainer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-3-online-incremental.xml"
+File: wrote 66560 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-3-online-incremental.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-3-online.xml"
+File: wrote 42125 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-3-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-4-replay.xml"
+File: wrote 32207 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-4-replay.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-config-incremental-classifier.cfg"
+File: wrote 923 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-config-incremental-classifier.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-graz-stimulator.lua"
+File: wrote 2561 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\motor-imagery-bci-graz-stimulator.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP" created
+File: overwriteflag=0, allowskipfilesflag=2, name="csp-spatial-filter.cfg"
+File: wrote 1068 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\csp-spatial-filter.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-0-signal-monitoring.xml"
+File: wrote 17275 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-0-signal-monitoring.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-1-acquisition.xml"
+File: wrote 19142 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-1-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-2-train-CSP.xml"
+File: wrote 20888 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-2-train-CSP.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-3-classifier-trainer.xml"
+File: wrote 41368 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-3-classifier-trainer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-4-online.xml"
+File: wrote 33327 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-4-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="mi-csp-5-replay.xml"
+File: wrote 52245 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\mi-csp-5-replay.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-epoch-selector.lua"
+File: wrote 1235 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\motor-imagery-bci-epoch-selector.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="motor-imagery-bci-graz-stimulator.lua"
+File: wrote 2563 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\motor-imagery-bci-graz-stimulator.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\motor-imagery-CSP\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\neurofeedback" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\neurofeedback" created
+File: overwriteflag=0, allowskipfilesflag=2, name="neurofeedback.xml"
+File: wrote 42189 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\neurofeedback\neurofeedback.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card" created
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-epoch-average.cfg"
+File: wrote 143 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-epoch-average.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-1-acquisition.xml"
+File: wrote 47814 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-1-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-2-train-classifier.xml"
+File: wrote 38423 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-2-train-classifier.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-3-online.xml"
+File: wrote 54395 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-3-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-accumulator.lua"
+File: wrote 4569 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-accumulator.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-launch.lua"
+File: wrote 477 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-launch.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-magic-card-stimulations-targets.lua"
+File: wrote 1563 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\p300-magic-card-stimulations-targets.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-magic-card\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller" created
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-epoch-average.cfg"
+File: wrote 143 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-epoch-average.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-0-signal-monitoring.xml"
+File: wrote 21938 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-0-signal-monitoring.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-1-acquisition.xml"
+File: wrote 29311 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-1-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-2-train-classifier.xml"
+File: wrote 40004 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-2-train-classifier.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-3-online.xml"
+File: wrote 55352 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-3-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-4-replay.xml"
+File: wrote 45899 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-4-replay.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-accumulator.lua"
+File: wrote 5278 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-accumulator.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-filter-flash.lua"
+File: wrote 1641 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-filter-flash.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-filter-target.lua"
+File: wrote 1642 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-filter-target.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-launch.lua"
+File: wrote 477 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-launch.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-target.lua"
+File: wrote 2333 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-target.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-visualization.cfg"
+File: wrote 720 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\p300-speller-visualization.cfg"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN" created
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-epoch-average.cfg"
+File: wrote 143 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-epoch-average.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-accumulator.lua"
+File: wrote 5278 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-accumulator.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-filter-flash.lua"
+File: wrote 1641 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-filter-flash.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-filter-target.lua"
+File: wrote 1642 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-filter-target.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-launch.lua"
+File: wrote 477 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-launch.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-target.lua"
+File: wrote 2333 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-target.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-speller-visualization.cfg"
+File: wrote 720 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-speller-visualization.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-0-signal-monitoring.xml"
+File: wrote 19947 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-0-signal-monitoring.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-1-acquisition.xml"
+File: wrote 27874 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-1-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-2-train-xDAWN.xml"
+File: wrote 19404 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-2-train-xDAWN.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-3-train-classifier.xml"
+File: wrote 36399 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-3-train-classifier.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-4-online.xml"
+File: wrote 57584 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-4-online.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="p300-xdawn-5-replay.xml"
+File: wrote 43066 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\p300-xdawn-5-replay.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="README.txt"
+File: wrote 48 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\p300-speller-xDAWN\signals\README.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian" created
+File: overwriteflag=0, allowskipfilesflag=2, name="0.1-Riemann-Classic-NOISE-Compute-Reference.xml"
+File: wrote 26585 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\0.1-Riemann-Classic-NOISE-Compute-Reference.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="0.2-Riemann-Classic-NOISE-Training.xml"
+File: wrote 46974 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\0.2-Riemann-Classic-NOISE-Training.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="0.3-Riemann-Classic-NOISE-Testing.xml"
+File: wrote 57162 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\0.3-Riemann-Classic-NOISE-Testing.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.1-Riemann-Classic-SAMPLE-Compute-Reference.xml"
+File: wrote 37241 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\1.1-Riemann-Classic-SAMPLE-Compute-Reference.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.2-Riemann-Classic-SAMPLE-Training.xml"
+File: wrote 52632 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\1.2-Riemann-Classic-SAMPLE-Training.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.3-Riemann-Classic-SAMPLE-Testing.xml"
+File: wrote 41375 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\1.3-Riemann-Classic-SAMPLE-Testing.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="2.1-Matrix-Classifier-Training.xml"
+File: wrote 45815 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\2.1-Matrix-Classifier-Training.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="2.2-Matrix-Classifier-Testing.xml"
+File: wrote 37108 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\2.2-Matrix-Classifier-Testing.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="stimulation-regulator.lua"
+File: wrote 517 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\bci-examples\riemannian\scripts\stimulation-regulator.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials" created
+File: overwriteflag=0, allowskipfilesflag=2, name="Shimmer-example-scenario.xml"
+File: wrote 35873 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Shimmer-example-scenario.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="channel-selector.mxs"
+File: wrote 15525 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\channel-selector.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="channel-selector.xml"
+File: wrote 16659 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\channel-selector.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="classification-0-training.xml"
+File: wrote 58110 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\classification-0-training.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="classification-1-testing.xml"
+File: wrote 68743 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\classification-1-testing.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="classification-2-incremental.cfg"
+File: wrote 1224 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\classification-2-incremental.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="classification-2-incremental.xml"
+File: wrote 98651 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\classification-2-incremental.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="connectivity_measure.xml"
+File: wrote 48902 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\connectivity_measure.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="crop.mxs"
+File: wrote 13408 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\crop.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="crop.xml"
+File: wrote 13580 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\crop.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="cue-image.xml"
+File: wrote 20758 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\cue-image.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-plot.lua"
+File: wrote 1009 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\erp-plot.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="erp-plot.xml"
+File: wrote 66580 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\erp-plot.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ersp-plot.lua"
+File: wrote 1370 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\ersp-plot.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="ersp-plot.xml"
+File: wrote 90653 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\ersp-plot.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="external-processing-filter.mxs"
+File: wrote 16981 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\external-processing-filter.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="external-processing-generator.mxs"
+File: wrote 20619 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\external-processing-generator.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="feature-aggregator.xml"
+File: wrote 11498 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\feature-aggregator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="fft-decomposition.xml"
+File: wrote 26071 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\fft-decomposition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdf-reader.xml"
+File: wrote 9001 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\gdf-reader.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="generic-stream-reader.mxs"
+File: wrote 11756 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\generic-stream-reader.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="generic-stream-reader.xml"
+File: wrote 9366 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\generic-stream-reader.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="hilbert-transform.xml"
+File: wrote 27851 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\hilbert-transform.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ica-decomposition.xml"
+File: wrote 38213 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\ica-decomposition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="lsl-communication.xml"
+File: wrote 25215 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lsl-communication.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="modifiable-settings.xml"
+File: wrote 5663 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\modifiable-settings.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="modifiable-temporal-filter.xml"
+File: wrote 12224 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\modifiable-temporal-filter.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="multimodal-graz-visualization.lua"
+File: wrote 2386 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\multimodal-graz-visualization.lua"
+File: overwriteflag=0, allowskipfilesflag=2, name="multimodal-graz-visualization.xml"
+File: wrote 35617 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\multimodal-graz-visualization.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="network-acquisition.xml"
+File: wrote 10589 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\network-acquisition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="pca-decomposition.xml"
+File: wrote 39474 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pca-decomposition.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="power-spectrum.xml"
+File: wrote 24124 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\power-spectrum.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="run-command.xml"
+File: wrote 6139 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\run-command.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="signal-concatenation.xml"
+File: wrote 15836 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\signal-concatenation.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="signal-display.xml"
+File: wrote 18720 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\signal-display.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="signal-merger.mxs"
+File: wrote 10181 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\signal-merger.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="signal-merger.xml"
+File: wrote 12126 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\signal-merger.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="simple-dsp.mxs"
+File: wrote 50238 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\simple-dsp.mxs"
+File: overwriteflag=0, allowskipfilesflag=2, name="simple-dsp.xml"
+File: wrote 54168 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\simple-dsp.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="sound-player.xml"
+File: wrote 19351 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\sound-player.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="stimulation-multiplexer.xml"
+File: wrote 11539 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\stimulation-multiplexer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="stimulation-validator.xml"
+File: wrote 11867 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\stimulation-validator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="stream-switch.xml"
+File: wrote 23731 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\stream-switch.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="tcp-writer.xml"
+File: wrote 14645 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\tcp-writer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="temporal-filter.xml"
+File: wrote 82932 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\temporal-filter.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="threshold-crossing-detector.xml"
+File: wrote 23010 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\threshold-crossing-detector.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="time-frequency-map.xml"
+File: wrote 30062 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\time-frequency-map.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="time-signal.xml"
+File: wrote 5840 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\time-signal.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="topographic-map.xml"
+File: wrote 25272 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\topographic-map.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vrpn-example-openvibe-to-vrpn.xml"
+File: wrote 15070 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\vrpn-example-openvibe-to-vrpn.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vrpn-example-vrpn-to-openvibe.xml"
+File: wrote 10796 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\vrpn-example-vrpn-to-openvibe.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="wavelet-decomposition.xml"
+File: wrote 32765 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\wavelet-decomposition.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Games" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Games" created
+File: overwriteflag=0, allowskipfilesflag=2, name="hello-bidirectionnal-game.xml"
+File: wrote 20083 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Games\hello-bidirectionnal-game.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="hello-sender-game.xml"
+File: wrote 9635 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Games\hello-sender-game.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="hello-world-game.xml"
+File: wrote 12940 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\Games\hello-world-game.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization" created
+File: overwriteflag=0, allowskipfilesflag=2, name="2DTopography.xml"
+File: wrote 18484 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\2DTopography.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="3DCubes.xml"
+File: wrote 18672 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\3DCubes.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="3DTopography.xml"
+File: wrote 19148 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\3DTopography.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ContinuousBars.xml"
+File: wrote 27571 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\ContinuousBars.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ContinuousBitmap.xml"
+File: wrote 19348 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\ContinuousBitmap.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ContinuousMultiOscilloscope.xml"
+File: wrote 19848 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\ContinuousMultiOscilloscope.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ContinuousOscilloscope.xml"
+File: wrote 12842 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\ContinuousOscilloscope.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="InstantBars.xml"
+File: wrote 24743 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\InstantBars.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="InstantBitmap.xml"
+File: wrote 19819 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\InstantBitmap.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="InstantBitmap3DStream.xml"
+File: wrote 15399 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\InstantBitmap3DStream.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="InstantMultiOscilloscope.xml"
+File: wrote 31290 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\InstantMultiOscilloscope.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="InstantOscilloscope.xml"
+File: wrote 31496 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\InstantOscilloscope.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="StackedBitmapHorz.xml"
+File: wrote 28395 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\StackedBitmapHorz.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="StackedBitmapVert.xml"
+File: wrote 29039 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\StackedBitmapVert.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="UseCase-1-EEG-signal-analysis.xml"
+File: wrote 54730 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\advanced-visualization\UseCase-1-EEG-signal-analysis.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\artifact" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\artifact" created
+File: overwriteflag=0, allowskipfilesflag=2, name="ASR-Processor.xml"
+File: wrote 42417 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\artifact\ASR-Processor.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ASR-Trainer.xml"
+File: wrote 24628 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\artifact\ASR-Trainer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="Amplitude-Artifact-Detector.xml"
+File: wrote 42793 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\artifact\Amplitude-Artifact-Detector.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\eog-removal" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\eog-removal" created
+File: overwriteflag=0, allowskipfilesflag=2, name="b-Matrix-EEG.cfg"
+File: wrote 177 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\eog-removal\b-Matrix-EEG.cfg"
+File: overwriteflag=0, allowskipfilesflag=2, name="eog-calibration.xml"
+File: wrote 28359 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\eog-removal\eog-calibration.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="eog-run.xml"
+File: wrote 23798 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\eog-removal\eog-run.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\features-selection" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\features-selection" created
+File: overwriteflag=0, allowskipfilesflag=2, name="features-selection-trainer.xml"
+File: wrote 63160 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\features-selection\features-selection-trainer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="features-selector.xml"
+File: wrote 13779 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\features-selection\features-selector.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua" created
+File: overwriteflag=0, allowskipfilesflag=2, name="lua-stimulator.xml"
+File: wrote 17664 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua\lua-stimulator.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="sample-lua-script.lua"
+File: wrote 1858 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\lua\scripts\sample-lua-script.lua"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab" created
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto1-signal-filter.xml"
+File: wrote 18280 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto1-signal-filter.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto1_signal_filter_Initialize.m"
+File: wrote 464 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto1_signal_filter_Initialize.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto1_signal_filter_Process.m"
+File: wrote 1954 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto1_signal_filter_Process.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto1_signal_filter_Uninitialize.m"
+File: wrote 371 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto1_signal_filter_Uninitialize.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto2-FFT-filter.xml"
+File: wrote 22266 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto2-FFT-filter.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto2_FFT_filter_Initialize.m"
+File: wrote 646 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto2_FFT_filter_Initialize.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto2_FFT_filter_Process.m"
+File: wrote 2612 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto2_FFT_filter_Process.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto2_FFT_filter_Uninitialize.m"
+File: wrote 1265 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto2_FFT_filter_Uninitialize.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto3-sinus-generator.xml"
+File: wrote 11468 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto3-sinus-generator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto3_sinus_generator_Initialize.m"
+File: wrote 1300 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto3_sinus_generator_Initialize.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto3_sinus_generator_Process.m"
+File: wrote 1641 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto3_sinus_generator_Process.m"
+File: overwriteflag=0, allowskipfilesflag=2, name="tuto3_sinus_generator_Uninitialize.m"
+File: wrote 367 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\matlab\tuto3_sinus_generator_Uninitialize.m"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox" created
+File: overwriteflag=0, allowskipfilesflag=2, name="data-viz.xml"
+File: wrote 8750 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\data-viz.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="dataset-creator.xml"
+File: wrote 8834 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\dataset-creator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="process-sklearn.xml"
+File: wrote 7245 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\process-sklearn.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="trainer-sklearn.xml"
+File: wrote 8901 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\trainer-sklearn.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\datas" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\datas" created
+File: overwriteflag=0, allowskipfilesflag=2, name="data-tutorial.csv"
+File: wrote 1482806 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\pybox\datas\data-tutorial.csv"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3" created
+File: overwriteflag=0, allowskipfilesflag=2, name="python3-hello-world.xml"
+File: wrote 3754 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\python3-hello-world.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="python3-print-stimulations.xml"
+File: wrote 5830 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\python3-print-stimulations.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="python3-sinus-oscillator.xml"
+File: wrote 37271 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\python3-sinus-oscillator.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts" created
+File: overwriteflag=0, allowskipfilesflag=2, name="python-clock-stimulator.py"
+File: wrote 1461 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts\python-clock-stimulator.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="python-hello-world.py"
+File: wrote 441 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts\python-hello-world.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="python-print-stimulations.py"
+File: wrote 573 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts\python-print-stimulations.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="python-signal-average.py"
+File: wrote 1035 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts\python-signal-average.py"
+File: overwriteflag=0, allowskipfilesflag=2, name="python-sinus-oscillator.py"
+File: wrote 2373 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\python3\scripts\python-sinus-oscillator.py"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian" created
+File: overwriteflag=0, allowskipfilesflag=2, name="1.1-Covariance-Matrix-Calculator.xml"
+File: wrote 55419 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\1.1-Covariance-Matrix-Calculator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.2-Covariance-Matrix-Mean-Calculator.xml"
+File: wrote 34702 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\1.2-Covariance-Matrix-Mean-Calculator.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.3-Covariance-To-Feature.xml"
+File: wrote 37335 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\1.3-Covariance-To-Feature.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.4-Classifier-Trainer.xml"
+File: wrote 66118 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\1.4-Classifier-Trainer.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="1.5-Classifier-Testing.xml"
+File: wrote 45190 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\1.5-Classifier-Testing.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="Affine-Transformation.xml"
+File: wrote 15471 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\box-tutorials\riemannian\Affine-Transformation.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert" created
+File: overwriteflag=0, allowskipfilesflag=2, name="0README.txt"
+File: wrote 845 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\0README.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="csv2edf.xml"
+File: wrote 9467 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\csv2edf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="csv2gdf.xml"
+File: wrote 9466 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\csv2gdf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="csv2ov.xml"
+File: wrote 9941 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\csv2ov.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="dat2csv.xml"
+File: wrote 9949 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\dat2csv.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="dat2edf.xml"
+File: wrote 9248 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\dat2edf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="dat2gdf.xml"
+File: wrote 9247 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\dat2gdf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="dat2ov.xml"
+File: wrote 9847 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\dat2ov.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdf2csv.xml"
+File: wrote 10537 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\gdf2csv.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdf2edf.xml"
+File: wrote 10165 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\gdf2edf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="gdf2ov.xml"
+File: wrote 10639 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\gdf2ov.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ov2csv.xml"
+File: wrote 10435 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\ov2csv.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ov2edf.xml"
+File: wrote 10187 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\ov2edf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="ov2gdf.xml"
+File: wrote 10186 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\ov2gdf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vhdr2csv.xml"
+File: wrote 10818 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\vhdr2csv.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vhdr2edf.xml"
+File: wrote 10450 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\vhdr2edf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vhdr2gdf.xml"
+File: wrote 10449 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\vhdr2gdf.xml"
+File: overwriteflag=0, allowskipfilesflag=2, name="vhdr2ov.xml"
+File: wrote 10920 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\convert\vhdr2ov.xml"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals" created
+File: overwriteflag=0, allowskipfilesflag=2, name="artifact-notes.txt"
+File: wrote 272 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\artifact-notes.txt"
+File: overwriteflag=0, allowskipfilesflag=2, name="artifacts.ov"
+File: wrote 47790758 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\artifacts.ov"
+File: overwriteflag=0, allowskipfilesflag=2, name="bci-motor-imagery.ov"
+File: wrote 22120831 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\bci-motor-imagery.ov"
+File: overwriteflag=0, allowskipfilesflag=2, name="bci-ssvep-training.ov"
+File: wrote 14820465 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\bci-ssvep-training.ov"
+File: overwriteflag=0, allowskipfilesflag=2, name="eog-artifact.gdf"
+File: wrote 2466048 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\eog-artifact.gdf"
+File: overwriteflag=0, allowskipfilesflag=2, name="neurofeedback.gdf"
+File: wrote 1158448 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\neurofeedback.gdf"
+File: overwriteflag=0, allowskipfilesflag=2, name="real-hand-movements.gdf"
+File: wrote 17214924 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\real-hand-movements.gdf"
+File: overwriteflag=0, allowskipfilesflag=2, name="simulated-2classes.ov"
+File: wrote 515839 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\signals\simulated-2classes.ov"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\workspaces" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\workspaces" created
+File: overwriteflag=0, allowskipfilesflag=2, name="workspace-example-erp.ovw"
+File: wrote 928 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\workspaces\workspace-example-erp.ovw"
+File: overwriteflag=0, allowskipfilesflag=2, name="workspace-example-motor-imagery.ovw"
+File: wrote 886 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\scenarios\workspaces\workspace-example-motor-imagery.ovw"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\toolkit" (1)
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\toolkit" created
+File: overwriteflag=0, allowskipfilesflag=2, name="stimulation_list.txt"
+File: wrote 28342 to "C:\Program Files\openvibe-3.5.0-64bit\share\openvibe\toolkit\stimulation_list.txt"
+CreateDirectory: "C:\Program Files\openvibe-3.5.0-64bit" (1)
+CreateDirectory: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)" (0)
+CreateDirectory: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)" created
+CreateDirectory: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Developer tools" (0)
+CreateDirectory: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Developer tools" created
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Developer tools\OpenViBE ID Generator.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-id-generator.cmd ", icon: %SystemRoot%\system32\shell32.dll,57, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Developer tools\OpenViBE Plugin Inspector.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-plugin-inspector.cmd ", icon: %SystemRoot%\system32\shell32.dll,57, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Developer tools\OpenViBE Skeleton Generator.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-skeleton-generator.cmd ", icon: %SystemRoot%\system32\shell32.dll,57, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\OpenViBE Designer 64bit.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-designer.cmd ", icon: %SystemRoot%\system32\shell32.dll,137, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\OpenViBE Acquisition Server 64bit.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-acquisition-server.cmd ", icon: %SystemRoot%\system32\shell32.dll,18, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\OpenViBE Tracker 64bit.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\openvibe-tracker.cmd ", icon: %SystemRoot%\system32\shell32.dll,249, sw=0, hk=0
+CreateShortCut: out: "C:\Users\HP User\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OpenViBE 3.5.0 (64bit)\Uninstall.lnk", in: "C:\Program Files\openvibe-3.5.0-64bit\Uninstall.exe ", icon: ,0, sw=0, hk=0
+Jump: 119
+Call: 254
+Jump: 268
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+WriteINIStr: wrote [Settings] NextButtonText=&Finish in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+WriteINIStr: wrote [Field 2] Bottom=38 in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+WriteINIStr: wrote [Field 3] Top=45 in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+Call: 254
+Jump: 268
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+WriteINIStr: wrote [Field 2] Text=Completing the OpenViBE 3.5.0 (64bit) Setup Wizard in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+WriteINIStr: wrote [Field 3] Bottom=185 in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+Call: 254
+Jump: 268
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 281
+Jump: 267
+Jump: 281
+Jump: 267
+Jump: 281
+Jump: 267
+Jump: 281
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+Jump: 267
+WriteINIStr: wrote [Field 3] Text=OpenViBE 3.5.0 (64bit) has been installed on your computer.\r\n\r\nClick Finish to close this wizard. in C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=0, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\InstallOptions.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\InstallOptions.dll" (overwriteflag=1)
+Call: 1195
+File: overwriteflag=1, allowskipfilesflag=0, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\InstallOptions.dll"
+File: skipped: "C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\InstallOptions.dll" (overwriteflag=1)
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\InstallOptions.dll")
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ioSpecial.ini")
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\modern-wizard.bmp")
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\UserInfo.dll")
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\ZipDLL.dll")
+RMDir: RemoveDirectory("C:\Users\HPUSER~1\AppData\Local\Temp\nsd3625.tmp\")
+Call: 1195
+Delete: "C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp"
+CreateDirectory: "C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp" (0)
+CreateDirectory: "C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp" created
+File: overwriteflag=1, allowskipfilesflag=2, name="C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp\UserInfo.dll"
+File: wrote 4096 to "C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp\UserInfo.dll"
+IfFileExists: file "C:\Program Files\openvibe-3.5.0-64bit\Uninstall.exe" exists, jumping 306
+MessageBox: 12582916,"A previous installation of OpenViBE 3.5.0 (64bit) is installed under C:\Program Files\openvibe-3.5.0-64bit.
+Continuing the install procedure will remove previous installation of OpenViBE 3.5.0 (64bit) (including all files you eventually added in the installation directory).
+Would you like to accept this removal and continue on installation process ?"
+Aborting: ""
+Delete: DeleteFile("C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp\UserInfo.dll")
+RMDir: RemoveDirectory("C:\Users\HPUSER~1\AppData\Local\Temp\nsk5E3A.tmp\")
